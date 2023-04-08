@@ -198,8 +198,8 @@ public class Sapatilha {
         return this.tamanho == l.getTamanho() &&
                 this.premium == l.isPremium() &&
                 this.atacadores == l.isAtacadores() &&
-                this.colecao.equals(((Sapatilha) o).getColecao()) &&
-                this.cor.equals(((Sapatilha) o).getCor()) &&
+                this.colecao.equals(l.getColecao()) &&
+                this.cor.equals(l.getCor()) &&
                 this.novo == l.isNovo() &&
                 this.estado == l.getEstado() &&
                 this.n_donos == l.getN_donos() &&
