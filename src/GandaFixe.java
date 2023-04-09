@@ -1,33 +1,49 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GandaFixe {
     public static void main(String[] args) {
         LocalDate data = LocalDate.now().minusYears(3);
-//        Sapatilha test2 = new Sapatilha(42, true,"Branco", data.plusYears(1), true, false, Common3artigos.Estado.BOM, 1, 450, "como novo", "Nike", "012345678905");
-//        Sapatilha test = new Sapatilha(46, true,"Branco", data, false, false, Common3artigos.Estado.BOM, 3, 112,"usado poucas vezes", "Adidas", "111982743854");
-//        Sapatilha test3 = new Sapatilha(42, true,"Branco", data.plusYears(1), true, false, Common3artigos.Estado.BOM, 1, 450, "como novo", "Nike", "012345678905");
+        Artigo test2 = new Sapatilha(false,2, Artigo.Estado.RAZOAVEL,"bom estado","Puma","123456789123",110,46,false,"Branco",data.minusYears(2), false);
+        Artigo test3 = new Sapatilha(false,5, Artigo.Estado.MAU,"por arranjar","Adidas","123456789125",90,42,true,"Branco",data.minusYears(6), false);
+        Artigo test4 = new Sapatilha(false,2, Artigo.Estado.RAZOAVEL,"bom estado","Puma","123456789123",110,46,false,"Branco",data.minusYears(2), false);
+
 //        System.out.println(test2.toString());
-//        System.out.println(test.toString());
-//
+//        System.out.println(test3.toString());
 //        System.out.println(test2.equals(test3));
-//        System.out.println(test.equals(test2));
+//        System.out.println(test4.equals(test2));
 
-//        Tshirt test4 = new Tshirt(Tshirt.Tamanho.L, Tshirt.Padrao.Riscas, false, Common3artigos.Estado.RAZOAVEL, 3, "usada", "Puma", "12037123192", 25);
-//        Tshirt test5 = new Tshirt(Tshirt.Tamanho.S, Tshirt.Padrao.Liso, false, Common3artigos.Estado.MUITO_BOM, 3, "usada", "Nike", "12037124552", 19);
-//        Tshirt test6 = new Tshirt(Tshirt.Tamanho.S, Tshirt.Padrao.Liso, true, Common3artigos.Estado.MUITO_BOM, 3, "usada", "Nike", "12037124552", 19);
-//
-//        System.out.println(test4.toString());
-//        System.out.println(test5.toString());
+        Artigo test5 = new Tshirt(false, 2, Artigo.Estado.BOM, "BOM ESTADO", "Levis", "145678541234", 30, Tshirt.Tamanho.L, Tshirt.Padrao.Liso);
+        Artigo test6 = new Tshirt(false, 4, Artigo.Estado.BOM, "Bonzinho ESTADO", "united colors", "145678556434", 56, Tshirt.Tamanho.L, Tshirt.Padrao.Riscas);
+        Artigo test7 = new Tshirt(false, 2, Artigo.Estado.BOM, "BOM ESTADO", "Levis", "145678541234", 30, Tshirt.Tamanho.L, Tshirt.Padrao.Liso);
+
+//        System.out.println(test5);
+//        System.out.println(test6.toString());
+//        System.out.println(test5.equals(test7));
 //        System.out.println(test5.equals(test6));
-//        System.out.println(test5.equals(test4));
 
-        Mala test9 = new Mala(true, Common3artigos.Estado.MUITO_BOM, 1, "mala vunita", "177564765143", "Chanel", 433, Mala.Dimensao.Grande, "Pele de urso", data.minusYears(3), false);
-        Mala test8 = new Mala(false, Common3artigos.Estado.RAZOAVEL, 1, "mala vunita", "177834765143", "Prada", 1025, Mala.Dimensao.Pequena, "Pele de renekton", data.minusYears(5), true);
-        Mala test7 = new Mala(false, Common3artigos.Estado.RAZOAVEL, 1, "mala vunita", "177834765143", "Prada", 1025, Mala.Dimensao.Pequena, "Pele de renekton", data.minusYears(5), true);
+        Artigo test8 = new Mala(false, 3, Artigo.Estado.BOM, "ruim", "chanel", "567890801234", 995.99, Mala.Dim.Pequeno, "pele de tigre", data.minusYears(5), false);
+        Artigo test9 = new Mala(false, 5, Artigo.Estado.RAZOAVEL, "ruim de bala", "prada", "567896701234", 2000.99, Mala.Dim.Medio, "pele de mamute", data.minusYears(23), true);
+        Artigo test10 = new Mala(false, 3, Artigo.Estado.BOM, "ruim", "chanel", "567890801234", 995.99, Mala.Dim.Pequeno, "pele de tigre", data.minusYears(5), false);
 
-        System.out.println(test9.toString());
-        System.out.println(test8.toString());
-        System.out.println(test8.equals(test7));
-        System.out.println(test8.equals(test9));
+//        System.out.println(test8);
+//        System.out.println(test9.toString());
+//        System.out.println(test8.equals(test10));
+//        System.out.println(test8.equals(test9));
+
+        List<Artigo> lista = new ArrayList<>();
+        lista.add(test2);
+        lista.add(test3);
+        lista.add(test4);
+        lista.add(test5);
+        lista.add(test6);
+        lista.add(test7);
+        lista.add(test8);
+        lista.add(test9);
+        lista.add(test10);
+        for(Artigo c : lista){
+            System.out.println(c);
+        }
     }
 }
