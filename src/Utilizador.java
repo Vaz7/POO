@@ -174,27 +174,6 @@ public class Utilizador {
         return sb.toString();
     }
 
-    public boolean isDeepClone(Set<Artigo> set1, Set<Artigo> set2) {
-        if (set1.size() != set2.size()) {
-            return false;
-        }
-        Iterator<Artigo> it = set1.iterator();
-        while (it.hasNext()) {
-            Artigo obj1 = it.next();
-            boolean found = false;
-            for (Artigo obj2 : set2) {
-                if (obj2.equals(obj1)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public boolean equals(Object o){
         if (this==o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
@@ -207,8 +186,8 @@ public class Utilizador {
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                isDeepClone(this.para_vender, l.getPara_vender()) &&
-                isDeepClone(this.vendido, l.getVendido());
+                SetDeepClone.isDeepClone(this.para_vender, l.getPara_vender()) &&
+                SetDeepClone.isDeepClone(this.vendido, l.getVendido());
 
     }
 }

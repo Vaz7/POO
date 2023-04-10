@@ -1,6 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GandaFixe {
     public static void main(String[] args) {
@@ -32,7 +34,7 @@ public class GandaFixe {
 //        System.out.println(test8.equals(test10));
 //        System.out.println(test8.equals(test9));
 
-        List<Artigo> lista = new ArrayList<>();
+        Set<Artigo> lista = new HashSet<>();
         lista.add(test2);
         lista.add(test3);
         lista.add(test4);
@@ -40,10 +42,15 @@ public class GandaFixe {
         lista.add(test6);
         lista.add(test7);
         lista.add(test8);
-        lista.add(test9);
-        lista.add(test10);
-        for(Artigo c : lista){
-            System.out.println(c);
-        }
+
+        Encomenda b = new Encomenda(lista, Encomenda.State.Pendente);
+        //System.out.println(b.toString());
+//        b.addArtEncomenda(test9);
+        System.out.println(b);
+
+//        b.removeArtEncomenda(test9);
+//        System.out.println(b);
+
+
     }
 }

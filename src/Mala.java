@@ -46,6 +46,7 @@ public class Mala extends Artigo {
         this.material = o.getMaterial();
         this.colecao = o.getColecao();
         this.premium = o.isPremium();
+        this.preco_curr = o.getPreco_curr();
     }
 
     public Dim getDimensao() {
