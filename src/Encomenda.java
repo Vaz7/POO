@@ -103,9 +103,9 @@ public class Encomenda {
     private void defDimensaoCaixa(){
         int n = this.artigos.size();
         Embalagem j;
-        if(0 >= n && n<= 5) j = Embalagem.Grande;
-        else if(n > 5 && n<=10) j = Embalagem.Medio;
-        else j = Embalagem.Grande;
+        if(n>= 5) j = Embalagem.Grande;
+        else if(n > 1 && n<5) j = Embalagem.Medio;
+        else j = Embalagem.Pequeno;
         setDim(j);
     }
 
