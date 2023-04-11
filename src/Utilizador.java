@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class Utilizador {
+    private static int contador=1;
     private int code;
     private String email;
     private String nome;
@@ -15,7 +16,7 @@ public class Utilizador {
     private double dinheiro_compras;
 
     public Utilizador(){
-        this.code = 0;
+        this.code = this.contador++;
         this.email = "";
         this.morada = "";
         this.nif = 0;
@@ -25,8 +26,8 @@ public class Utilizador {
         this.dinheiro_vendas = 0;
     }
 
-    public Utilizador(int code, String email, String nome, String morada, int nif, Set<Artigo> vendido, Set<Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
-        this.code = code;
+    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Set<Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;

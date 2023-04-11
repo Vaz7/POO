@@ -1,3 +1,5 @@
+import jdk.jshell.execution.Util;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,7 +48,13 @@ public class Main {
 //        b.addArtEncomenda(test9);
         System.out.println(b);
 
+        Utilizador user1 = new Utilizador();
+        Utilizador user2 = new Utilizador();
+        Utilizador user3 = new Utilizador();
 
+        System.out.println(user1.toString());
+        System.out.println(user2.toString());
+        System.out.println(user3.toString());
 //        b.removeArtEncomenda(test9);
 //        System.out.println(b);
 
