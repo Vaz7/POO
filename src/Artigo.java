@@ -1,3 +1,5 @@
+import java.security.SecureRandom;
+import java.util.Random;
 public class Artigo {
     public enum Estado {
         PESSIMO,
@@ -24,21 +26,21 @@ public class Artigo {
         this.preco_base = 0;
     }
 
-    public Artigo(boolean novo, String desc, String marca, String codAlfaNum, double preco_base) {
+    public Artigo(boolean novo, String desc, String marca, double preco_base) {
         this.novo = novo;
         this.desc = desc;
         this.marca = marca;
-        this.codAlfaNum = codAlfaNum;
+        this.codAlfaNum = this.alfanumericalGenerator();
         this.preco_base = preco_base;
     }
 
-    public Artigo(boolean novo, int n_donos, Estado estado, String desc, String marca, String codAlfaNum, double preco_base) {
+    public Artigo(boolean novo, int n_donos, Estado estado, String desc,String marca, double preco_base) {
         this.novo = novo;
         this.n_donos = n_donos;
         this.estado = estado;
         this.desc = desc;
         this.marca = marca;
-        this.codAlfaNum = codAlfaNum;
+        this.codAlfaNum = this.alfanumericalGenerator();
         this.preco_base = preco_base;
     }
 
@@ -125,6 +127,25 @@ public class Artigo {
         sb.append("Descrição: " + this.desc + "\n");
 
         return sb.toString();
+    }
+
+
+
+    public String alfanumericalGenerator() {
+
+            String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            int LENGTH = 12;
+
+
+            StringBuilder sb = new StringBuilder(LENGTH);
+            Random random = new SecureRandom();
+            random.setSeed(System.currentTimeMillis());
+
+            for (int i = 0; i < LENGTH; i++) {
+               sb.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
+            }
+
+            return sb.toString();
     }
 
     public boolean equals(Object o){

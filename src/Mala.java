@@ -22,8 +22,8 @@ public class Mala extends Artigo {
         this.preco_curr = this.getPreco_base();
     }
 
-    public Mala(boolean novo, String desc, String marca, String codAlfaNum, double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium) {
-        super(novo, desc, marca, codAlfaNum, preco_base);
+    public Mala(boolean novo, String desc, String marca , double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium) {
+        super(novo, desc, marca, preco_base);
         this.dimensao = dimensao;
         this.material = material;
         this.colecao = colecao;
@@ -31,8 +31,8 @@ public class Mala extends Artigo {
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, String codAlfaNum, double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium) {
-        super(novo, n_donos, estado, desc, marca, codAlfaNum, preco_base);
+    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium) {
+        super(novo, n_donos, estado, desc, marca, preco_base);
         this.dimensao = dimensao;
         this.material = material;
         this.colecao = colecao;
