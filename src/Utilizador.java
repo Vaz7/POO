@@ -148,6 +148,14 @@ public class Utilizador {
         this.para_vender.remove(c.clone());
     }
 
+    private void calculaDinheiroCompras(){
+        double preco = 0;
+        for(Artigo c : this.vendido){
+            preco += c.getPreco_curr();
+        }
+        setDinheiro_vendas(preco);
+    }
+
     public Utilizador clone(){
         return new Utilizador(this);
     }

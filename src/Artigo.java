@@ -1,6 +1,6 @@
 import java.security.SecureRandom;
 import java.util.Random;
-public class Artigo {
+public abstract class Artigo {
     public enum Estado {
         PESSIMO,
         MAU,
@@ -15,6 +15,8 @@ public class Artigo {
     private String marca;
     private String codAlfaNum;
     private double preco_base;
+
+    private Transportadora transp;
 
     public Artigo(){
         this.novo = false;
@@ -54,8 +56,16 @@ public class Artigo {
         this.marca = o.getMarca();
         this.codAlfaNum = o.getCodAlfaNum();
         this.preco_base = o.getPreco_base();
+        this.transp = o.getTransp();
     }
 
+    public Transportadora getTransp() {
+        return this.transp.clone();
+    }
+
+    public void setTransp(Transportadora transp) {
+        this.transp = transp.clone();
+    }
     public int getN_donos() {
         return this.n_donos;
     }
@@ -112,24 +122,11 @@ public class Artigo {
         this.preco_base = preco_base;
     }
 
-    public Artigo clone(){
-        return new Artigo(this);
-    }
+    public abstract Artigo clone();
 
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Artigo :: " + this.codAlfaNum +"\n");
-        sb.append("Marca: " + this.marca + "\n");
-        sb.append("Novo: " + isNovo() + "\n");
-        if(!isNovo()) {
-            sb.append("Estado: " + this.estado + "\n");
-            sb.append("Nº de donos: " + this.n_donos + "\n");
-        }
-        sb.append("Preço Base: " + this.preco_base + "\n");
-        sb.append("Descrição: " + this.desc + "\n");
+    public abstract String toString();
 
-        return sb.toString();
-    }
+    public abstract double getPreco_curr();
 
 
     public boolean equals(Object o){
@@ -143,7 +140,8 @@ public class Artigo {
                 Double.compare(this.preco_base, l.getPreco_base()) == 0 &&
                 this.desc.equals(l.getDesc()) &&
                 this.marca.equals(l.getMarca()) &&
-                this.codAlfaNum.equals(l.getCodAlfaNum());
+                this.codAlfaNum.equals(l.getCodAlfaNum()) &&
+                this.transp.equals(l.getTransp());
     }
 
 
