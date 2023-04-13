@@ -1,11 +1,12 @@
 import jdk.jshell.execution.Util;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class UserManager {
+public class UserManager{
     public Map<Integer, Utilizador> users;
-
     public UserManager(){
         this.users = new HashMap<>();
     }
@@ -15,6 +16,44 @@ public class UserManager {
         for(Map.Entry<Integer, Utilizador> entry: a.entrySet()){
             this.users.put(entry.getKey(), entry.getValue().clone());
         }
+    }
+
+    public Artigo findArtigo(String alfanum){
+        for(Utilizador c : this.users.values()){
+
+            Map<String,Artigo> artigos = c.getPara_vender();
+
+            if(artigos.containsKey(alfanum)){
+                return artigos.get(alfanum);
+            }
+
+        }
+        return null;
+    }
+    public boolean existsArtigo(String alfanum){
+        for(Utilizador c : this.users.values()){
+
+            Map<String,Artigo> artigos = c.getPara_vender();
+
+            if(artigos.containsKey(alfanum)){
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    public String whoSellsArtigo(String alfanum){
+        for(Utilizador c : this.users.values()){
+
+            Map<String,Artigo> artigos = c.getPara_vender();
+
+            if(artigos.containsKey(alfanum)){
+                return c.getNome();
+            }
+
+        }
+        return null;
     }
 
     public UserManager(UserManager a){
@@ -44,7 +83,8 @@ public class UserManager {
         this.users.put(a.getCode(), a.clone());
     }
 
-    public UserManager clone(){
+    public UserManager clone()
+    {
         return new UserManager(this);
     }
 
@@ -56,26 +96,13 @@ public class UserManager {
         return sb.toString();
     }
 
-    private boolean userManDeepClone(Map<Integer,Utilizador> a){
-        if(this.users.size() != a.size()) return false;
-
-        for (Map.Entry<Integer, Utilizador> entry : this.users.entrySet()) {
-            Integer key = entry.getKey();
-            Utilizador value1 = entry.getValue();
-            Utilizador value2 = a.get(key);
-            if (!a.containsKey(key) || !value1.equals(value2)) {
-                return false;
-            }
-        }
-        return true;
-    }
 
     public boolean equals(Object o){
         if (this==o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         UserManager l = (UserManager) o;
-        return userManDeepClone(l.getUsers());
+        return SetDeepClone.userManDeepClone(this.getUsers(),l.getUsers());
     }
 
 }

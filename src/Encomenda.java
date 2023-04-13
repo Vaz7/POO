@@ -223,7 +223,7 @@ public class Encomenda {
                 this.estado == l.getEstado() &&
                 this.data.equals(l.getData()) &&
                 Double.compare(this.preco, l.getPreco()) == 0 &&
-                SetDeepClone.isDeepClone(this.artigos, l.getArtigos());
+                SetDeepClone.isDeepCloneSet(this.artigos, l.getArtigos());
 
     }
 }

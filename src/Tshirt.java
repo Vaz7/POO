@@ -22,15 +22,15 @@ public class Tshirt extends Artigo{
         this.preco_curr = getPreco_base();
     }
 
-    public Tshirt(boolean novo, String desc, String marca, double preco_base, Tamanho tamanho, Padrao padrao) {
-        super(novo, desc, marca, preco_base);
+    public Tshirt(boolean novo, String desc, String marca, double preco_base, Tamanho tamanho, Padrao padrao,Transportadora transportadora) {
+        super(novo, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
         this.padrao = padrao;
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Tshirt(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Tamanho tamanho, Padrao padrao) {
-        super(novo, n_donos, estado, desc, marca, preco_base);
+    public Tshirt(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Tamanho tamanho, Padrao padrao,Transportadora transportadora) {
+        super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
         this.padrao = padrao;
         this.preco_curr = calculaPrecoDesconto();

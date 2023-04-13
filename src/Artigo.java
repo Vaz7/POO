@@ -1,5 +1,3 @@
-import java.security.SecureRandom;
-import java.util.Random;
 public abstract class Artigo {
     public enum Estado {
         PESSIMO,
@@ -15,6 +13,7 @@ public abstract class Artigo {
     private String marca;
     private String codAlfaNum;
     private double preco_base;
+    private String utilizador;
 
     private Transportadora transp;
 
@@ -28,16 +27,17 @@ public abstract class Artigo {
         this.preco_base = 0;
     }
 
-    public Artigo(boolean novo, String desc, String marca, double preco_base) {
+    public Artigo(boolean novo, String desc, String marca, double preco_base,Transportadora transportadora) {
         RandomGenerator random = new RandomGenerator();
         this.novo = novo;
         this.desc = desc;
         this.marca = marca;
         this.codAlfaNum = random.alfanumericalGenerator();
         this.preco_base = preco_base;
+        this.transp = transportadora.clone();
     }
 
-    public Artigo(boolean novo, int n_donos, Estado estado, String desc,String marca, double preco_base) {
+    public Artigo(boolean novo, int n_donos, Estado estado, String desc,String marca, double preco_base, Transportadora transportadora) {
         RandomGenerator random = new RandomGenerator();
         this.novo = novo;
         this.n_donos = n_donos;
@@ -46,6 +46,7 @@ public abstract class Artigo {
         this.marca = marca;
         this.codAlfaNum = random.alfanumericalGenerator();
         this.preco_base = preco_base;
+        this.transp = transportadora.clone();
     }
 
     public Artigo(Artigo o){
@@ -57,6 +58,14 @@ public abstract class Artigo {
         this.codAlfaNum = o.getCodAlfaNum();
         this.preco_base = o.getPreco_base();
         this.transp = o.getTransp();
+    }
+
+    public String getUtilizador() {
+        return utilizador;
+    }
+
+    public void setUtilizador(String utilizador) {
+        this.utilizador = utilizador;
     }
 
     public Transportadora getTransp() {

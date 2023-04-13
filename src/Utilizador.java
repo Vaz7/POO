@@ -1,6 +1,4 @@
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class Utilizador {
     private static int contador=1;
@@ -10,7 +8,7 @@ public class Utilizador {
     private String morada;
     private int nif;
     private Set<Artigo> vendido;
-    private Set<Artigo> para_vender;
+    private Map<String,Artigo> para_vender;
 
     private double dinheiro_vendas;
     private double dinheiro_compras;
@@ -21,12 +19,23 @@ public class Utilizador {
         this.morada = "";
         this.nif = 0;
         this.vendido = new HashSet<>();
-        this.para_vender = new HashSet<>();
+        this.para_vender = new HashMap<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
     }
 
-    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Set<Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+    public Utilizador(String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
+        this.code = this.contador++;
+        this.email = email;
+        this.nome = nome;
+        this.morada = morada;
+        this.nif = nif;
+        this.vendido = new HashSet<>();
+        this.para_vender = new HashMap<>();
+        this.dinheiro_vendas = dinheiro_vendas;
+        this.dinheiro_compras = dinheiro_compras;
+    }
+    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
         this.code = this.contador++;
         this.email = email;
         this.nome = nome;
@@ -105,18 +114,23 @@ public class Utilizador {
         }
     }
 
-    public Set<Artigo> getPara_vender() {
-        Set<Artigo> novo = new HashSet<>();
-        for(Artigo c : this.para_vender){
-            novo.add(c);
+    public Map<String,Artigo> getPara_vender() {
+        Map<String,Artigo> novo = new HashMap<>();
+
+        for(Map.Entry<String, Artigo> c : this.para_vender.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            novo.put(aux,use);
         }
         return novo;
     }
 
-    public void setPara_vender(Set<Artigo> para_vender) {
-        this.para_vender = new HashSet<Artigo>();
-        for(Artigo c : para_vender){
-            this.para_vender.add(c);
+    public void setPara_vender(Map<String,Artigo> para_vender) {
+        this.para_vender = new HashMap<String,Artigo>();
+        for(Map.Entry<String, Artigo> c : para_vender.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            this.para_vender.put(aux,use);
         }
     }
 
@@ -141,7 +155,7 @@ public class Utilizador {
     }
 
     public void addArtigoParaVender(Artigo c){
-        this.para_vender.add(c.clone());
+        this.para_vender.put(c.getCodAlfaNum(),c.clone());
     }
 
     public void removeArtigoParaVender(Artigo c){
@@ -173,8 +187,8 @@ public class Utilizador {
         }
         sb.append("]\n");
         sb.append("Artigos à Venda:: [");
-        for(Artigo c : this.para_vender){
-            sb.append(c + "\n");
+        for(Artigo c : this.para_vender.values()){
+            sb.append(c.toString() + "\n");
         }
         sb.append("]\n");
         sb.append("Dinheiro Feito em Vendas:: " + this.dinheiro_vendas + "\n");
@@ -195,8 +209,8 @@ public class Utilizador {
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                SetDeepClone.isDeepClone(this.para_vender, l.getPara_vender()) &&
-                SetDeepClone.isDeepClone(this.vendido, l.getVendido());
+                SetDeepClone.isDeepCloneMap(this.para_vender, l.getPara_vender()) &&
+                SetDeepClone.isDeepCloneSet(this.vendido, l.getVendido());
 
     }
 }
