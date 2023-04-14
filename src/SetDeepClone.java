@@ -53,6 +53,7 @@ public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artig
 
         return true;
     }
+
     public static boolean userManDeepClone(Map<Integer,Utilizador> b, Map<Integer,Utilizador> a){
         if(b.size() != a.size()) return false;
 
@@ -66,5 +67,22 @@ public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artig
         }
         return true;
     }
+
+    public static boolean ArtigoUserManagerDeepClone(Map<String, Integer> b, Map<String, Integer> a){
+        if(b.size() != a.size()) return false;
+
+        for (Map.Entry<String, Integer> entry : b.entrySet()) {
+            String key = entry.getKey();
+            Integer value1 = entry.getValue();
+            Integer value2 = a.get(key);
+            if (!a.containsKey(key) || value1 != value2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
+
+
 
