@@ -54,11 +54,11 @@ public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artig
         return true;
     }
 
-    public static boolean userManDeepClone(Map<Integer,Utilizador> b, Map<Integer,Utilizador> a){
+    public static boolean userManDeepClone(Map<String,Utilizador> b, Map<String,Utilizador> a){
         if(b.size() != a.size()) return false;
 
-        for (Map.Entry<Integer, Utilizador> entry : b.entrySet()) {
-            Integer key = entry.getKey();
+        for (Map.Entry<String, Utilizador> entry : b.entrySet()) {
+            String key = entry.getKey();
             Utilizador value1 = entry.getValue();
             Utilizador value2 = a.get(key);
             if (!a.containsKey(key) || !value1.equals(value2)) {

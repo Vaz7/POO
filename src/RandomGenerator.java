@@ -2,6 +2,8 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public class RandomGenerator {
+
+    //Vamos ter de alterar este método, em 1000 geraçoes já ha alguma prob de repetidos.
     public String alfanumericalGenerator() {
 
         String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

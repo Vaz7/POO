@@ -118,20 +118,21 @@ public class Mala extends Artigo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Mala :: " + this.getCodAlfaNum() +"\n");
-        sb.append("Marca: " + this.getMarca() + "\n");
-        sb.append("Novo: " + isNovo() + "\n");
+        sb.append(this.getCodAlfaNum() + "--");
+        sb.append("Mala " + this.getCodAlfaNum());
+        sb.append(this.getMarca());
+        sb.append(", Novo: " + isNovo());
         if(!isNovo()) {
-            sb.append("Estado: " + this.getEstado() + "\n");
-            sb.append("Nº de donos: " + this.getN_donos() + "\n");
+            sb.append(", Estado: " + this.getEstado());
+            sb.append(", Nº de donos: " + this.getN_donos());
         }
-        sb.append("Preço Base: " + this.getPreco_base() + "\n");
-        sb.append("Descrição: " + this.getDesc() + "\n");
-        sb.append("Dimensão: " + this.dimensao + "\n");
-        sb.append("Material: " + this.material + "\n");
-        sb.append("Coleção: " + this.colecao + "\n");
-        sb.append("Premium: " + this.premium + "\n");
-        sb.append("Preço Atual: " + this.preco_curr + "\n");
+        sb.append(", Preço Base: " + this.getPreco_base());
+        sb.append(", Descrição: " + this.getDesc());
+        sb.append(", Dimensão: " + this.dimensao);
+        sb.append(", Material: " + this.material);
+        sb.append(", Coleção: " + this.colecao);
+        sb.append(", Premium: " + this.premium);
+        sb.append(", Preço Atual: " + this.preco_curr);
         return sb.toString();
     }
 

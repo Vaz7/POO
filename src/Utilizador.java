@@ -1,8 +1,7 @@
 import java.util.*;
 
 public class Utilizador {
-    private static int contador=1;
-    private int code;
+    private String username;
     private String email;
     private String nome;
     private String morada;
@@ -14,7 +13,7 @@ public class Utilizador {
     private double dinheiro_compras;
 
     public Utilizador(){
-        this.code = this.contador++;
+        this.username = "";
         this.email = "";
         this.morada = "";
         this.nif = 0;
@@ -24,8 +23,8 @@ public class Utilizador {
         this.dinheiro_vendas = 0;
     }
 
-    public Utilizador(String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
-        this.code = this.contador++;
+    public Utilizador(String username,String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
+        this.username = username;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -35,8 +34,8 @@ public class Utilizador {
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
-    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
-        this.code = this.contador++;
+    public Utilizador(String username,String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+        this.username = username;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -48,7 +47,7 @@ public class Utilizador {
     }
 
     public Utilizador(Utilizador o){
-        this.code = o.getCode();
+        this.username = o.getUsername();
         this.email = o.getEmail();
         this.nome = o.getNome();
         this.morada = o.getMorada();
@@ -59,12 +58,12 @@ public class Utilizador {
         this.dinheiro_vendas = o.getDinheiro_vendas();
     }
 
-    public int getCode() {
-        return this.code;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -176,7 +175,7 @@ public class Utilizador {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Código no Sistema:: " + this.code + "\n");
+        sb.append("Username:: " + this.username + "\n");
         sb.append("Email:: " + this.email + "\n");
         sb.append("Nome:: " + this.nome + "\n");
         sb.append("Morada:: " + this.morada + "\n");
@@ -202,7 +201,7 @@ public class Utilizador {
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Utilizador l = (Utilizador) o;
-        return  this.code == l.getCode() &&
+        return  this.username == l.getUsername() &&
                 this.email.equals(l.getEmail()) &&
                 this.nome.equals(l.getNome()) &&
                 this.morada.equals(l.getMorada()) &&

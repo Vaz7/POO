@@ -48,15 +48,15 @@ public class Main {
         Encomenda b = new Encomenda(lista, Encomenda.State.Pendente);
         //System.out.println(b.toString());
 //        b.addArtEncomenda(test9);
-        System.out.println(b);
+        //System.out.println(b);
 
         Utilizador user2 = new Utilizador();
         Utilizador user1 = new Utilizador();
-        Utilizador user3 = new Utilizador("cao@gato.pt","Joaquim Alberto","rua dos caes",12345678,12.4,11.4);
+        Utilizador user3 = new Utilizador("joaquimberto","cao@gato.pt","Joaquim Alberto","rua dos caes",12345678,12.4,11.4);
 
-        System.out.println(user1.toString());
-        System.out.println(user2.toString());
-        System.out.println(user3.toString());
+        //System.out.println(user1.toString());
+        //System.out.println(user2.toString());
+        //System.out.println(user3.toString());
 //        b.removeArtEncomenda(test9);
 //        System.out.println(b);
 
@@ -66,6 +66,12 @@ public class Main {
         user3.addArtigoParaVender(test3);
         user3.addArtigoParaVender(test4);
         user3.addArtigoParaVender(test2);
+        user3.addArtigoParaVender(test5);
+        user3.addArtigoParaVender(test6);
+        user3.addArtigoParaVender(test7);
+        user3.addArtigoParaVender(test8);
+        user3.addArtigoParaVender(test9);
+        user3.addArtigoParaVender(test10);
 
         manager.addUser(user1);
         manager.addUser(user2);
@@ -73,18 +79,21 @@ public class Main {
 
 
 
-        System.out.println("-----------------------------------------------------");
-        System.out.println(manager.toString());
+        //System.out.println("-----------------------------------------------------");
+        //System.out.println(manager.toString());
 
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-        System.out.println("Enter product code to buy:");
+        //Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        //System.out.println("Enter product code to buy:");
 
-        String cod = myObj.nextLine();  // Read user input
+        //String cod = myObj.nextLine();  // Read user input
 
-        if(manager.existsArtigo(cod)){
-            System.out.println("The item is available, the seller is: " + manager.whoSellsArtigo(cod));
-        }
-        else System.out.println("ja foti");
+
+        Ui.menu(manager);
+        manager.dumpToFile();
+        //if(manager.existsArtigo(cod)){
+        //    System.out.println("The item is available, the seller is: " + manager.whoSellsArtigo(cod));
+        //}
+        //else System.out.println("ja foti");
 
     }
 }

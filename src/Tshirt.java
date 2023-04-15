@@ -81,18 +81,19 @@ public class Tshirt extends Artigo{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("T-shirt :: " + getCodAlfaNum() +"\n");
-        sb.append("Marca: " + getMarca() + "\n");
-        sb.append("Novo: " + isNovo() + "\n");
+        sb.append(getCodAlfaNum() + "--");
+        sb.append("T-shirt ");
+        sb.append(getMarca());
+        sb.append(", Novo: " + isNovo());
         if(!isNovo()) {
-            sb.append("Estado: " + getEstado() + "\n");
-            sb.append("Nº de donos: " + getN_donos() + "\n");
+            sb.append(", Estado: " + getEstado());
+            sb.append(", Nº de donos: " + getN_donos());
         }
-        sb.append("Preço Base: " + getPreco_base() + "\n");
-        sb.append("Descrição: " + getDesc() + "\n");
-        sb.append("Tamanho: " + this.tamanho + "\n");
-        sb.append("Padrão: " + this.padrao + "\n");
-        sb.append("Preço Atual: " + this.preco_curr + "\n");
+        sb.append(", Preço Base: " + getPreco_base());
+        sb.append(", Descrição: " + getDesc());
+        sb.append(", Tamanho: " + this.tamanho);
+        sb.append(", Padrão: " + this.padrao);
+        sb.append(", Preço Atual: " + this.preco_curr);
         return sb.toString();
     }
     @Override
