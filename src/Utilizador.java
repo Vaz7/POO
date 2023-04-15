@@ -1,7 +1,8 @@
 import java.util.*;
 
 public class Utilizador {
-    private String username;
+    private static int contador=1;
+    private int code;
     private String email;
     private String nome;
     private String morada;
@@ -13,9 +14,10 @@ public class Utilizador {
     private double dinheiro_compras;
 
     public Utilizador(){
-        this.username = "";
+        this.code = this.contador++;
         this.email = "";
         this.morada = "";
+        this.nome = "";
         this.nif = 0;
         this.vendido = new HashSet<>();
         this.para_vender = new HashMap<>();
@@ -23,8 +25,8 @@ public class Utilizador {
         this.dinheiro_vendas = 0;
     }
 
-    public Utilizador(String username,String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
-        this.username = username;
+    public Utilizador(String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
+        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -34,8 +36,8 @@ public class Utilizador {
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
-    public Utilizador(String username,String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
-        this.username = username;
+    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -47,7 +49,7 @@ public class Utilizador {
     }
 
     public Utilizador(Utilizador o){
-        this.username = o.getUsername();
+        this.code = o.getCode();
         this.email = o.getEmail();
         this.nome = o.getNome();
         this.morada = o.getMorada();
@@ -58,12 +60,12 @@ public class Utilizador {
         this.dinheiro_vendas = o.getDinheiro_vendas();
     }
 
-    public String getUsername() {
-        return this.username;
+    public int getCode() {
+        return this.code;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getEmail() {
@@ -169,13 +171,64 @@ public class Utilizador {
         setDinheiro_vendas(preco);
     }
 
+    public static boolean isDeepCloneSet(Set<Artigo> set1, Set<Artigo> set2) {
+        if (set1 == null || set2 == null) {
+            return set1 == set2;
+        }
+
+        if (set1.size() != set2.size()) {
+            return false;
+        }
+        Iterator<Artigo> it = set1.iterator();
+        while (it.hasNext()) {
+            Artigo obj1 = it.next();
+            boolean found = false;
+            for (Artigo obj2 : set2) {
+                if (obj2.equals(obj1)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artigo> map2) {
+
+        if (map1 == null || map2 == null) {
+            return map1 == map2;
+        }
+
+        if (map1.size() != map2.size()) {
+            return false;
+        }
+
+        for (String key : map1.keySet()) {
+            if (!map2.containsKey(key)) {
+                return false;
+            }
+
+            Artigo obj1 = map1.get(key);
+            Artigo obj2 = map2.get(key);
+
+            if (!obj1.equals(obj2)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public Utilizador clone(){
         return new Utilizador(this);
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Username:: " + this.username + "\n");
+        sb.append("Código no Sistema:: " + this.code + "\n");
         sb.append("Email:: " + this.email + "\n");
         sb.append("Nome:: " + this.nome + "\n");
         sb.append("Morada:: " + this.morada + "\n");
@@ -201,15 +254,15 @@ public class Utilizador {
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Utilizador l = (Utilizador) o;
-        return  this.username == l.getUsername() &&
+        return  this.code == l.getCode() &&
                 this.email.equals(l.getEmail()) &&
                 this.nome.equals(l.getNome()) &&
                 this.morada.equals(l.getMorada()) &&
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                SetDeepClone.isDeepCloneMap(this.para_vender, l.getPara_vender()) &&
-                SetDeepClone.isDeepCloneSet(this.vendido, l.getVendido());
+                isDeepCloneMap(this.para_vender, l.getPara_vender()) &&
+                isDeepCloneSet(this.vendido, l.getVendido());
 
     }
 }

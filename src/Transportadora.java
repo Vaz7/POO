@@ -3,33 +3,46 @@ public class Transportadora {
     public final double MEDIAS = 5.99;
     public final double GRANDES = 10.99;
     public final double IMPOSTO = 0.15;
-    private double preco_transporte;
     private double lucro;
     private boolean premium;
+    private String nome;
+    private double dinheiro_feito;
 
     public Transportadora(){
-        this.preco_transporte = 0;
+        this.nome = "";
         this.premium = false;
         this.lucro = 0;
+        this.dinheiro_feito = 0;
     }
 
-    public Transportadora(boolean premium, double lucro){
+    public Transportadora(boolean premium, double lucro, String nome, double dinheiro_feito){
+        this.nome = nome;
         this.premium = premium;
         this.lucro = lucro;
+        this.dinheiro_feito = dinheiro_feito;
     }
 
     public Transportadora(Transportadora o){
         this.premium = o.isPremium();
         this.lucro = o.getLucro();
-        this.preco_transporte = o.getPreco_transporte();
+        this.nome = o.getNome();
+        this.dinheiro_feito = o.getDinheiro_feito();
     }
 
-    public double getPreco_transporte() {
-        return preco_transporte;
+    public double getDinheiro_feito() {
+        return dinheiro_feito;
     }
 
-    public void setPreco_transporte(double preco_transporte) {
-        this.preco_transporte = preco_transporte;
+    public void setDinheiro_feito(double dinheiro_feito) {
+        this.dinheiro_feito = dinheiro_feito;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public double getLucro() {
@@ -48,21 +61,17 @@ public class Transportadora {
         this.premium = premium;
     }
 
-    public double calculaPrecoExped(Encomenda o){
-        double preco = 0;
-        if(o.getDim() == Encomenda.Embalagem.Pequeno)
-            preco = PEQUENAS * this.lucro * (1.0+IMPOSTO) * 0.9;
-        else if (o.getDim() == Encomenda.Embalagem.Medio)
-            preco = MEDIAS * this.lucro * (1.0+IMPOSTO) * 0.9;
-        else if (o.getDim() == Encomenda.Embalagem.Grande)
-            preco = GRANDES * this.lucro * (1.0+IMPOSTO) * 0.9;
-
-        return preco;
-    }
-
-    public void addPreco(Encomenda o){
-        setPreco_transporte(calculaPrecoExped(o));
-    }
+//    public double calculaPrecoExped(Encomenda o){
+//        double preco = 0;
+//        if(o.getDim() == Encomenda.Embalagem.Pequeno)
+//            preco = PEQUENAS * this.lucro * (1.0+IMPOSTO) * 0.9;
+//        else if (o.getDim() == Encomenda.Embalagem.Medio)
+//            preco = MEDIAS * this.lucro * (1.0+IMPOSTO) * 0.9;
+//        else if (o.getDim() == Encomenda.Embalagem.Grande)
+//            preco = GRANDES * this.lucro * (1.0+IMPOSTO) * 0.9;
+//
+//        return preco;
+//    }
 
     public Transportadora clone(){
         return new Transportadora(this);
@@ -70,10 +79,9 @@ public class Transportadora {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Transportadora :: \n");
-        sb.append("Lucro Transportadora: " + this.lucro + "\n");
-        sb.append("Premium: " + this.premium + "\n");
-        sb.append("Preço: " + this.preco_transporte + "\n");
+        sb.append("Transportadora :: " + this.nome);
+        sb.append(", Lucro: " + this.lucro);
+        sb.append(", Premium: " + this.premium + "\n");
         return sb.toString();
     }
 
@@ -82,9 +90,9 @@ public class Transportadora {
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Transportadora l = (Transportadora) o;
-        return Double.compare(this.preco_transporte, l.getPreco_transporte()) == 0 &&
-                Double.compare(this.lucro, l.getLucro()) == 0 &&
-                this.premium == l.isPremium();
+        return Double.compare(this.lucro, l.getLucro()) == 0 &&
+                this.premium == l.isPremium() &&
+                this.nome.equals(l.getNome());
 
     }
 }

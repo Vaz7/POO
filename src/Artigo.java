@@ -1,3 +1,6 @@
+import java.security.SecureRandom;
+import java.util.Random;
+
 public abstract class Artigo {
     public enum Estado {
         PESSIMO,
@@ -14,7 +17,6 @@ public abstract class Artigo {
     private String codAlfaNum;
     private double preco_base;
     private String utilizador;
-
     private Transportadora transp;
 
     public Artigo(){
@@ -25,26 +27,25 @@ public abstract class Artigo {
         this.desc = "";
         this.codAlfaNum = "";
         this.preco_base = 0;
+        this.transp = new Transportadora();
     }
 
     public Artigo(boolean novo, String desc, String marca, double preco_base,Transportadora transportadora) {
-        RandomGenerator random = new RandomGenerator();
         this.novo = novo;
         this.desc = desc;
         this.marca = marca;
-        this.codAlfaNum = random.alfanumericalGenerator();
+        this.codAlfaNum = alfanumericalGenerator();
         this.preco_base = preco_base;
         this.transp = transportadora.clone();
     }
 
     public Artigo(boolean novo, int n_donos, Estado estado, String desc,String marca, double preco_base, Transportadora transportadora) {
-        RandomGenerator random = new RandomGenerator();
         this.novo = novo;
         this.n_donos = n_donos;
         this.estado = estado;
         this.desc = desc;
         this.marca = marca;
-        this.codAlfaNum = random.alfanumericalGenerator();
+        this.codAlfaNum = alfanumericalGenerator();
         this.preco_base = preco_base;
         this.transp = transportadora.clone();
     }
@@ -75,6 +76,7 @@ public abstract class Artigo {
     public void setTransp(Transportadora transp) {
         this.transp = transp.clone();
     }
+
     public int getN_donos() {
         return this.n_donos;
     }
@@ -136,6 +138,23 @@ public abstract class Artigo {
     public abstract String toString();
 
     public abstract double getPreco_curr();
+
+    public String alfanumericalGenerator() {
+
+        String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        int LENGTH = 12;
+
+
+        StringBuilder sb = new StringBuilder(LENGTH);
+        Random random = new SecureRandom();
+        random.setSeed(System.currentTimeMillis());
+
+        for (int i = 0; i < LENGTH; i++) {
+            sb.append(ALPHANUMERIC.charAt(random.nextInt(ALPHANUMERIC.length())));
+        }
+
+        return sb.toString();
+    }
 
 
     public boolean equals(Object o){

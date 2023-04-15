@@ -1,8 +1,5 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Encomenda {
     public enum Embalagem{
@@ -15,34 +12,34 @@ public class Encomenda {
         Finalizada,
         Expedida
     }
-    private Set<Artigo> artigos;
+    private Map<String, Artigo> artigos;
     private Embalagem dim;
     private double preco;
     private LocalDate data;
     private State estado;
 
     public Encomenda(){
-        this.artigos = new HashSet<>();
+        this.artigos = new HashMap<>();
         this.dim = Embalagem.Pequeno;
         this.data = LocalDate.now();
         this.estado = State.Pendente;
         this.preco = 0;
     }
 
-    public Encomenda(Set<Artigo> lista, State estado){
+    public Encomenda(Map<String,Artigo> lista, State estado){
         setArtigos(lista);
         defDimensaoCaixa();
         this.data = LocalDate.now();
         this.estado = estado;
-        this.preco = calculaPrecoEnc();
+        //this.preco = calculaPrecoEnc();
     }
 
-    public Encomenda(Set<Artigo> lista, Embalagem dim, LocalDate data, State estado) {
+    public Encomenda(Map<String,Artigo> lista, Embalagem dim, LocalDate data, State estado) {
         setArtigos(lista);
         this.dim = dim;
         this.data = data;
         this.estado = estado;
-        this.preco = calculaPrecoEnc();
+        //this.preco = calculaPrecoEnc();
     }
 
     public Encomenda(Encomenda o){
@@ -53,18 +50,23 @@ public class Encomenda {
         this.preco = o.getPreco();
     }
 
-    public Set<Artigo> getArtigos() {
-        Set<Artigo> novo = new HashSet<>();
-        for(Artigo c : this.artigos){
-            novo.add(c.clone());
+    public Map<String, Artigo> getArtigos() {
+        Map<String,Artigo> novo = new HashMap<>();
+
+        for(Map.Entry<String, Artigo> c : this.artigos.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            novo.put(aux,use);
         }
         return novo;
     }
 
-    public void setArtigos(Set<Artigo> lista) {
-        this.artigos = new HashSet<>();
-        for(Artigo c : lista){
-            this.artigos.add(c.clone());
+    public void setArtigos(Map<String, Artigo> artigos) {
+        this.artigos = new HashMap<String,Artigo>();
+        for(Map.Entry<String, Artigo> c : artigos.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            this.artigos.put(aux,use);
         }
     }
 
@@ -109,90 +111,28 @@ public class Encomenda {
         setDim(j);
     }
 
-    private double calculaPrecoEnc(){
-        double preco = 0;
-        for(Artigo c : this.artigos){
-            if(c instanceof Sapatilha){
-                preco += ((Sapatilha) c).getPreco_curr();
-                if(c.isNovo()){
-                    preco += 0.5;
-                }
-                else preco += 0.25;
-            }
-            else if(c instanceof Tshirt){
-                preco += ((Tshirt) c).getPreco_curr();
-                if(c.isNovo()){
-                    preco += 0.5;
-                }
-                else preco += 0.25;
-            }
-            else if(c instanceof Mala){
-                preco += ((Mala) c).getPreco_curr();
-                if(c.isNovo()){
-                    preco += 0.5;
-                }
-                else preco += 0.25;
-            }
-        }
-        return preco;
-    }
-
     public void addArtEncomenda(Artigo c){
         double preco = this.preco;
-        this.artigos.add(c.clone());
-        if(c instanceof Sapatilha){
-            preco += ((Sapatilha) c).getPreco_curr();
-            if(c.isNovo()){
-                preco += 0.5;
-            }
-            else preco += 0.25;
+        this.artigos.put(c.getCodAlfaNum(),c.clone());
+        preco += c.getPreco_curr();
+        if(c.isNovo()){
+            preco += 0.5;
         }
-        else if(c instanceof Tshirt){
-            preco += ((Tshirt) c).getPreco_curr();
-            if(c.isNovo()){
-                preco += 0.5;
-            }
-            else preco += 0.25;
-        }
-        else if(c instanceof Mala){
-            preco += ((Mala) c).getPreco_curr();
-            if(c.isNovo()){
-                preco += 0.5;
-            }
-            else preco += 0.25;
-        }
+        else preco += 0.25;
         setPreco(preco);
     }
 
     public void removeArtEncomenda(Artigo c){
         double preco = this.preco;
-        if(c instanceof Sapatilha){
-            preco -= ((Sapatilha) c).getPreco_curr();
-            if(c.isNovo()){
-                preco -= 0.5;
-            }
-            else preco -= 0.25;
-        }
-        else if(c instanceof Tshirt){
-            preco -= ((Tshirt) c).getPreco_curr();
-            if(c.isNovo()){
-                preco -= 0.5;
-            }
-            else preco -= 0.25;
-        }
-        else if(c instanceof Mala){
-            preco -= ((Mala) c).getPreco_curr();
-            if(c.isNovo()){
-                preco -= 0.5;
-            }
-            else preco -= 0.25;
-        }
-        this.artigos.remove(c.clone());
+        preco -= c.getPreco_curr();
+        if(c.isNovo()) preco -= 0.5;
+        else preco -= 0.25;
+        this.artigos.remove(c.getCodAlfaNum());
         setPreco(preco);
     }
 
     public boolean isRefundable(){
-        if(this.data.plusDays(2).isBefore(this.data.now())) return true;
+        if(this.data.plusDays(2).isBefore(this.data)) return true;
         return false;
     }
 
@@ -207,11 +147,37 @@ public class Encomenda {
         sb.append("Data de Criação: " + this.data + "\n");
         sb.append("Estado : " + this.estado + "\n");
         sb.append("Artigos: \n");
-        for(Artigo c : this.artigos){
+        for(Artigo c : this.artigos.values()){
             sb.append(c.toString() + "\n");
         }
         sb.append("Preço: " + this.preco + "\n");
         return sb.toString();
+    }
+
+    public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artigo> map2) {
+
+        if (map1 == null || map2 == null) {
+            return map1 == map2;
+        }
+
+        if (map1.size() != map2.size()) {
+            return false;
+        }
+
+        for (String key : map1.keySet()) {
+            if (!map2.containsKey(key)) {
+                return false;
+            }
+
+            Artigo obj1 = map1.get(key);
+            Artigo obj2 = map2.get(key);
+
+            if (!obj1.equals(obj2)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public boolean equals(Object o){
@@ -223,7 +189,7 @@ public class Encomenda {
                 this.estado == l.getEstado() &&
                 this.data.equals(l.getData()) &&
                 Double.compare(this.preco, l.getPreco()) == 0 &&
-                SetDeepClone.isDeepCloneSet(this.artigos, l.getArtigos());
+                isDeepCloneMap(this.artigos, l.getArtigos());
 
     }
 }
