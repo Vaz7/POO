@@ -170,4 +170,14 @@ public class Vintage {
                 isDeepCloneMap(c.getUtilizadores(), this.utilizadores) &&
                 isDeepCloneMapTransport(this.transportadoras, c.getTransportadoras());
     }
+
+    public void printTransportadoras(){
+        for(Transportadora c : this.transportadoras.values()){
+            System.out.println(c.toString());
+        }
+    }
+
+    public void addTransportadora(Transportadora a){
+        this.transportadoras.put(a.getNome(), a.clone());
+    }
 }

@@ -5,10 +5,9 @@ public class View {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
         System.out.println("1. Login/Sign-in");
-        System.out.println("0. Terminar");
+        System.out.println("0. Terminar Programa");
 
         String option = sc.next();
-        sc.close();
         return option;
     }
 
@@ -16,30 +15,25 @@ public class View {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
         System.out.println("Insira o seu email:");
-        System.out.println("0. Terminar");
 
         String option = sc.next();
-        sc.close();
         return option;
     }
 
     public String[] accountCreation(){
         Scanner scanner = new Scanner(System.in);
-        String[] utilizadorInput = new String[4];
+        String[] utilizadorInput = new String[3];
         System.out.println("Please type in your account data!");
 
-        System.out.print("Enter your email: ");
-        utilizadorInput[0] = scanner.nextLine();
 
         System.out.print("Enter your name: ");
-        utilizadorInput[1] = scanner.nextLine();
+        utilizadorInput[0] = scanner.nextLine();
 
         System.out.print("Enter your home adress ");
-        utilizadorInput[2] = scanner.nextLine();
+        utilizadorInput[1] = scanner.nextLine();
 
         System.out.print("Enter your nif: ");
-        utilizadorInput[3] = scanner.nextLine();
-        scanner.close();
+        utilizadorInput[2] = scanner.nextLine();
         return utilizadorInput;
     }
 
@@ -51,12 +45,15 @@ public class View {
         System.out.println("3 - Criar Utilizador");
         System.out.println("4 - Fazer Encomenda");
         System.out.println("5 - Mudar Data");
-        System.out.println("0 - Terminar");
+        System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
 
         String option = sc.next();
-        sc.close();
         return option;
+    }
+
+    public void erroParametros(){
+        System.out.println("Os parametros utilizados estão errados!");
     }
 
     public String tipoArtigoCriacao(){
@@ -68,7 +65,6 @@ public class View {
         System.out.println("0 - Voltar ao Menu Inicial");
 
         String option = sc.next();
-        sc.close();
         return option;
     }
 
@@ -78,8 +74,8 @@ public class View {
 
     public String[] artigoCreation(int option){
         Scanner scanner = new Scanner(System.in);
-        String[] utilizadorInput = new String[12];
-        System.out.println("Por favor escreva os dados relativos às suas Sapatilhas!");
+        String[] utilizadorInput = new String[11];
+        System.out.println("Por favor escreva os dados relativos ao seu Artigo!");
 
         System.out.print("Indique se o artigo é novo/usado (true/false): ");
         utilizadorInput[0] = scanner.nextLine();
@@ -97,41 +93,50 @@ public class View {
         utilizadorInput[4] = scanner.nextLine();
         System.out.println("Preco Base: ");
         utilizadorInput[5] = scanner.nextLine();
-        System.out.println("Transportadora: ");
-        utilizadorInput[6] = scanner.nextLine();
 
         switch(option){
             case 1:
                 System.out.println("Indique o Tamanho da Tshirt (S,M,L,XL): ");
-                utilizadorInput[7] = scanner.nextLine();
+                utilizadorInput[6] = scanner.nextLine();
                 System.out.println("Indique o Padrao da Tshirt (Riscas, Liso, Palmeiras): ");
-                utilizadorInput[8] = scanner.nextLine();
+                utilizadorInput[7] = scanner.nextLine();
                 break;
             case 2:
                 System.out.println("Indique a dimensão da Mala: ");
-                utilizadorInput[7] = scanner.nextLine();
+                utilizadorInput[6] = scanner.nextLine();
                 System.out.println("Indique o seu material: ");
-                utilizadorInput[8] = scanner.nextLine();
+                utilizadorInput[7] = scanner.nextLine();
                 System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
-                utilizadorInput[9] = scanner.nextLine();
+                utilizadorInput[8] = scanner.nextLine();
                 System.out.println("Indique se é Premium (escreva true ou false): ");
-                utilizadorInput[10] = scanner.nextLine();
+                utilizadorInput[9] = scanner.nextLine();
                 break;
             case 3:
                 System.out.println("Indique o Tamanho da Sapatilha: ");
-                utilizadorInput[7] = scanner.nextLine();
+                utilizadorInput[6] = scanner.nextLine();
                 System.out.println("Indique se tem atacadores (escreva true ou false): ");
-                utilizadorInput[8] = scanner.nextLine();
+                utilizadorInput[7] = scanner.nextLine();
                 System.out.println("Indique a sua cor: ");
-                utilizadorInput[9] = scanner.nextLine();
+                utilizadorInput[8] = scanner.nextLine();
                 System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
-                utilizadorInput[10] = scanner.nextLine();
+                utilizadorInput[9] = scanner.nextLine();
                 System.out.println("Indique se é Premium (escreva true ou false): ");
-                utilizadorInput[11] = scanner.nextLine();
+                utilizadorInput[10] = scanner.nextLine();
         }
 
-        scanner.close();
         return utilizadorInput;
+    }
+
+    public String escolheTransportadora(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("De entre as Transportadoras anteriores escreva o nome da que pretende: ");
+
+        String ret = sc.next();
+        return ret;
+    }
+
+    public void invalidaTransportadora(){
+        System.out.println("O nome da transportadora que escreveu não existe!");
     }
 
     public String tipoArtigoCompra(){

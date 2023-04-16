@@ -9,7 +9,7 @@ public class Transportadora {
     private double dinheiro_feito;
 
     public Transportadora(){
-        this.nome = "";
+        this.nome = "boua";
         this.premium = false;
         this.lucro = 0;
         this.dinheiro_feito = 0;
