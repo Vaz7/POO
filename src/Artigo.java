@@ -3,12 +3,23 @@ import java.util.Random;
 
 public abstract class Artigo {
     public enum Estado {
-        PESSIMO,
-        MAU,
-        RAZOAVEL,
-        BOM,
-        MUITO_BOM
+        PESSIMO("1"),
+        MAU("2"),
+        RAZOAVEL("3"),
+        BOM("4"),
+        MUITO_BOM("5");
+
+        private String valor;
+
+        private Estado(String valor) {
+            this.valor = valor;
+        }
+
+        public String getValor() {
+            return valor;
+        }
     }
+
     private boolean novo;
     private int n_donos;
     private Estado estado;
@@ -16,7 +27,6 @@ public abstract class Artigo {
     private String marca;
     private String codAlfaNum;
     private double preco_base;
-    private String utilizador;
     private Transportadora transp;
 
     public Artigo(){
@@ -59,14 +69,6 @@ public abstract class Artigo {
         this.codAlfaNum = o.getCodAlfaNum();
         this.preco_base = o.getPreco_base();
         this.transp = o.getTransp();
-    }
-
-    public String getUtilizador() {
-        return utilizador;
-    }
-
-    public void setUtilizador(String utilizador) {
-        this.utilizador = utilizador;
     }
 
     public Transportadora getTransp() {

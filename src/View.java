@@ -59,7 +59,82 @@ public class View {
         return option;
     }
 
-    public String tipoArtigo(){
+    public String tipoArtigoCriacao(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Que tipo de artigo queres criar?");
+        System.out.println("1. Tshirt");
+        System.out.println("2. Mala");
+        System.out.println("3. Sapatilha");
+        System.out.println("0 - Voltar ao Menu Inicial");
+
+        String option = sc.next();
+        sc.close();
+        return option;
+    }
+
+    public void ArtigoCriadoSucesso(){
+        System.out.println("O artigo foi criado com sucesso!");
+    }
+
+    public String[] artigoCreation(int option){
+        Scanner scanner = new Scanner(System.in);
+        String[] utilizadorInput = new String[12];
+        System.out.println("Por favor escreva os dados relativos às suas Sapatilhas!");
+
+        System.out.print("Indique se o artigo é novo/usado (true/false): ");
+        utilizadorInput[0] = scanner.nextLine();
+        int estado = -1;
+        while(estado < 1 || estado > 5){
+            System.out.print("De 1 a 5 em que estado se encontram? ");
+            estado = scanner.nextInt();
+        }
+        utilizadorInput[1] = ("" + estado);
+        System.out.print("Número de donos: ");
+        utilizadorInput[2] = scanner.nextLine();
+        System.out.print("Descrição do Artigo: ");
+        utilizadorInput[3] = scanner.nextLine();
+        System.out.print("Marca: ");
+        utilizadorInput[4] = scanner.nextLine();
+        System.out.println("Preco Base: ");
+        utilizadorInput[5] = scanner.nextLine();
+        System.out.println("Transportadora: ");
+        utilizadorInput[6] = scanner.nextLine();
+
+        switch(option){
+            case 1:
+                System.out.println("Indique o Tamanho da Tshirt (S,M,L,XL): ");
+                utilizadorInput[7] = scanner.nextLine();
+                System.out.println("Indique o Padrao da Tshirt (Riscas, Liso, Palmeiras): ");
+                utilizadorInput[8] = scanner.nextLine();
+                break;
+            case 2:
+                System.out.println("Indique a dimensão da Mala: ");
+                utilizadorInput[7] = scanner.nextLine();
+                System.out.println("Indique o seu material: ");
+                utilizadorInput[8] = scanner.nextLine();
+                System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
+                utilizadorInput[9] = scanner.nextLine();
+                System.out.println("Indique se é Premium (escreva true ou false): ");
+                utilizadorInput[10] = scanner.nextLine();
+                break;
+            case 3:
+                System.out.println("Indique o Tamanho da Sapatilha: ");
+                utilizadorInput[7] = scanner.nextLine();
+                System.out.println("Indique se tem atacadores (escreva true ou false): ");
+                utilizadorInput[8] = scanner.nextLine();
+                System.out.println("Indique a sua cor: ");
+                utilizadorInput[9] = scanner.nextLine();
+                System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
+                utilizadorInput[10] = scanner.nextLine();
+                System.out.println("Indique se é Premium (escreva true ou false): ");
+                utilizadorInput[11] = scanner.nextLine();
+        }
+
+        scanner.close();
+        return utilizadorInput;
+    }
+
+    public String tipoArtigoCompra(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Que tipo de produtos estás à procura?");
         System.out.println("1. Tshirts");

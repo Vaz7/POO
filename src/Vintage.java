@@ -81,6 +81,10 @@ public class Vintage {
         this.utilizadores.put(a.getEmail(), a.clone());
     }
 
+    public Transportadora getTransportadoraEspecifico(String nome){
+        return this.transportadoras.get(nome).clone();
+    }
+
     public static boolean isDeepCloneSet(Set<Encomenda> set1, Set<Encomenda> set2) {
         if (set1 == null || set2 == null) {
             return set1 == set2;
