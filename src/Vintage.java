@@ -180,4 +180,9 @@ public class Vintage {
     public void addTransportadora(Transportadora a){
         this.transportadoras.put(a.getNome(), a.clone());
     }
+
+    public void addArtigoVenda(String email, Artigo artigo){
+        Utilizador a = this.utilizadores.get(email);
+        a.addArtigoParaVender(artigo.clone());
+    }
 }

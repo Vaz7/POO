@@ -77,19 +77,15 @@ public class View {
         String[] utilizadorInput = new String[11];
         System.out.println("Por favor escreva os dados relativos ao seu Artigo!");
 
-        System.out.print("Indique se o artigo é novo/usado (true/false): ");
+        System.out.println("Indique se o artigo é novo/usado (true/false): ");
         utilizadorInput[0] = scanner.nextLine();
-        int estado = -1;
-        while(estado < 1 || estado > 5){
-            System.out.print("De 1 a 5 em que estado se encontram? ");
-            estado = scanner.nextInt();
-        }
-        utilizadorInput[1] = ("" + estado);
-        System.out.print("Número de donos: ");
+        System.out.println("Em que estado se encontra o artigo(PESSIMO/MAU/RAZOAVEL/BOM/MUITO_BOM)? ");
+        utilizadorInput[1] = scanner.nextLine();
+        System.out.println("Número de donos: ");
         utilizadorInput[2] = scanner.nextLine();
-        System.out.print("Descrição do Artigo: ");
+        System.out.println("Descrição do Artigo: ");
         utilizadorInput[3] = scanner.nextLine();
-        System.out.print("Marca: ");
+        System.out.println("Marca: ");
         utilizadorInput[4] = scanner.nextLine();
         System.out.println("Preco Base: ");
         utilizadorInput[5] = scanner.nextLine();

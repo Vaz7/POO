@@ -72,8 +72,8 @@ public class Controller {
                             current_user = aux.getEmail();
                             this.logged = true;
                             flag = false;
-                        } catch (Exception e){
-                            this.view.erroParametros();
+                        } catch (NumberFormatException e){
+                            System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
                         }
                     }
                 }
@@ -101,19 +101,22 @@ public class Controller {
                         int artcode = Integer.parseInt(this.view.tipoArtigoCriacao());
                         String[] tokens = this.view.artigoCreation(artcode);
                         switch(artcode){
-                            case 1:
-                                Artigo art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c);
+                            case 1: // talvez diferenciar construtor para produtos novos/usados(assim como no método da view)
+                                Artigo art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
+                                this.vintage.addArtigoVenda(this.current_user, art1);
+                                Utilizador a = this.vintage.getUserEspecifico(this.current_user);
+                                System.out.println(a.getPara_vender());
                                 flag = false;
                                 break;
                             case 2:
                                 break;
                         }
                     } catch (Exception e){
-                        this.view.erroParametros();
+                        System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
                     }
                 }
             } catch(Exception e){
-                this.view.invalidaTransportadora();
+                System.out.println("A transportadora utilizada não existe!" + e.getMessage());
             }
         }
     }

@@ -3,22 +3,12 @@ import java.util.Random;
 
 public abstract class Artigo {
     public enum Estado {
-        PESSIMO("1"),
-        MAU("2"),
-        RAZOAVEL("3"),
-        BOM("4"),
-        MUITO_BOM("5");
-
-        private String valor;
-
-        private Estado(String valor) {
-            this.valor = valor;
-        }
-
-        public String getValor() {
-            return valor;
-        }
-    }
+        PESSIMO,
+        MAU,
+        RAZOAVEL,
+        BOM,
+        MUITO_BOM
+    };
 
     private boolean novo;
     private int n_donos;
