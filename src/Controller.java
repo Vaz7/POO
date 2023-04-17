@@ -1,5 +1,9 @@
-
-
+import java.io.*;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import UserExceptions.UserDoesntExistException;
+import java.util.ArrayList;
 public class Controller {
     private View view;
     private Vintage vintage;
@@ -8,17 +12,26 @@ public class Controller {
     private boolean logged;
 
     public static void main(String[] args) {
+
         Controller controller = new Controller();
 
-        do {
-            if(!controller.logged)
-                controller.logIn();
+        try {
+            controller.loadFromLog("./src/log.txt");
+        } catch (IOException fnf) {
+            fnf.getMessage();
+        }
 
-            if(controller.logged)
-                controller.displayMenu();
+            do {
+                if (!controller.logged)
+                    controller.logIn();
 
-        } while (controller.run);
-    }
+                if (controller.logged)
+                    controller.displayMenu();
+
+            } while (controller.run);
+
+            controller.vintage.dumpToFile();
+        }
 
     public Controller(){
         this.view = new View();
@@ -103,7 +116,7 @@ public class Controller {
                         switch(artcode){
                             case 1: // talvez diferenciar construtor para produtos novos/usados(assim como no método da view)
                                 Artigo art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
-                                this.vintage.addArtigoVenda(this.current_user, art1);
+                                this.vintage.addArigoVenda(this.current_user, art1);
                                 Utilizador a = this.vintage.getUserEspecifico(this.current_user);
                                 System.out.println(a.getPara_vender());
                                 flag = false;
@@ -118,6 +131,52 @@ public class Controller {
             } catch(Exception e){
                 System.out.println("A transportadora utilizada não existe!" + e.getMessage());
             }
+        }
+    }
+
+
+    public void loadFromLog(String name ) throws IOException{
+
+        File fich = new File(name);
+        FileInputStream sc = new FileInputStream(fich);
+        BufferedReader buff = new BufferedReader(new InputStreamReader(sc));
+
+        Utilizador currentUser = new Utilizador();
+        String data;
+
+        String strings[];
+
+        while ((data = buff.readLine())!=null) {
+
+            strings = data.split(",");
+
+            System.out.println(data);
+
+            if(strings[0].toLowerCase()=="transportadora"){
+                System.out.println("added transp");
+                //Transportadora transportadora = new Transportadora(Boolean.parseBoolean(transportadoraM.group(2)),Double.parseDouble(transportadoraM.group(3)),transportadoraM.group(4),Double.parseDouble(transportadoraM.group(5)));
+                //this.vintage.addTransportadora(transportadora);
+            }
+
+            else if(strings[0].toLowerCase()=="utilizador"){
+                System.out.println("adding user");
+            }
+
+            else if(strings[0].toLowerCase()=="tshirt"){
+                System.out.println("adding tshirt");
+                //Tshirt tshirt = new Tshirt(Boolean.parseBoolean(tshirtM.group(2)),tshirtM.group(3),tshirtM.group(4),Double.parseDouble(tshirtM.group(5)),Tshirt.Tamanho.valueOf(tshirtM.group(6)), Tshirt.Padrao.valueOf(tshirtM.group(7)),vintage.getTransportadoraEspecifico(tshirtM.group(8)));
+                //String email = currentUser.getEmail();
+                //vintage.addArigoVenda(email,tshirt);
+            }
+
+            else if(strings[0].toLowerCase()=="mala"){
+                System.out.println("adding mala");
+            }
+
+            else if(strings[0].toLowerCase()=="sapatilha"){
+                System.out.println("adding sapatilha");
+            }
+
         }
     }
 

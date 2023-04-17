@@ -106,4 +106,19 @@ public class Tshirt extends Artigo{
                 this.padrao == tshirt.getPadrao() &&
                 this.tamanho == tshirt.getTamanho();
     }
+
+    public String toLog(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Tshirt:")
+                .append(this.getCodAlfaNum() + ",")
+                .append(this.getMarca() + ",")
+                .append(this.isNovo() + ",")
+                .append(this.getEstado() + ",")
+                .append(this.getN_donos() + ",")
+                .append(this.getPreco_base() + ",")
+                .append(this.getTamanho() + ",")
+                .append(this.getPadrao() + ",")
+                .append(this.getPreco_curr() + "\n");
+        return sb.toString();
+    }
 }

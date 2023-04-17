@@ -1,5 +1,7 @@
 
 
+import UserExceptions.UserDoesntExistException;
+
 import java.util.*;
 
 public class Utilizador {
@@ -9,8 +11,8 @@ public class Utilizador {
     private String nome;
     private String morada;
     private int nif;
-    private Set<Artigo> vendido;
-    private Map<String,Artigo> para_vender;
+    private Set<String> vendido;
+    private Set<String> para_vender;
 
     private double dinheiro_vendas;
     private double dinheiro_compras;
@@ -22,7 +24,7 @@ public class Utilizador {
         this.nome = "";
         this.nif = 0;
         this.vendido = new HashSet<>();
-        this.para_vender = new HashMap<>();
+        this.para_vender = new HashSet<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
     }
@@ -34,11 +36,11 @@ public class Utilizador {
         this.morada = morada;
         this.nif = nif;
         this.vendido = new HashSet<>();
-        this.para_vender = new HashMap<>();
+        this.para_vender = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
-    public Utilizador(String email, String nome, String morada, int nif, Set<Artigo> vendido, Map<String,Artigo> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+    public Utilizador(String email, String nome, String morada, int nif, Set<String> vendido, Set<String> para_vender, double dinheiro_vendas, double dinheiro_compras) {
         this.code = this.contador++;
         this.email = email;
         this.nome = nome;
@@ -70,7 +72,7 @@ public class Utilizador {
         this.code = code;
     }
 
-    public String getEmail() {
+    public String getEmail(){
         return this.email;
     }
 
@@ -102,38 +104,34 @@ public class Utilizador {
         this.nif = nif;
     }
 
-    public Set<Artigo> getVendido() {
-        Set<Artigo> novo = new HashSet<>();
-        for(Artigo c : this.vendido){
+    public Set<String> getVendido() {
+        Set<String> novo = new HashSet<>();
+        for(String c : this.vendido){
             novo.add(c);
         }
         return novo;
     }
 
-    public void setVendido(Set<Artigo> vendido) {
-        this.vendido = new HashSet<Artigo>();
-        for(Artigo c : vendido){
+    public void setVendido(Set<String> vendido) {
+        this.vendido = new HashSet<>();
+        for(String c : vendido){
             this.vendido.add(c);
         }
     }
 
-    public Map<String,Artigo> getPara_vender() {
-        Map<String,Artigo> novo = new HashMap<>();
+    public Set<String> getPara_vender() {
+        Set<String> novo = new HashSet<>();
 
-        for(Map.Entry<String, Artigo> c : this.para_vender.entrySet()){
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            novo.put(aux,use);
+        for(String c : this.para_vender){
+            novo.add(c);
         }
         return novo;
     }
 
-    public void setPara_vender(Map<String,Artigo> para_vender) {
-        this.para_vender = new HashMap<String,Artigo>();
-        for(Map.Entry<String, Artigo> c : para_vender.entrySet()){
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            this.para_vender.put(aux,use);
+    public void setPara_vender(Set<String> a) {
+        this.para_vender = new HashSet<>();
+        for(String c : a){
+            this.para_vender.add(c);
         }
     }
 
@@ -153,27 +151,27 @@ public class Utilizador {
         this.dinheiro_compras = dinheiro_compras;
     }
 
-    public void addArtigoVendido(Artigo c){
-        this.vendido.add(c.clone());
+    public void addArtigoVendido(String c){
+        this.vendido.add(c);
     }
 
-    public void addArtigoParaVender(Artigo c){
-        this.para_vender.put(c.getCodAlfaNum(),c.clone());
+    public void addArtigoParaVender(String c){
+        this.para_vender.add(c);
     }
 
-    public void removeArtigoParaVender(Artigo c){
-        this.para_vender.remove(c.clone());
+    public void removeArtigoParaVender(String c){
+        this.para_vender.remove(c);
     }
 
-    private void calculaDinheiroCompras(){
-        double preco = 0;
-        for(Artigo c : this.vendido){
-            preco += c.getPreco_curr();
-        }
-        setDinheiro_vendas(preco);
-    }
+//    private void calculaDinheiroCompras(){
+//        double preco = 0;
+//        for(Artigo c : this.vendido){
+//            preco += c.getPreco_curr();
+//        }
+//        setDinheiro_vendas(preco);
+//    }
 
-    public static boolean isDeepCloneSet(Set<Artigo> set1, Set<Artigo> set2) {
+    public static boolean isDeepCloneSet(Set<String> set1, Set<String> set2) {
         if (set1 == null || set2 == null) {
             return set1 == set2;
         }
@@ -181,11 +179,11 @@ public class Utilizador {
         if (set1.size() != set2.size()) {
             return false;
         }
-        Iterator<Artigo> it = set1.iterator();
+        Iterator<String> it = set1.iterator();
         while (it.hasNext()) {
-            Artigo obj1 = it.next();
+            String obj1 = it.next();
             boolean found = false;
-            for (Artigo obj2 : set2) {
+            for (String obj2 : set2) {
                 if (obj2.equals(obj1)) {
                     found = true;
                     break;
@@ -195,32 +193,6 @@ public class Utilizador {
                 return false;
             }
         }
-        return true;
-    }
-
-    public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artigo> map2) {
-
-        if (map1 == null || map2 == null) {
-            return map1 == map2;
-        }
-
-        if (map1.size() != map2.size()) {
-            return false;
-        }
-
-        for (String key : map1.keySet()) {
-            if (!map2.containsKey(key)) {
-                return false;
-            }
-
-            Artigo obj1 = map1.get(key);
-            Artigo obj2 = map2.get(key);
-
-            if (!obj1.equals(obj2)) {
-                return false;
-            }
-        }
-
         return true;
     }
 
@@ -236,13 +208,13 @@ public class Utilizador {
         sb.append("Morada:: " + this.morada + "\n");
         sb.append("NIF:: " + this.nif + "\n");
         sb.append("Artigos Vendidos:: [");
-        for(Artigo c : this.vendido){
+        for(String c : this.vendido){
             sb.append(c + "\n");
         }
         sb.append("]\n");
         sb.append("Artigos à Venda:: [");
-        for(Artigo c : this.para_vender.values()){
-            sb.append(c.toString() + "\n");
+        for(String c : this.para_vender){
+            sb.append(c + "\n");
         }
         sb.append("]\n");
         sb.append("Dinheiro Feito em Vendas:: " + this.dinheiro_vendas + "\n");
@@ -263,7 +235,7 @@ public class Utilizador {
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                isDeepCloneMap(this.para_vender, l.getPara_vender()) &&
+                isDeepCloneSet(this.para_vender, l.getPara_vender()) &&
                 isDeepCloneSet(this.vendido, l.getVendido());
 
     }

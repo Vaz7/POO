@@ -149,4 +149,22 @@ public class Mala extends Artigo {
                 this.material.equals(mala.getMaterial());
     }
 
+    public String toLog(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Sapatilha:")
+                .append(this.getCodAlfaNum() + ",")
+                .append(this.getMarca() + ",")
+                .append(this.isNovo() + ",")
+                .append(this.getEstado() + ",")
+                .append(this.getN_donos() + ",")
+                .append(this.getPreco_base() + ",")
+                .append(this.getDesc() + ",")
+                .append(this.getTransp() + ",")
+                .append(this.getDimensao() + ",")
+                .append(this.getMaterial() + ",")
+                .append(this.getColecao() + ",")
+                .append(this.isPremium() + ",")
+                .append(this.getPreco_curr() + "\n");
+        return sb.toString();
+    }
 }
