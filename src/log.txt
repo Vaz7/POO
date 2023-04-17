@@ -1,3 +1,12 @@
-Transportadora:true,123.45,Transportadora Name,67.89
+Transportadora:true,123.45,mrw,67.89
+Transportadora:false,100,gls,0100
 Utilizador:user@example.com,John Doe,Address 123,25,123.45,67.89
-Tshirt:true,Tshirt Name,123.45,M,S,stripes,Tshirt Transportadora
+Tshirt:true,Tshirt ganda fixe,ardidas,123.45,M,Riscas,mrw
+Tshirt:false,12,BOM,bom estado geral,glein klein,11.5,mrw,S,Liso
+Mala:true,ganda fixe,macacos,11.2,Pequeno, merda,12-11-2022,true,mrw
+Mala:false,12,BOM,uma merda,cagalhao,12.5,Grande,merda,13-11-2000,false,mrw
+Sapatilha:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,12-12-1990,true,mrw
+Sapatilha:false,11,MAU,uma bosta,reboque,56.2,45,true,rosa,11-12-2023,false,gls
+Utilizador:henrique@vaz.pt,Henrique Vaz,bzxlea,25,123.45,67.89
+Sapatilha:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,12-12-1990,true,mrw
+Sapatilha:false,11,MAU,uma bosta,reboque,56.2,45,true,rosa,11-12-2023,false,gls

@@ -1,8 +1,13 @@
 import java.io.*;
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import UserExceptions.UserDoesntExistException;
+import UserExceptions.UserAlreadyExistsException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 public class Controller {
     private View view;
@@ -19,6 +24,9 @@ public class Controller {
             controller.loadFromLog("./src/log.txt");
         } catch (IOException fnf) {
             fnf.getMessage();
+        }
+        catch (UserAlreadyExistsException e){
+            e.getMessage();
         }
 
             do {
@@ -135,7 +143,7 @@ public class Controller {
     }
 
 
-    public void loadFromLog(String name ) throws IOException{
+    public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
 
         File fich = new File(name);
         FileInputStream sc = new FileInputStream(fich);
@@ -145,36 +153,117 @@ public class Controller {
         String data;
 
         String strings[];
-
+        String sub_strings[];
         while ((data = buff.readLine())!=null) {
 
             strings = data.split(",");
+            sub_strings = strings[0].split(":"); //para separar nos ":"
 
-            System.out.println(data);
 
-            if(strings[0].toLowerCase()=="transportadora"){
-                System.out.println("added transp");
-                //Transportadora transportadora = new Transportadora(Boolean.parseBoolean(transportadoraM.group(2)),Double.parseDouble(transportadoraM.group(3)),transportadoraM.group(4),Double.parseDouble(transportadoraM.group(5)));
-                //this.vintage.addTransportadora(transportadora);
+            //System.out.println(data);
+
+            if(sub_strings[0].toLowerCase().equals("transportadora")){
+                Transportadora transportadora = new Transportadora(Boolean.parseBoolean(sub_strings[1]),Double.parseDouble(strings[1]),strings[2],Double.parseDouble(strings[3]));
+                this.vintage.addTransportadora(transportadora);
             }
 
-            else if(strings[0].toLowerCase()=="utilizador"){
-                System.out.println("adding user");
+            else if(sub_strings[0].toLowerCase().equals("utilizador")){
+                currentUser = new Utilizador(sub_strings[1],strings[1],strings[2],Integer.parseInt(strings[3]),Double.parseDouble(strings[4]),Double.parseDouble(strings[5]));
+
+                if(this.vintage.userExists(sub_strings[1])){
+                    throw new UserAlreadyExistsException(sub_strings[1]);
+                }
+                else{
+                    this.vintage.addUser(currentUser);
+                }
+
+
             }
 
-            else if(strings[0].toLowerCase()=="tshirt"){
-                System.out.println("adding tshirt");
-                //Tshirt tshirt = new Tshirt(Boolean.parseBoolean(tshirtM.group(2)),tshirtM.group(3),tshirtM.group(4),Double.parseDouble(tshirtM.group(5)),Tshirt.Tamanho.valueOf(tshirtM.group(6)), Tshirt.Padrao.valueOf(tshirtM.group(7)),vintage.getTransportadoraEspecifico(tshirtM.group(8)));
-                //String email = currentUser.getEmail();
-                //vintage.addArigoVenda(email,tshirt);
+            else if(sub_strings[0].toLowerCase().equals("tshirt")){
+
+                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==7){
+
+                    //Tshirt:true,Tshirt Name,123.45,M,stripes,Tshirt Transportadora padrao,Transportadora transportadora
+
+                    //da maneira que isto esta, os campos de enums tem de aparecer escritos EXATAMENTE iguais, prob depois muda se as enums para maiusculas e faz se Tshirt.Padrao.valueOf(strings[5].ToUpperCase())
+                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Tshirt.Tamanho.valueOf(strings[4]), Tshirt.Padrao.valueOf(strings[5]),vintage.getTransportadoraEspecifico(strings[6]));
+                    System.out.println(tshirt.toString());
+
+                    vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
+                }
+
+
+
+                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==9){
+
+                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[7]), Tshirt.Padrao.valueOf(strings[8]));
+                    System.out.println(tshirt.toString());
+
+                    vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
+                }
+
+                else{
+                    System.out.println("erro");//depois meter exception quando percebermos como funfa
+                }
+
             }
 
-            else if(strings[0].toLowerCase()=="mala"){
-                System.out.println("adding mala");
+            else if(sub_strings[0].toLowerCase().equals("mala")){
+
+                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==9){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate date = LocalDate.parse(strings[6], formatter);
+
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Mala.Dim.valueOf(strings[4]),strings[5],date,Boolean.parseBoolean(strings[7]),vintage.getTransportadoraEspecifico(strings[8]));
+
+
+                    System.out.println(mala);
+
+                    vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                }
+                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==11){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate date = LocalDate.parse(strings[8], formatter);
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Mala.Dim.valueOf(strings[6]),strings[7],date,Boolean.parseBoolean(strings[9]),vintage.getTransportadoraEspecifico(strings[10]));
+
+                    System.out.println(mala);
+
+                    vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                }
+
+
             }
 
-            else if(strings[0].toLowerCase()=="sapatilha"){
-                System.out.println("adding sapatilha");
+            else if(sub_strings[0].toLowerCase().equals("sapatilha")){
+
+                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==10){
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate date = LocalDate.parse(strings[7], formatter);
+
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],date,Boolean.parseBoolean(strings[8]),vintage.getTransportadoraEspecifico(strings[9]));
+
+                    System.out.println(sapatilha);
+
+                    vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
+
+                }
+
+                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==12){
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                    LocalDate date = LocalDate.parse(strings[9], formatter);
+
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],date,Boolean.parseBoolean(strings[10]),vintage.getTransportadoraEspecifico(strings[11]));
+
+                    System.out.println(sapatilha);
+
+                    vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
+                }
+
+            }
+            else{
+                System.out.println("erro");
             }
 
         }

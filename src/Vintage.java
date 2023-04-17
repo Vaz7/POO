@@ -115,8 +115,8 @@ public class Vintage {
         }
     }
 
-    public boolean userExists(String nome){
-        if(this.utilizadores.containsKey(nome)) return true;
+    public boolean userExists(String email){
+        if(this.utilizadores.containsKey(email)) return true;
         else return false;
     }
 
