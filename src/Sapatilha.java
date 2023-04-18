@@ -173,12 +173,21 @@ public class Sapatilha extends Artigo {
                 this.colecao.equals(sapatilha.getColecao());
     }
 
-    public String toLog(){
+    public String toLogVender(){
         if(super.isNovo()==true){
-            return("Sapatilha:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
         }
         else{
-            return("Sapatilha:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+        }
+    }
+
+    public String toLogVendidos(){
+        if(super.isNovo()==true){
+            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+        }
+        else{
+            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
         }
     }
 }

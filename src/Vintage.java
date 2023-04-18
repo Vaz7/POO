@@ -259,6 +259,15 @@ public class Vintage {
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
+    public void addArigoVendido (String email, Artigo artigo){
+        //este get é do map!!!
+        Utilizador utilizador = utilizadores.get(email);
+
+        utilizador.addArtigoVendido(artigo.getCodAlfaNum());
+        artigos_utilizadores_ligacao.put(email,artigo.getCodAlfaNum());
+        artigos.put(artigo.getCodAlfaNum(),artigo);
+    }
+
     public List<String> toLog(){
         List<String> lines = new ArrayList<>();
 
@@ -272,12 +281,17 @@ public class Vintage {
             String aux = u.getKey();
             Utilizador use = u.getValue().clone();
             Set<String> para_venda = use.getPara_vender();
+            Set<String> vendidos = use.getVendido();
             lines.add(use.toLog());
 
 
             for(String art : para_venda){
                 Artigo a = artigos.get(art);
-                lines.add(a.toLog());
+                lines.add(a.toLogVender());
+            }
+            for(String vend : vendidos){
+                Artigo b = artigos.get(vend);
+                lines.add(b.toLogVendidos());
             }
 
         }

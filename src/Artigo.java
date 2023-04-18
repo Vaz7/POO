@@ -127,7 +127,8 @@ public abstract class Artigo {
     }
 
     public abstract Artigo clone();
-    public abstract String toLog();
+    public abstract String toLogVendidos();
+    public abstract String toLogVender();
 
     public abstract String toString();
 

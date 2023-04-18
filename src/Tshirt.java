@@ -107,12 +107,21 @@ public class Tshirt extends Artigo{
                 this.tamanho == tshirt.getTamanho();
     }
 
-    public String toLog(){
+    public String toLogVender(){
         if(super.isNovo()==true){
-            return("Tshirt:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.tamanho + "," + this.getPadrao() + "," + this.getTransp().getNome());
+            return("Tshirt_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.tamanho + "," + this.getPadrao() + "," + this.getTransp().getNome());
         }
         else{
-            return("Tshirt:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTransp().getNome() + "," + this.getTamanho() + "," + this.getPadrao());
+            return("Tshirt_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTransp().getNome() + "," + this.getTamanho() + "," + this.getPadrao());
+        }
+    }
+
+    public String toLogVendidos(){
+        if(super.isNovo()==true){
+            return("Tshirt_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.tamanho + "," + this.getPadrao() + "," + this.getTransp().getNome());
+        }
+        else{
+            return("Tshirt_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTransp().getNome() + "," + this.getTamanho() + "," + this.getPadrao());
         }
     }
 }

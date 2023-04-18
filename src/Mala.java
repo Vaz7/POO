@@ -150,12 +150,20 @@ public class Mala extends Artigo {
     }
 
 
-        public String toLog() {
+        public String toLogVender() {
 
             if (super.isNovo() == true) {
-                return ("Mala:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
+                return ("Mala_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
             } else {
-                return ("Mala:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+                return ("Mala_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
             }
         }
+    public String toLogVendidos() {
+
+        if (super.isNovo() == true) {
+            return ("Mala_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
+        } else {
+            return ("Mala_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+        }
+    }
 }

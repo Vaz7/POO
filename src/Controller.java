@@ -185,7 +185,7 @@ public class Controller {
 
             }
 
-            else if(sub_strings[0].toLowerCase().equals("tshirt")){
+            else if(sub_strings[0].toLowerCase().equals("tshirt_vendida") || sub_strings[0].toLowerCase().equals("tshirt_vender")){
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==7){
 
@@ -194,18 +194,25 @@ public class Controller {
                     //da maneira que isto esta, os campos de enums tem de aparecer escritos EXATAMENTE iguais, prob depois muda se as enums para maiusculas e faz se Tshirt.Padrao.valueOf(strings[5].ToUpperCase())
                     Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Tshirt.Tamanho.valueOf(strings[4]), Tshirt.Padrao.valueOf(strings[5]),vintage.getTransportadoraEspecifico(strings[6]));
 
+                    if(sub_strings[0].toLowerCase().equals("tshirt_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),tshirt);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
+                    }
 
-                    vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
                 }
-
-
 
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==9){
 
                     Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[7]), Tshirt.Padrao.valueOf(strings[8]));
 
-
-                    vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
+                    if(sub_strings[0].toLowerCase().equals("tshirt_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),tshirt);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
+                    }
                 }
 
                 else{
@@ -214,50 +221,54 @@ public class Controller {
 
             }
 
-            else if(sub_strings[0].toLowerCase().equals("mala")){
+            else if(sub_strings[0].toLowerCase().equals("mala_vendida") || sub_strings[0].toLowerCase().equals("mala_vender")){
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==9){
 
                     Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Mala.Dim.valueOf(strings[4]),strings[5], LocalDate.parse(strings[6]),Boolean.parseBoolean(strings[7]),vintage.getTransportadoraEspecifico(strings[8]));
-
-
-
-
-                    vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                    if(sub_strings[0].toLowerCase().equals("mala_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),mala);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                    }
                 }
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==11){
 
                     Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Mala.Dim.valueOf(strings[6]),strings[7],LocalDate.parse(strings[8]),Boolean.parseBoolean(strings[9]),vintage.getTransportadoraEspecifico(strings[10]));
-
-
-
-                    vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                    if(sub_strings[0].toLowerCase().equals("mala_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),mala);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
+                    }
                 }
 
 
             }
 
-            else if(sub_strings[0].toLowerCase().equals("sapatilha")){
+            else if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")||sub_strings[0].toLowerCase().equals("sapatilha_vender")){
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==10){
 
-
                     Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],LocalDate.parse(strings[7]),Boolean.parseBoolean(strings[8]),vintage.getTransportadoraEspecifico(strings[9]));
-
-
-
-                    vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
-
+                    if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
+                    }
                 }
 
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==12){
 
-
                     Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],LocalDate.parse(strings[9]),Boolean.parseBoolean(strings[10]),vintage.getTransportadoraEspecifico(strings[11]));
-
-
-
-                    vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
+                    if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
+                        vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
+                    }
+                    else{
+                        vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
+                    }
                 }
 
             }
