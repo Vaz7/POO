@@ -3,9 +3,9 @@ import java.time.temporal.ChronoUnit;
 
 public class Mala extends Artigo {
     public enum Dim{
-        Pequeno,
-        Medio,
-        Grande
+        PEQUENO,
+        MEDIO,
+        GRANDE
     }
 
     private Dim dimensao;
@@ -15,7 +15,7 @@ public class Mala extends Artigo {
     private double preco_curr;
 
     public Mala(){
-        this.dimensao = Dim.Pequeno;
+        this.dimensao = Dim.PEQUENO;
         this.material = "";
         this.colecao = LocalDate.now();
         this.premium = false;
@@ -94,13 +94,13 @@ public class Mala extends Artigo {
         long year_interval = ChronoUnit.YEARS.between(this.colecao, LocalDate.now());
         if(!this.premium) {
             switch (this.dimensao) {
-                case Pequeno:
+                case PEQUENO:
                     preco -= preco * 0.25;
                     break;
-                case Medio:
+                case MEDIO:
                     preco -= preco * 0.15;
                     break;
-                case Grande:
+                case GRANDE:
                     preco -= preco * 0.1;
                     break;
             }

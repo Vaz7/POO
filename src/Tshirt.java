@@ -6,9 +6,9 @@ public class Tshirt extends Artigo{
         XL
     }
     public enum Padrao{
-        Riscas,
-        Liso,
-        Palmeiras
+        RISCAS,
+        LISO,
+        PALMEIRAS
     }
 
     private Tamanho tamanho;
@@ -18,7 +18,7 @@ public class Tshirt extends Artigo{
     public Tshirt(){
         super();
         this.tamanho = Tamanho.S;
-        this.padrao = Padrao.Riscas;
+        this.padrao = Padrao.RISCAS;
         this.preco_curr = getPreco_base();
     }
 
@@ -69,7 +69,7 @@ public class Tshirt extends Artigo{
 
     private double calculaPrecoDesconto(){
         double preco = this.getPreco_base();
-        if(this.padrao != Padrao.Liso && !this.isNovo()){
+        if(this.padrao != Padrao.LISO && !this.isNovo()){
             preco *= 0.5;
         }
         return preco;

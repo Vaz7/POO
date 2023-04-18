@@ -45,9 +45,18 @@ public class View {
         System.out.println("3 - Criar Utilizador");
         System.out.println("4 - Fazer Encomenda");
         System.out.println("5 - Mudar Data");
+        System.out.println("6 - Carregar Ficheiro de Texto");
+        System.out.println("7 - Guardar num ficheiro de texto");
         System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
 
+        String option = sc.next();
+        return option;
+    }
+
+    public String ficheiroTxtPath(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o path do seu ficheiro de texto:");
         String option = sc.next();
         return option;
     }
@@ -94,31 +103,31 @@ public class View {
 
         switch(option){
             case 1:
-                System.out.println("Indique o Tamanho da Tshirt (S,M,L,XL): ");
+                System.out.println("Indique o Tamanho da Tshirt (S/M/L/XL): ");
                 utilizadorInput[6] = scanner.nextLine();
-                System.out.println("Indique o Padrao da Tshirt (Riscas, Liso, Palmeiras): ");
+                System.out.println("Indique o Padrao da Tshirt (RISCAS/LISO/PALMEIRAS): ");
                 utilizadorInput[7] = scanner.nextLine();
                 break;
             case 2:
-                System.out.println("Indique a dimensão da Mala: ");
+                System.out.println("Indique a dimensão da Mala (PEQUENO/MEDIO/GRANDE): ");
                 utilizadorInput[6] = scanner.nextLine();
                 System.out.println("Indique o seu material: ");
                 utilizadorInput[7] = scanner.nextLine();
                 System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
                 utilizadorInput[8] = scanner.nextLine();
-                System.out.println("Indique se é Premium (escreva true ou false): ");
+                System.out.println("Indique se é Premium (true/false): ");
                 utilizadorInput[9] = scanner.nextLine();
                 break;
             case 3:
                 System.out.println("Indique o Tamanho da Sapatilha: ");
                 utilizadorInput[6] = scanner.nextLine();
-                System.out.println("Indique se tem atacadores (escreva true ou false): ");
+                System.out.println("Indique se tem atacadores (true/false): ");
                 utilizadorInput[7] = scanner.nextLine();
                 System.out.println("Indique a sua cor: ");
                 utilizadorInput[8] = scanner.nextLine();
                 System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
                 utilizadorInput[9] = scanner.nextLine();
-                System.out.println("Indique se é Premium (escreva true ou false): ");
+                System.out.println("Indique se é Premium (true/false): ");
                 utilizadorInput[10] = scanner.nextLine();
         }
 
