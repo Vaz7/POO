@@ -18,15 +18,8 @@ public class Controller {
     public static void main(String[] args) {
 
         Controller controller = new Controller();
+        String filename = controller.loadFileMenu();
 
-        try {
-            controller.loadFromLog("./src/log.txt");
-        } catch (IOException fnf) {
-            fnf.getMessage();
-        }
-        catch (UserAlreadyExistsException e){
-            e.getMessage();
-        }
 
             do {
                 if (!controller.logged)
@@ -38,7 +31,7 @@ public class Controller {
             } while (controller.run);
 
             try{
-                controller.writeToLog("./src/log.txt");
+                controller.writeToLog("./src/" + filename);
             }
             catch (IOException e){
                 e.getMessage();
@@ -53,6 +46,21 @@ public class Controller {
         this.logged = false;
     }
 
+    public String loadFileMenu() {
+        String nome = this.view.ficheiroTxtPath();
+
+        try{
+            this.loadFromLog("./src/" + nome);
+        } catch (IOException fnf) {
+            fnf.getMessage();
+        } catch (UserAlreadyExistsException e) {
+            e.getMessage();
+        }
+        return nome;
+    }
+
+
+
     public void displayMenu(){
         try{
             int op2 = Integer.parseInt(this.view.menu());
@@ -64,6 +72,7 @@ public class Controller {
                     createArtigo(); //falta adicionar À struct etc
                     break;
                 case 2:
+                    createTransportadora();
                     break;
                 case 3:
                     break;
@@ -171,7 +180,12 @@ public class Controller {
         }
     }
 
+    public void createTransportadora(){
 
+        String tokens[] = this.view.transportadoraCreation();
+        Transportadora transportadora = new Transportadora(Boolean.parseBoolean(tokens[0]),0,tokens[1],0);
+        this.vintage.addTransportadora(transportadora);
+    }
     public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
 
         File fich = new File(name);

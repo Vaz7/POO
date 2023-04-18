@@ -77,6 +77,7 @@ public class View {
         return option;
     }
 
+
     public void ArtigoCriadoSucesso(){
         System.out.println("O artigo foi criado com sucesso!");
     }
@@ -130,6 +131,18 @@ public class View {
                 System.out.println("Indique se é Premium (true/false): ");
                 utilizadorInput[10] = scanner.nextLine();
         }
+
+        return utilizadorInput;
+    }
+
+    public String[] transportadoraCreation(){
+        String[] utilizadorInput = new String[5];
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("A transportadora é premium? (true/false):");
+        utilizadorInput[0] = sc.nextLine();
+        System.out.println("Qual o nome da transportadora?:");
+        utilizadorInput[1] = sc.nextLine();
 
         return utilizadorInput;
     }
