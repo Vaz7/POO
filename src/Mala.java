@@ -22,7 +22,7 @@ public class Mala extends Artigo {
         this.preco_curr = this.getPreco_base();
     }
 
-    public Mala(boolean novo, String desc, String marca , double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium, Transportadora transportadora) {
+    public Mala(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao, boolean premium) {
         super(novo, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
         this.material = material;
@@ -31,7 +31,7 @@ public class Mala extends Artigo {
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Dim dimensao, String material, LocalDate colecao, boolean premium,Transportadora transportadora) {
+    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao, boolean premium) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
         this.material = material;
@@ -118,9 +118,8 @@ public class Mala extends Artigo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getCodAlfaNum() + "--");
-        sb.append("Mala " + this.getCodAlfaNum());
-        sb.append(this.getMarca());
+        sb.append("Mala " + this.getCodAlfaNum() + "--");
+        sb.append(", Marca: " + this.getMarca());
         sb.append(", Novo: " + isNovo());
         if(!isNovo()) {
             sb.append(", Estado: " + this.getEstado());

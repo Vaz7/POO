@@ -126,17 +126,35 @@ public class Controller {
                     try{
                         int artcode = Integer.parseInt(this.view.tipoArtigoCriacao());
                         String[] tokens = this.view.artigoCreation(artcode);
+                        Artigo art1 = null;
                         switch(artcode){
                             case 1: // talvez diferenciar construtor para produtos novos/usados(assim como no método da view)
-                                Artigo art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
-                                this.vintage.addArigoVenda(this.current_user, art1);
-                                Utilizador a = this.vintage.getUserEspecifico(this.current_user);
-                                System.out.println(a.getPara_vender());
-                                flag = false;
+                                if(tokens[0].toLowerCase().equals("false")){
+                                    art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
+                                }
+                                else{
+                                    art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
+                                }
                                 break;
                             case 2:
+                                if(tokens[0].toLowerCase().equals("false")){
+                                    art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6]), tokens[7], LocalDate.parse(tokens[8]), Boolean.parseBoolean(tokens[9]));
+                                }
+                                else{
+                                    art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6]), tokens[7], LocalDate.parse(tokens[8]), Boolean.parseBoolean(tokens[9]));
+                                }
                                 break;
+                            case 3:
+                                if(tokens[0].toLowerCase().equals("false")){
+                                    art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]), Boolean.parseBoolean(tokens[10]));
+                                }
+                                else{
+                                    art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]), Boolean.parseBoolean(tokens[10]));
+                                }
                         }
+                        this.vintage.addArigoVenda(this.current_user, art1);
+                        System.out.println(art1);
+                        flag = false;
                     } catch (Exception e){
                         System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
                     }
@@ -192,7 +210,7 @@ public class Controller {
                     //Tshirt:true,Tshirt Name,123.45,M,stripes,Tshirt Transportadora padrao,Transportadora transportadora
 
                     //da maneira que isto esta, os campos de enums tem de aparecer escritos EXATAMENTE iguais, prob depois muda se as enums para maiusculas e faz se Tshirt.Padrao.valueOf(strings[5].ToUpperCase())
-                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Tshirt.Tamanho.valueOf(strings[4]), Tshirt.Padrao.valueOf(strings[5]),vintage.getTransportadoraEspecifico(strings[6]));
+                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[4]), Tshirt.Padrao.valueOf(strings[5]));
 
                     if(sub_strings[0].toLowerCase().equals("tshirt_vendida")){
                         vintage.addArigoVendido(currentUser.getEmail(),tshirt);
@@ -225,7 +243,7 @@ public class Controller {
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==9){
 
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Mala.Dim.valueOf(strings[4]),strings[5], LocalDate.parse(strings[6]),Boolean.parseBoolean(strings[7]),vintage.getTransportadoraEspecifico(strings[8]));
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[8]), Mala.Dim.valueOf(strings[4]),strings[5], LocalDate.parse(strings[6]),Boolean.parseBoolean(strings[7]));
                     if(sub_strings[0].toLowerCase().equals("mala_vendida")){
                         vintage.addArigoVendido(currentUser.getEmail(),mala);
                     }
@@ -235,7 +253,7 @@ public class Controller {
                 }
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==11){
 
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Mala.Dim.valueOf(strings[6]),strings[7],LocalDate.parse(strings[8]),Boolean.parseBoolean(strings[9]),vintage.getTransportadoraEspecifico(strings[10]));
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]), vintage.getTransportadoraEspecifico(strings[10]), Mala.Dim.valueOf(strings[6]),strings[7],LocalDate.parse(strings[8]),Boolean.parseBoolean(strings[9]));
                     if(sub_strings[0].toLowerCase().equals("mala_vendida")){
                         vintage.addArigoVendido(currentUser.getEmail(),mala);
                     }
@@ -251,7 +269,7 @@ public class Controller {
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==10){
 
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],LocalDate.parse(strings[7]),Boolean.parseBoolean(strings[8]),vintage.getTransportadoraEspecifico(strings[9]));
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[9]), Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],LocalDate.parse(strings[7]),Boolean.parseBoolean(strings[8]));
                     if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
                         vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
                     }
@@ -262,7 +280,7 @@ public class Controller {
 
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==12){
 
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],LocalDate.parse(strings[9]),Boolean.parseBoolean(strings[10]),vintage.getTransportadoraEspecifico(strings[11]));
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]), vintage.getTransportadoraEspecifico(strings[11]), Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],LocalDate.parse(strings[9]),Boolean.parseBoolean(strings[10]));
                     if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
                         vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
                     }

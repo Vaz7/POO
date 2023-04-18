@@ -1,10 +1,13 @@
 Transportadora:true,123.45,mrw,67.89
+Transportadora:false,0.0,boua,0.0
 Transportadora:false,100.0,gls,100.0
 Utilizador:henrique@vaz.pt,Henrique Vaz,bzxlea,25,123.45,67.89
 Sapatilha_vender:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,1990-12-12,true,mrw
 Tshirt_vender:false,12,BOM,bom estado geral,glein klein,11.5,mrw,S,Liso
 Mala_vendida:false,12,BOM,uma merda,cagalhao,12.5,Grande,merda,2023-11-11,false,mrw
 Sapatilha_vendida:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,1990-12-12,true,mrw
+Utilizador:asd,asd,123,123,0.0,0.0
+Mala_vender:true,asdasd,ganso,450.0,Pequeno,pele,2019-12-03,false,mrw
 Utilizador:user@example.com,John Doe,Address 123,25,123.45,67.89
 Mala_vender:false,12,BOM,uma merda,cagalhao,12.5,Grande,merda,2023-11-11,false,mrw
 Tshirt_vendida:false,12,BOM,bom estado geral,glein klein,11.5,mrw,S,Liso

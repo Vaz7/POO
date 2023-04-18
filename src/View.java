@@ -79,10 +79,12 @@ public class View {
 
         System.out.println("Indique se o artigo é novo/usado (true/false): ");
         utilizadorInput[0] = scanner.nextLine();
-        System.out.println("Em que estado se encontra o artigo(PESSIMO/MAU/RAZOAVEL/BOM/MUITO_BOM)? ");
-        utilizadorInput[1] = scanner.nextLine();
-        System.out.println("Número de donos: ");
-        utilizadorInput[2] = scanner.nextLine();
+        if(utilizadorInput[0].toLowerCase().equals("false")){
+            System.out.println("Em que estado se encontra o artigo(PESSIMO/MAU/RAZOAVEL/BOM/MUITO_BOM)? ");
+            utilizadorInput[1] = scanner.nextLine();
+            System.out.println("Número de donos: ");
+            utilizadorInput[2] = scanner.nextLine();
+        }
         System.out.println("Descrição do Artigo: ");
         utilizadorInput[3] = scanner.nextLine();
         System.out.println("Marca: ");

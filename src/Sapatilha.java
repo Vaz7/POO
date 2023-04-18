@@ -20,7 +20,7 @@ public class Sapatilha extends Artigo {
         this.preco_curr = getPreco_base();
     }
 
-    public Sapatilha(boolean novo, String desc, String marca, double preco_base, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium,Transportadora transportadora) {
+    public Sapatilha(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium) {
         super(novo, desc, marca,preco_base,transportadora);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
@@ -30,7 +30,7 @@ public class Sapatilha extends Artigo {
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Sapatilha(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium, Transportadora transportadora) {
+    public Sapatilha(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
