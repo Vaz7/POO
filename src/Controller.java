@@ -269,6 +269,7 @@ public class Controller {
     }
 
 
+    //falta ler e escrever os ficheiros para venda e para vender
     public void writeToLog(String name) throws IOException {
         File file = new File(name);
         FileOutputStream fos = new FileOutputStream(file);
