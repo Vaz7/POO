@@ -172,24 +172,13 @@ public class Sapatilha extends Artigo {
                 this.cor.equals(sapatilha.getCor()) &&
                 this.colecao.equals(sapatilha.getColecao());
     }
-    public String toLog(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Sapatilha:")
-                .append(this.getCodAlfaNum() + ",")
-                .append(this.getMarca() + ",")
-                .append(this.isNovo() + ",")
-                .append(this.getEstado() + ",")
-                .append(this.getN_donos() + ",")
-                .append(this.getPreco_base() + ",")
-                .append(this.getDesc() + ",")
-                .append(this.getTransp() + ",")
-                .append(this.getTamanho() + ",")
-                .append(this.isAtacadores() + ",")
-                .append(this.getCor() + ",")
-                .append(this.getColecao() + ",")
-                .append(this.isPremium() + ",")
-                .append(this.getPreco_curr() + "\n");
-        return sb.toString();
-    }
 
+    public String toLog(){
+        if(super.isNovo()==true){
+            return("Sapatilha:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+        }
+        else{
+            return("Sapatilha:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+        }
+    }
 }

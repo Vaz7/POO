@@ -249,7 +249,7 @@ public class Vintage {
     }
 
 
-    void addArigoVenda (String email, Artigo artigo){
+    public void addArigoVenda (String email, Artigo artigo){
 
         //este get é do map!!!
         Utilizador utilizador = utilizadores.get(email);
@@ -259,6 +259,32 @@ public class Vintage {
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
+    public List<String> toLog(){
+        List<String> lines = new ArrayList<>();
+
+        for (Map.Entry<String, Transportadora> c : this.getTransportadoras().entrySet()) {
+            String aux = c.getKey();
+            Transportadora use = c.getValue().clone();
+            lines.add(use.toLog());
+        }
+
+        for(Map.Entry<String,Utilizador> u : this.getUtilizadores().entrySet()){
+            String aux = u.getKey();
+            Utilizador use = u.getValue().clone();
+            Set<String> para_venda = use.getPara_vender();
+            lines.add(use.toLog());
+
+
+            for(String art : para_venda){
+                Artigo a = artigos.get(art);
+                lines.add(a.toLog());
+            }
+
+        }
+
+
+        return lines;
+    }
 }
 
 

@@ -2,6 +2,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 public abstract class Artigo {
+
     public enum Estado {
         PESSIMO,
         MAU,
@@ -126,6 +127,7 @@ public abstract class Artigo {
     }
 
     public abstract Artigo clone();
+    public abstract String toLog();
 
     public abstract String toString();
 

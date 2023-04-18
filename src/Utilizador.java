@@ -239,4 +239,8 @@ public class Utilizador {
                 isDeepCloneSet(this.vendido, l.getVendido());
 
     }
+
+    public String toLog(){
+        return ("Utilizador:" + this.getEmail() + "," + this.getNome() + "," + this.getMorada() + "," + this.getNif()+ "," + this.getDinheiro_vendas() + "," + this.getDinheiro_compras());
+    }
 }

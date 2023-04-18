@@ -1,14 +1,13 @@
 import java.io.*;
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import UserExceptions.UserDoesntExistException;
 import UserExceptions.UserAlreadyExistsException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+
 public class Controller {
     private View view;
     private Vintage vintage;
@@ -38,7 +37,13 @@ public class Controller {
 
             } while (controller.run);
 
-            controller.vintage.dumpToFile();
+            try{
+                controller.writeToLog("./src/log.txt");
+            }
+            catch (IOException e){
+                e.getMessage();
+            }
+
         }
 
     public Controller(){
@@ -188,7 +193,7 @@ public class Controller {
 
                     //da maneira que isto esta, os campos de enums tem de aparecer escritos EXATAMENTE iguais, prob depois muda se as enums para maiusculas e faz se Tshirt.Padrao.valueOf(strings[5].ToUpperCase())
                     Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Tshirt.Tamanho.valueOf(strings[4]), Tshirt.Padrao.valueOf(strings[5]),vintage.getTransportadoraEspecifico(strings[6]));
-                    System.out.println(tshirt.toString());
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
                 }
@@ -198,7 +203,7 @@ public class Controller {
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==9){
 
                     Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[7]), Tshirt.Padrao.valueOf(strings[8]));
-                    System.out.println(tshirt.toString());
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
                 }
@@ -212,22 +217,19 @@ public class Controller {
             else if(sub_strings[0].toLowerCase().equals("mala")){
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==9){
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate date = LocalDate.parse(strings[6], formatter);
 
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Mala.Dim.valueOf(strings[4]),strings[5],date,Boolean.parseBoolean(strings[7]),vintage.getTransportadoraEspecifico(strings[8]));
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Mala.Dim.valueOf(strings[4]),strings[5], LocalDate.parse(strings[6]),Boolean.parseBoolean(strings[7]),vintage.getTransportadoraEspecifico(strings[8]));
 
 
-                    System.out.println(mala);
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
                 }
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==11){
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate date = LocalDate.parse(strings[8], formatter);
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Mala.Dim.valueOf(strings[6]),strings[7],date,Boolean.parseBoolean(strings[9]),vintage.getTransportadoraEspecifico(strings[10]));
 
-                    System.out.println(mala);
+                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Mala.Dim.valueOf(strings[6]),strings[7],LocalDate.parse(strings[8]),Boolean.parseBoolean(strings[9]),vintage.getTransportadoraEspecifico(strings[10]));
+
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
                 }
@@ -239,24 +241,21 @@ public class Controller {
 
                 if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==10){
 
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate date = LocalDate.parse(strings[7], formatter);
 
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],date,Boolean.parseBoolean(strings[8]),vintage.getTransportadoraEspecifico(strings[9]));
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]),Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],LocalDate.parse(strings[7]),Boolean.parseBoolean(strings[8]),vintage.getTransportadoraEspecifico(strings[9]));
 
-                    System.out.println(sapatilha);
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
 
                 }
 
                 else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==12){
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-                    LocalDate date = LocalDate.parse(strings[9], formatter);
 
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],date,Boolean.parseBoolean(strings[10]),vintage.getTransportadoraEspecifico(strings[11]));
 
-                    System.out.println(sapatilha);
+                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2]),strings[3],strings[4],Double.parseDouble(strings[5]),Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],LocalDate.parse(strings[9]),Boolean.parseBoolean(strings[10]),vintage.getTransportadoraEspecifico(strings[11]));
+
+
 
                     vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
                 }
@@ -268,6 +267,25 @@ public class Controller {
 
         }
     }
+
+
+    public void writeToLog(String name) throws IOException {
+        File file = new File(name);
+        FileOutputStream fos = new FileOutputStream(file);
+        try (PrintWriter pw = new PrintWriter(fos)) {
+
+            List<String> lista;
+
+            lista = this.vintage.toLog();
+
+            for (String s : lista) {
+                pw.println(s);
+            }
+
+        }
+        fos.close();
+        }
+
 
 
 }

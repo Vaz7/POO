@@ -95,5 +95,8 @@ public class Transportadora {
                 this.nome.equals(l.getNome());
 
     }
+    public String toLog(){
+        return ("Transportadora:" + this.isPremium() + "," + this.getLucro() + "," + this.getNome() + "," + this.getDinheiro_feito());
+    }
 
 }

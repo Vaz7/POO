@@ -149,22 +149,13 @@ public class Mala extends Artigo {
                 this.material.equals(mala.getMaterial());
     }
 
-    public String toLog(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Sapatilha:")
-                .append(this.getCodAlfaNum() + ",")
-                .append(this.getMarca() + ",")
-                .append(this.isNovo() + ",")
-                .append(this.getEstado() + ",")
-                .append(this.getN_donos() + ",")
-                .append(this.getPreco_base() + ",")
-                .append(this.getDesc() + ",")
-                .append(this.getTransp() + ",")
-                .append(this.getDimensao() + ",")
-                .append(this.getMaterial() + ",")
-                .append(this.getColecao() + ",")
-                .append(this.isPremium() + ",")
-                .append(this.getPreco_curr() + "\n");
-        return sb.toString();
-    }
+
+        public String toLog() {
+
+            if (super.isNovo() == true) {
+                return ("Mala:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
+            } else {
+                return ("Mala:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            }
+        }
 }
