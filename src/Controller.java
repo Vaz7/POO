@@ -322,6 +322,22 @@ public class Controller {
         fos.close();
         }
 
+    public void writeToObjectFile() throws IOException{
+        FileOutputStream fos = new FileOutputStream("state.obj");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this.vintage);
+        oos.flush();
+        oos.close();
+    }
+
+    public Vintage loadFromObjectFile() throws FileNotFoundException, IOException, ClassNotFoundException{
+        FileInputStream fis = new FileInputStream("state.obj");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        Vintage community = (Vintage) ois.readObject();
+        ois.close();
+        return community;
+    }
+
 
 
 }
