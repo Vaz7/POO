@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public abstract class Artigo {
+public abstract class Artigo implements Serializable {
 
     public enum Estado {
         PESSIMO,

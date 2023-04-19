@@ -2,13 +2,13 @@ import jdk.jshell.execution.Util;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Vintage {
+public class Vintage implements Serializable {
     private Set<Encomenda> encomendas;
     private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadora> transportadoras;
-
     private Map<String,String> artigos_utilizadores_ligacao;
 
     private Map<String,Artigo> artigos;

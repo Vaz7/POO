@@ -37,6 +37,13 @@ public class View {
         return utilizadorInput;
     }
 
+    public String ficheiroTxtEscreve(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Escreva o path do ficheiro .txt onde pretende guardar os dados:");
+        String option = scanner.nextLine();
+        return option;
+    }
+
     public String menu(){
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
@@ -45,7 +52,7 @@ public class View {
         System.out.println("3 - Criar Utilizador");
         System.out.println("4 - Fazer Encomenda");
         System.out.println("5 - Mudar Data");
-        System.out.println("6 - Carregar Ficheiro de Texto");
+        System.out.println("6 - Guardar num ficheiro de objetos");
         System.out.println("7 - Guardar num ficheiro de texto");
         System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
@@ -54,6 +61,14 @@ public class View {
         return option;
     }
 
+    public String txtOrObject(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique a partir de qual dos seguintes tipos de ficheiro pretende carregar os dados:");
+        System.out.println("1. Ficheiro de Texto");
+        System.out.println("2. Ficheiro de Objetos");
+        String option = sc.next();
+        return option;
+    }
     public String ficheiroTxtPath(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique o path do seu ficheiro de texto:");
@@ -143,6 +158,22 @@ public class View {
         utilizadorInput[0] = sc.nextLine();
         System.out.println("Qual o nome da transportadora?:");
         utilizadorInput[1] = sc.nextLine();
+
+        return utilizadorInput;
+    }
+
+    public String[] userCreation(){
+        String[] utilizadorInput = new String[4];
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Indique o seu email: ");
+        utilizadorInput[0] = sc.nextLine();
+        System.out.println("Indique o seu nome: ");
+        utilizadorInput[1] = sc.nextLine();
+        System.out.println("Indique a sua morada: ");
+        utilizadorInput[2] = sc.nextLine();
+        System.out.println("Indique o seu NIF: ");
+        utilizadorInput[3] = sc.nextLine();
 
         return utilizadorInput;
     }

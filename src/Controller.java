@@ -1,12 +1,7 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import UserExceptions.UserDoesntExistException;
 import UserExceptions.UserAlreadyExistsException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Controller {
     private View view;
@@ -20,7 +15,6 @@ public class Controller {
         Controller controller = new Controller();
         String filename = controller.loadFileMenu();
 
-
             do {
                 if (!controller.logged)
                     controller.logIn();
@@ -29,14 +23,6 @@ public class Controller {
                     controller.displayMenu();
 
             } while (controller.run);
-
-            try{
-                controller.writeToLog("./src/" + filename);
-            }
-            catch (IOException e){
-                e.getMessage();
-            }
-
         }
 
     public Controller(){
@@ -47,19 +33,36 @@ public class Controller {
     }
 
     public String loadFileMenu() {
-        String nome = this.view.ficheiroTxtPath();
-
-        try{
-            this.loadFromLog("./src/" + nome);
-        } catch (IOException fnf) {
-            fnf.getMessage();
-        } catch (UserAlreadyExistsException e) {
-            e.getMessage();
+        boolean flag = true;
+        String nome = "";
+        while(flag){
+            try{
+                int opt = Integer.parseInt(this.view.txtOrObject());
+                switch(opt){
+                    case 1:
+                        try{
+                            nome = this.view.ficheiroTxtPath();
+                            this.loadFromLog("./src/" + nome);
+                        } catch (IOException fnf) {
+                            fnf.getMessage();
+                        } catch (UserAlreadyExistsException e) {
+                            e.getMessage();
+                        }
+                        break;
+                    case 2:
+                        try{
+                            loadFromObjectFile();
+                        } catch (Exception e){
+                            System.out.println(e.getMessage());
+                        }
+                }
+                flag = false;
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         return nome;
     }
-
-
 
     public void displayMenu(){
         try{
@@ -75,10 +78,17 @@ public class Controller {
                     createTransportadora();
                     break;
                 case 3:
+                    criaUtilizador();
                     break;
                 case 4:
                     break;
                 case 5:
+                    break;
+                case 6:
+                    writeToObjectFile();
+                    break;
+                case 7:
+                    writeToLog();
                     break;
                 default:
                     break;
@@ -148,7 +158,7 @@ public class Controller {
                                     art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
                                 }
                                 else{
-                                    art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6]), Tshirt.Padrao.valueOf(tokens[7]));
+                                    art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
                                 }
                                 break;
                             case 2:
@@ -183,8 +193,23 @@ public class Controller {
     public void createTransportadora(){
 
         String tokens[] = this.view.transportadoraCreation();
-        Transportadora transportadora = new Transportadora(Boolean.parseBoolean(tokens[0]),0,tokens[1],0);
-        this.vintage.addTransportadora(transportadora);
+        try{
+            Transportadora transportadora = new Transportadora(Boolean.parseBoolean(tokens[0]),0,tokens[1],0);
+            this.vintage.addTransportadora(transportadora);
+        } catch (Exception e){
+            System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
+        }
+    }
+
+
+    public void criaUtilizador(){
+        String tokens[] = this.view.userCreation();
+        try{
+            Utilizador utilizador = new Utilizador(tokens[0], tokens[1], tokens[2], Integer.parseInt(tokens[3]));
+            this.vintage.addUser(utilizador);
+        } catch(Exception e){
+            System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
+        }
     }
     public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
 
@@ -319,7 +344,8 @@ public class Controller {
 
 
     //falta ler e escrever os ficheiros para venda e para vender
-    public void writeToLog(String name) throws IOException {
+    public void writeToLog() throws IOException {
+        String name = this.view.ficheiroTxtEscreve();
         File file = new File(name);
         FileOutputStream fos = new FileOutputStream(file);
         try (PrintWriter pw = new PrintWriter(fos)) {
@@ -344,12 +370,11 @@ public class Controller {
         oos.close();
     }
 
-    public Vintage loadFromObjectFile() throws FileNotFoundException, IOException, ClassNotFoundException{
+    public void loadFromObjectFile() throws IOException, ClassNotFoundException{
         FileInputStream fis = new FileInputStream("state.obj");
         ObjectInputStream ois = new ObjectInputStream(fis);
-        Vintage community = (Vintage) ois.readObject();
+        this.vintage = (Vintage) ois.readObject();
         ois.close();
-        return community;
     }
 
 

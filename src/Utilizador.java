@@ -1,10 +1,9 @@
 
 
-import UserExceptions.UserDoesntExistException;
-
+import java.io.Serializable;
 import java.util.*;
 
-public class Utilizador {
+public class Utilizador implements Serializable {
     private static int contador=1;
     private int code;
     private String email;
@@ -27,6 +26,18 @@ public class Utilizador {
         this.para_vender = new HashSet<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
+    }
+
+    public Utilizador(String email, String nome, String morada, int nif) {
+        this.code = this.contador++;
+        this.email = email;
+        this.nome = nome;
+        this.morada = morada;
+        this.nif = nif;
+        this.vendido = new HashSet<>();
+        this.para_vender = new HashSet<>();
+        this.dinheiro_vendas = 0.0;
+        this.dinheiro_compras = 0.0;
     }
 
     public Utilizador(String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {

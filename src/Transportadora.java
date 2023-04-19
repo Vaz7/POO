@@ -1,4 +1,6 @@
-public class Transportadora {
+import java.io.Serializable;
+
+public class Transportadora implements Serializable {
     public final double PEQUENAS = 3.99;
     public final double MEDIAS = 5.99;
     public final double GRANDES = 10.99;

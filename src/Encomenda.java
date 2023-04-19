@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Encomenda {
+public class Encomenda implements Serializable {
     public enum Embalagem{
         Pequeno,
         Medio,
