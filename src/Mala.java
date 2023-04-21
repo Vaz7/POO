@@ -118,8 +118,8 @@ public class Mala extends Artigo {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Mala " + this.getCodAlfaNum() + "--");
-        sb.append(", Marca: " + this.getMarca());
+        sb.append(this.getCodAlfaNum()+"--");
+        sb.append("Mala " + this.getMarca());
         sb.append(", Novo: " + isNovo());
         if(!isNovo()) {
             sb.append(", Estado: " + this.getEstado());

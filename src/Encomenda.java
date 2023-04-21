@@ -3,6 +3,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Encomenda implements Serializable {
+
+    private static int count=0;
+    private int codigo;
     public enum Embalagem{
         Pequeno,
         Medio,
@@ -20,6 +23,7 @@ public class Encomenda implements Serializable {
     private State estado;
 
     public Encomenda(){
+        this.codigo = this.count++;
         this.artigos = new HashMap<>();
         this.dim = Embalagem.Pequeno;
         this.data = LocalDate.now();
@@ -28,6 +32,7 @@ public class Encomenda implements Serializable {
     }
 
     public Encomenda(Map<String,Artigo> lista, State estado){
+        this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
         this.data = LocalDate.now();
@@ -37,6 +42,7 @@ public class Encomenda implements Serializable {
 
     public Encomenda(Map<String,Artigo> lista, Embalagem dim, LocalDate data, State estado) {
         setArtigos(lista);
+        this.codigo = this.count++;
         this.dim = dim;
         this.data = data;
         this.estado = estado;
@@ -44,11 +50,20 @@ public class Encomenda implements Serializable {
     }
 
     public Encomenda(Encomenda o){
+        this.codigo = o.getCodigo();
         this.artigos = o.getArtigos();
         this.dim = o.getDim();
         this.data = o.getData();
         this.estado = o.getEstado();
         this.preco = o.getPreco();
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public Map<String, Artigo> getArtigos() {

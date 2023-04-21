@@ -162,6 +162,13 @@ public class View {
         return utilizadorInput;
     }
 
+    public String[] encomendaCreation(){
+        String[] cavalo = new String[2];
+        return cavalo;
+
+        //fazer o menu para criar encomenda
+    }
+
     public String[] userCreation(){
         String[] utilizadorInput = new String[4];
         Scanner sc = new Scanner(System.in);

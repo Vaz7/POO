@@ -6,18 +6,21 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Vintage implements Serializable {
-    private Set<Encomenda> encomendas;
+    private List<Encomenda> encomendas;
+    private Map<String,String> encomendas_utilizadores_ligacao;
     private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadora> transportadoras;
     private Map<String,String> artigos_utilizadores_ligacao;
-
     private Map<String,Artigo> artigos;
+
+
     public Vintage(){
-        this.encomendas = new HashSet<>();
+        this.encomendas = new ArrayList<>();
         this.utilizadores = new HashMap<>();
         this.transportadoras = new HashMap<>();
         this.artigos = new HashMap<>();
         this.artigos_utilizadores_ligacao = new HashMap<>();
+        this.encomendas_utilizadores_ligacao = new HashMap<>();
     }
 
     public Map<String, Artigo> getArtigos() {
@@ -60,8 +63,28 @@ public class Vintage implements Serializable {
         }
     }
 
-    public Set<Encomenda> getEncomendas() {
-        Set<Encomenda> novo = new HashSet<>();
+    public Map<String, String> getEncomendas_utilizadores_ligacao() {
+        Map<String,String> novo = new HashMap<>();
+
+        for(Map.Entry<String, String> c : this.artigos_utilizadores_ligacao.entrySet()){
+            String aux = c.getKey();
+            String use = (String) c.getValue();
+            novo.put(aux,use);
+        }
+        return novo;
+    }
+
+    public void setEncomendas_utilizadores_ligacao(Map<String, String> encomendas_utilizadores_ligacao) {
+        this.artigos_utilizadores_ligacao = new HashMap<String,String>();
+        for(Map.Entry<String, String> c : artigos_utilizadores_ligacao.entrySet()){
+            String aux = c.getKey();
+            String use = (String) c.getValue();
+            this.artigos_utilizadores_ligacao.put(aux,use);
+        }
+    }
+
+    public List<Encomenda> getEncomendas() {
+        List<Encomenda> novo = new ArrayList<>();
         for(Encomenda c : this.encomendas){
             novo.add(c.clone());
         }
@@ -69,7 +92,7 @@ public class Vintage implements Serializable {
     }
 
     public void setEncomendas(Set<Encomenda> encomendas) {
-        this.encomendas = new HashSet<>();
+        this.encomendas = new ArrayList<>();
         for(Encomenda c : encomendas){
             this.encomendas.add(c.clone());
         }
@@ -132,7 +155,7 @@ public class Vintage implements Serializable {
         return this.transportadoras.get(nome).clone();
     }
 
-    public static boolean isDeepCloneSet(Set<Encomenda> set1, Set<Encomenda> set2) {
+    public static boolean isDeepCloneList(List<Encomenda> set1, List<Encomenda> set2) {
         if (set1 == null || set2 == null) {
             return set1 == set2;
         }
@@ -155,26 +178,6 @@ public class Vintage implements Serializable {
             }
         }
         return true;
-    }
-
-    public void dumpToFile() {
-        try {
-            FileWriter writer = new FileWriter("userDump.txt");
-
-            // Loop through the map and write each entry to the file
-            for (Map.Entry<String, Utilizador> entry : utilizadores.entrySet()) {
-                String key = entry.getKey();
-                Utilizador value = entry.getValue();
-
-                // Write the key and value to the file
-                writer.write(value.getEmail() +", " + value.getNome() + ", " + value.getNif() + "\n");
-                // You can modify the format or content of the output as needed
-            }
-
-            writer.close();
-        } catch (IOException e) {
-            System.err.println("Error occurred while writing to file: " + e.getMessage());
-        }
     }
 
     public static boolean isDeepCloneMap(Map<String, Utilizador> map1, Map<String, Utilizador> map2) {
@@ -233,7 +236,7 @@ public class Vintage implements Serializable {
         if (this == o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
         Vintage c = (Vintage) o;
-        return isDeepCloneSet(this.encomendas, c.getEncomendas()) &&
+        return isDeepCloneList(this.encomendas, c.getEncomendas()) &&
                 isDeepCloneMap(c.getUtilizadores(), this.utilizadores) &&
                 isDeepCloneMapTransport(this.transportadoras, c.getTransportadoras());
     }
@@ -257,6 +260,13 @@ public class Vintage implements Serializable {
         utilizador.addArtigoParaVender(artigo.getCodAlfaNum());
         artigos_utilizadores_ligacao.put(email,artigo.getCodAlfaNum());
         artigos.put(artigo.getCodAlfaNum(),artigo);
+    }
+
+    public void addEncomenda(String email,Encomenda encomenda){
+        Utilizador utilizador = utilizadores.get(email);
+        utilizador.addEncomenda(encomenda.getCodigo());
+        encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo()));
+        encomendas.add(encomenda);
     }
 
     public void addArigoVendido (String email, Artigo artigo){

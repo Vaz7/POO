@@ -12,6 +12,7 @@ public class Utilizador implements Serializable {
     private int nif;
     private Set<String> vendido;
     private Set<String> para_vender;
+    private Set<String> encomendas;
 
     private double dinheiro_vendas;
     private double dinheiro_compras;
@@ -168,6 +169,9 @@ public class Utilizador implements Serializable {
 
     public void addArtigoParaVender(String c){
         this.para_vender.add(c);
+    }
+    public void addEncomenda(int c){
+        this.encomendas.add(Integer.toString(c));
     }
 
     public void removeArtigoParaVender(String c){

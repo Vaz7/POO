@@ -81,6 +81,8 @@ public class Controller {
                     criaUtilizador();
                     break;
                 case 4:
+                    showArtigos();
+                    criaEncomenda();
                     break;
                 case 5:
                     break;
@@ -201,6 +203,15 @@ public class Controller {
         }
     }
 
+    public void criaEncomenda(){
+        String tokens[] = this.view.encomendaCreation();
+        try{
+            Encomenda encomenda = new Encomenda();
+            this.vintage.addEncomenda(current_user,encomenda);
+        } catch (Exception e){
+            System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
+        }
+    }
 
     public void criaUtilizador(){
         String tokens[] = this.view.userCreation();
@@ -210,6 +221,16 @@ public class Controller {
         } catch(Exception e){
             System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
         }
+    }
+
+    public void showArtigos(){
+
+        for (Map.Entry<String, Artigo> c : this.vintage.getArtigos().entrySet()) {
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            System.out.println(use.toString());
+        }
+
     }
     public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
 
