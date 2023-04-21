@@ -63,6 +63,10 @@ public class Vintage implements Serializable {
         }
     }
 
+    public Artigo findArtigo(String codigo){
+        return this.artigos.get(codigo).clone();
+    }
+
     public Map<String, String> getEncomendas_utilizadores_ligacao() {
         Map<String,String> novo = new HashMap<>();
 

@@ -206,10 +206,16 @@ public class Controller {
     public void criaEncomenda(){
         String tokens[] = this.view.encomendaCreation();
         try{
-            Encomenda encomenda = new Encomenda();
+            Map<String,Artigo> artigos = new HashMap<>();
+
+            for(String i:tokens){
+                artigos.put(i,this.vintage.findArtigo(i));
+            }
+
+            Encomenda encomenda = new Encomenda(artigos,Encomenda.Embalagem.Grande,LocalDate.of(1234,11,11), Encomenda.State.Finalizada);
             this.vintage.addEncomenda(current_user,encomenda);
         } catch (Exception e){
-            System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
+            System.out.println("Os parâmetros utilizados para criar a encomenda estão errados!" + e.getMessage());
         }
     }
 

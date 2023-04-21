@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.util.Map;
 import java.util.Scanner;
 
 public class View {
@@ -163,10 +165,13 @@ public class View {
     }
 
     public String[] encomendaCreation(){
-        String[] cavalo = new String[2];
-        return cavalo;
+        String[] artigos = new String[2]; //aqui mete-se os artigos, para já é só 1
+        Scanner sc = new Scanner(System.in);
 
-        //fazer o menu para criar encomenda
+        System.out.println("Código alfanum do artigo:");
+        artigos[0] = sc.nextLine();
+
+        return artigos;
     }
 
     public String[] userCreation(){
