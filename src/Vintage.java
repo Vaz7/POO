@@ -268,18 +268,29 @@ public class Vintage implements Serializable {
 
     public void addEncomenda(String email,Encomenda encomenda){
         Utilizador utilizador = utilizadores.get(email);
-        utilizador.addEncomenda(encomenda.getCodigo());
+
         encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo()));
         encomendas.add(encomenda);
+
+        Set<String> artigos = encomenda.getArtigos();
+        for(String c : artigos){
+            Artigo aux = this.artigos.get(c).clone();
+            String user = this.artigos_utilizadores_ligacao.get(c);
+            System.out.println(user);
+            Utilizador utilizador1 = this.utilizadores.get(user);
+            utilizador1.addArtigoVendido(aux);
+            utilizador1.removeArtigoParaVender(c);
+            utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() + aux.getPreco_curr());
+            utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
+            this.artigos.remove(c);
+            this.artigos_utilizadores_ligacao.remove(c);
+        }
     }
 
     public void addArigoVendido (String email, Artigo artigo){
         //este get é do map!!!
         Utilizador utilizador = utilizadores.get(email);
-
-        utilizador.addArtigoVendido(artigo.getCodAlfaNum());
-        artigos_utilizadores_ligacao.put(email,artigo.getCodAlfaNum());
-        artigos.put(artigo.getCodAlfaNum(),artigo);
+        utilizador.addArtigoVendido(artigo.clone());
     }
 
     public List<String> toLog(){
@@ -295,7 +306,7 @@ public class Vintage implements Serializable {
             String aux = u.getKey();
             Utilizador use = u.getValue().clone();
             Set<String> para_venda = use.getPara_vender();
-            Set<String> vendidos = use.getVendido();
+            Map<String, Artigo> vendidos = use.getVendido();
             lines.add(use.toLog());
 
 
@@ -303,16 +314,37 @@ public class Vintage implements Serializable {
                 Artigo a = artigos.get(art);
                 lines.add(a.toLogVender());
             }
-            for(String vend : vendidos){
-                Artigo b = artigos.get(vend);
-                lines.add(b.toLogVendidos());
+            for(Artigo vend : vendidos.values()){
+                lines.add(vend.toLogVendidos());
             }
 
         }
-
-
         return lines;
     }
+
+    public void showArtigos(){
+        for (Map.Entry<String, Artigo> c : this.artigos.entrySet()) {
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            System.out.println(use.toString());
+        }
+    }
+
+    public void showArtigos(Set<String> artigos){
+        for(String c : artigos){
+            System.out.println(this.artigos.get(c));
+        }
+    }
+
+    public List<Artigo> getArtigosEncomenda(Encomenda encomenda){
+        Set<String> artigos = encomenda.getArtigos();
+        List<Artigo> novo = new ArrayList<>();
+        for(String c : artigos){
+            novo.add(this.artigos.get(c).clone());
+        }
+        return novo;
+    }
+
 }
 
 

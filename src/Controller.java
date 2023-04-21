@@ -6,8 +6,9 @@ import UserExceptions.UserAlreadyExistsException;
 public class Controller {
     private View view;
     private Vintage vintage;
-    private boolean run;
     private String current_user;
+    private Encomenda encomenda_atual;
+    private boolean run;
     private boolean logged;
 
     public static void main(String[] args) {
@@ -30,6 +31,7 @@ public class Controller {
         this.vintage = new Vintage();
         this.run = true;
         this.logged = false;
+        this.encomenda_atual = new Encomenda();
     }
 
     public String loadFileMenu() {
@@ -81,7 +83,6 @@ public class Controller {
                     criaUtilizador();
                     break;
                 case 4:
-                    showArtigos();
                     criaEncomenda();
                     break;
                 case 5:
@@ -204,18 +205,39 @@ public class Controller {
     }
 
     public void criaEncomenda(){
-        String tokens[] = this.view.encomendaCreation();
-        try{
-            Map<String,Artigo> artigos = new HashMap<>();
-
-            for(String i:tokens){
-                artigos.put(i,this.vintage.findArtigo(i));
+        boolean flag = true;
+        String artigo;
+        while(flag){
+            try{
+                int opt = Integer.parseInt(this.view.OpcaoEncomenda());
+                switch(opt){
+                    case 1:
+                        this.vintage.showArtigos();
+                        artigo = this.view.encomendaCreation();
+                        this.encomenda_atual.addArtEncomenda(this.vintage.findArtigo(artigo));
+                        break;
+                    case 2:
+                        this.vintage.showArtigos(this.encomenda_atual.getArtigos());
+                        artigo = this.view.removeArtigo();
+                        this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
+                        break;
+                    case 3:
+                        this.encomenda_atual.atualizaEncomenda();
+                        this.vintage.addEncomenda(this.current_user, this.encomenda_atual);
+                        this.encomenda_atual = new Encomenda();
+                        flag = false;
+                        break;
+                    case 4:
+                        this.encomenda_atual = new Encomenda();
+                        flag = false;
+                        break;
+                    default:
+                        this.view.invalidOption();
+                        break;
+                }
+            } catch (Exception e){
+                System.out.println("" + e.getMessage());
             }
-
-            Encomenda encomenda = new Encomenda(artigos,Encomenda.Embalagem.Grande,LocalDate.of(1234,11,11), Encomenda.State.Finalizada);
-            this.vintage.addEncomenda(current_user,encomenda);
-        } catch (Exception e){
-            System.out.println("Os parâmetros utilizados para criar a encomenda estão errados!" + e.getMessage());
         }
     }
 
@@ -229,15 +251,6 @@ public class Controller {
         }
     }
 
-    public void showArtigos(){
-
-        for (Map.Entry<String, Artigo> c : this.vintage.getArtigos().entrySet()) {
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            System.out.println(use.toString());
-        }
-
-    }
     public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
 
         File fich = new File(name);

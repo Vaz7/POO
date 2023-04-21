@@ -164,14 +164,33 @@ public class View {
         return utilizadorInput;
     }
 
-    public String[] encomendaCreation(){
-        String[] artigos = new String[2]; //aqui mete-se os artigos, para já é só 1
+    public String OpcaoEncomenda(){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Código alfanum do artigo:");
-        artigos[0] = sc.nextLine();
+        System.out.println("Qual das seguintes opções pretende?");
+        System.out.println("1. Adicionar Artigo");
+        System.out.println("2. Remover Artigo");
+        System.out.println("3. Finalizar Encomenda");
+        System.out.println("4. Cancelar Encomenda");
 
-        return artigos;
+        String opt = sc.nextLine();
+        return opt;
+    }
+
+    public String removeArtigo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o código alfanumérico do artigo que pretende remover da sua encomenda:");
+        String artigo = sc.nextLine();
+        return artigo;
+    }
+
+    public String encomendaCreation(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Insira o código alfanumérico do Artigo que pretende:");
+        String artigo = sc.nextLine();
+
+        return artigo;
     }
 
     public String[] userCreation(){

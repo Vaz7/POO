@@ -63,17 +63,14 @@ public class Transportadora implements Serializable {
         this.premium = premium;
     }
 
-//    public double calculaPrecoExped(Encomenda o){
-//        double preco = 0;
-//        if(o.getDim() == Encomenda.Embalagem.Pequeno)
-//            preco = PEQUENAS * this.lucro * (1.0+IMPOSTO) * 0.9;
-//        else if (o.getDim() == Encomenda.Embalagem.Medio)
-//            preco = MEDIAS * this.lucro * (1.0+IMPOSTO) * 0.9;
-//        else if (o.getDim() == Encomenda.Embalagem.Grande)
-//            preco = GRANDES * this.lucro * (1.0+IMPOSTO) * 0.9;
-//
-//        return preco;
-//    }
+    public double precoTransporte(int n_transp_apareceu){
+        double base = 0;
+        if(n_transp_apareceu == 1) base = PEQUENAS;
+        else if(n_transp_apareceu >= 2 && n_transp_apareceu <=5 ) base = MEDIAS;
+        else if(n_transp_apareceu > 5) base = GRANDES;
+        double preco = base * (1.0+this.lucro) * (1.0+IMPOSTO) * 0.9;
+        return preco;
+    }
 
     public Transportadora clone(){
         return new Transportadora(this);

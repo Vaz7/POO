@@ -16,7 +16,8 @@ public class Encomenda implements Serializable {
         Finalizada,
         Expedida
     }
-    private Map<String, Artigo> artigos;
+    private Set<String> artigos;
+    private Map<Transportadora, Integer> contador;
     private Embalagem dim;
     private double preco;
     private LocalDate data;
@@ -24,14 +25,15 @@ public class Encomenda implements Serializable {
 
     public Encomenda(){
         this.codigo = this.count++;
-        this.artigos = new HashMap<>();
+        this.artigos = new HashSet<>();
         this.dim = Embalagem.Pequeno;
         this.data = LocalDate.now();
         this.estado = State.Pendente;
         this.preco = 0;
+        this.contador = new HashMap<>();
     }
 
-    public Encomenda(Map<String,Artigo> lista, State estado){
+    public Encomenda(Set<String> lista, State estado){
         this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
@@ -40,7 +42,7 @@ public class Encomenda implements Serializable {
         //this.preco = calculaPrecoEnc();
     }
 
-    public Encomenda(Map<String,Artigo> lista, Embalagem dim, LocalDate data, State estado) {
+    public Encomenda(Set<String> lista, Embalagem dim, LocalDate data, State estado) {
         setArtigos(lista);
         this.codigo = this.count++;
         this.dim = dim;
@@ -58,6 +60,25 @@ public class Encomenda implements Serializable {
         this.preco = o.getPreco();
     }
 
+    public Map<Transportadora, Integer> getContador() {
+        Map<Transportadora, Integer> novo = new HashMap<>();
+        for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){
+            Transportadora clone = c.getKey().clone();
+            Integer aux = c.getValue();
+            novo.put(clone, aux);
+        }
+        return novo;
+    }
+
+    public void setContador(Map<Transportadora, Integer> contador) {
+        this.contador = new HashMap<>();
+        for(Map.Entry<Transportadora, Integer> c : contador.entrySet()){
+            Transportadora clone = c.getKey().clone();
+            Integer aux = c.getValue();
+            this.contador.put(clone, aux);
+        }
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -66,23 +87,19 @@ public class Encomenda implements Serializable {
         this.codigo = codigo;
     }
 
-    public Map<String, Artigo> getArtigos() {
-        Map<String,Artigo> novo = new HashMap<>();
+    public Set<String> getArtigos() {
+        Set<String> novo = new HashSet<>();
 
-        for(Map.Entry<String, Artigo> c : this.artigos.entrySet()){
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            novo.put(aux,use);
+        for(String c : this.artigos){
+            novo.add(c);
         }
         return novo;
     }
 
-    public void setArtigos(Map<String, Artigo> artigos) {
-        this.artigos = new HashMap<String,Artigo>();
-        for(Map.Entry<String, Artigo> c : artigos.entrySet()){
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            this.artigos.put(aux,use);
+    public void setArtigos(Set<String> artigos) {
+        this.artigos = new HashSet<>();
+        for(String c : artigos){
+            this.artigos.add(c);
         }
     }
 
@@ -129,12 +146,23 @@ public class Encomenda implements Serializable {
 
     public void addArtEncomenda(Artigo c){
         double preco = this.preco;
-        this.artigos.put(c.getCodAlfaNum(),c.clone());
+        this.artigos.add(c.getCodAlfaNum());
+        Transportadora aux = c.getTransp();
+
+        if (this.contador.containsKey(aux)) {
+            int contagem = this.contador.get(aux);
+            this.contador.put(aux, contagem + 1);
+        }
+        else {
+            this.contador.put(aux, 1);
+        }
+
         preco += c.getPreco_curr();
         if(c.isNovo()){
             preco += 0.5;
         }
         else preco += 0.25;
+        defDimensaoCaixa();
         setPreco(preco);
     }
 
@@ -143,7 +171,15 @@ public class Encomenda implements Serializable {
         preco -= c.getPreco_curr();
         if(c.isNovo()) preco -= 0.5;
         else preco -= 0.25;
+        int contagem = this.contador.get(c.getTransp());
+        if(contagem == 1){
+            this.contador.remove(c.getTransp());
+        }
+        else{
+            this.contador.put(c.getTransp(), contagem - 1);
+        }
         this.artigos.remove(c.getCodAlfaNum());
+        defDimensaoCaixa();
         setPreco(preco);
     }
 
@@ -163,37 +199,11 @@ public class Encomenda implements Serializable {
         sb.append("Data de Criação: " + this.data + "\n");
         sb.append("Estado : " + this.estado + "\n");
         sb.append("Artigos: \n");
-        for(Artigo c : this.artigos.values()){
+        for(String c : this.artigos){
             sb.append(c.toString() + "\n");
         }
         sb.append("Preço: " + this.preco + "\n");
         return sb.toString();
-    }
-
-    public static boolean isDeepCloneMap(Map<String, Artigo> map1, Map<String, Artigo> map2) {
-
-        if (map1 == null || map2 == null) {
-            return map1 == map2;
-        }
-
-        if (map1.size() != map2.size()) {
-            return false;
-        }
-
-        for (String key : map1.keySet()) {
-            if (!map2.containsKey(key)) {
-                return false;
-            }
-
-            Artigo obj1 = map1.get(key);
-            Artigo obj2 = map2.get(key);
-
-            if (!obj1.equals(obj2)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public boolean equals(Object o){
@@ -204,8 +214,32 @@ public class Encomenda implements Serializable {
         return  this.dim == l.getDim() &&
                 this.estado == l.getEstado() &&
                 this.data.equals(l.getData()) &&
-                Double.compare(this.preco, l.getPreco()) == 0 &&
-                isDeepCloneMap(this.artigos, l.getArtigos());
+                Double.compare(this.preco, l.getPreco()) == 0;// &&
+                //isDeepCloneMap(this.artigos, l.getArtigos()); falta deep clone do set
 
     }
+
+    public double calculaPrecoFinal() {
+        double preco_transporte = 0;
+        for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){
+            Transportadora transp = c.getKey();
+            Integer num = c.getValue();
+            preco_transporte += transp.precoTransporte(num);
+        }
+        preco_transporte += this.preco;
+        if(this.dim == Embalagem.Pequeno)
+            preco_transporte += 0.99;
+        else if(this.dim == Embalagem.Medio)
+            preco_transporte += 2.99;
+        else preco_transporte += 4.99;
+
+        return preco_transporte;
+    }
+
+    public void atualizaEncomenda(){
+        defDimensaoCaixa();
+        this.estado = State.Finalizada;
+        setPreco(calculaPrecoFinal());
+    }
+
 }

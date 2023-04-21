@@ -10,9 +10,8 @@ public class Utilizador implements Serializable {
     private String nome;
     private String morada;
     private int nif;
-    private Set<String> vendido;
+    private Map<String, Artigo> vendido;
     private Set<String> para_vender;
-    private Set<String> encomendas;
 
     private double dinheiro_vendas;
     private double dinheiro_compras;
@@ -23,7 +22,7 @@ public class Utilizador implements Serializable {
         this.morada = "";
         this.nome = "";
         this.nif = 0;
-        this.vendido = new HashSet<>();
+        this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
@@ -35,7 +34,7 @@ public class Utilizador implements Serializable {
         this.nome = nome;
         this.morada = morada;
         this.nif = nif;
-        this.vendido = new HashSet<>();
+        this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
         this.dinheiro_vendas = 0.0;
         this.dinheiro_compras = 0.0;
@@ -47,12 +46,12 @@ public class Utilizador implements Serializable {
         this.nome = nome;
         this.morada = morada;
         this.nif = nif;
-        this.vendido = new HashSet<>();
+        this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
-    public Utilizador(String email, String nome, String morada, int nif, Set<String> vendido, Set<String> para_vender, double dinheiro_vendas, double dinheiro_compras) {
+    public Utilizador(String email, String nome, String morada, int nif, Map<String, Artigo> vendido, Set<String> para_vender, double dinheiro_vendas, double dinheiro_compras) {
         this.code = this.contador++;
         this.email = email;
         this.nome = nome;
@@ -116,18 +115,22 @@ public class Utilizador implements Serializable {
         this.nif = nif;
     }
 
-    public Set<String> getVendido() {
-        Set<String> novo = new HashSet<>();
-        for(String c : this.vendido){
-            novo.add(c);
+    public HashMap<String, Artigo> getVendido() {
+        HashMap<String, Artigo> novo = new HashMap<>();
+        for(Map.Entry<String, Artigo> c : this.vendido.entrySet()){
+            String key = c.getKey();
+            Artigo clone = c.getValue().clone();
+            novo.put(key,clone);
         }
         return novo;
     }
 
-    public void setVendido(Set<String> vendido) {
-        this.vendido = new HashSet<>();
-        for(String c : vendido){
-            this.vendido.add(c);
+    public void setVendido(Map<String, Artigo> vendido) {
+        this.vendido = new HashMap<>();
+        for(Map.Entry<String,Artigo> c : vendido.entrySet()){
+            String key = c.getKey();
+            Artigo clone = c.getValue().clone();
+            this.vendido.put(key,clone);
         }
     }
 
@@ -163,15 +166,12 @@ public class Utilizador implements Serializable {
         this.dinheiro_compras = dinheiro_compras;
     }
 
-    public void addArtigoVendido(String c){
-        this.vendido.add(c);
+    public void addArtigoVendido(Artigo c){
+        this.vendido.put(c.getCodAlfaNum(), c);
     }
 
     public void addArtigoParaVender(String c){
         this.para_vender.add(c);
-    }
-    public void addEncomenda(int c){
-        this.encomendas.add(Integer.toString(c));
     }
 
     public void removeArtigoParaVender(String c){
@@ -223,7 +223,7 @@ public class Utilizador implements Serializable {
         sb.append("Morada:: " + this.morada + "\n");
         sb.append("NIF:: " + this.nif + "\n");
         sb.append("Artigos Vendidos:: [");
-        for(String c : this.vendido){
+        for(Artigo c : this.vendido.values()){
             sb.append(c + "\n");
         }
         sb.append("]\n");
@@ -250,8 +250,8 @@ public class Utilizador implements Serializable {
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                isDeepCloneSet(this.para_vender, l.getPara_vender()) &&
-                isDeepCloneSet(this.vendido, l.getVendido());
+                isDeepCloneSet(this.para_vender, l.getPara_vender()); //&&
+                //isDeepCloneSet(this.vendido, l.getVendido()); falta a função para o map
 
     }
 
