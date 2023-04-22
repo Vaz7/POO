@@ -166,19 +166,25 @@ public class Encomenda implements Serializable {
         setPreco(preco);
     }
 
+    public boolean contem (Artigo artigo){
+        return this.artigos.contains(artigo);
+    }
+
     public void removeArtEncomenda(Artigo c){
+        System.out.println("removing " +c.getCodAlfaNum());
         double preco = this.preco;
         preco -= c.getPreco_curr();
         if(c.isNovo()) preco -= 0.5;
         else preco -= 0.25;
-        int contagem = this.contador.get(c.getTransp());
+        int contagem = this.contador.get(c.getTransp()).;
         if(contagem == 1){
             this.contador.remove(c.getTransp());
         }
         else{
             this.contador.put(c.getTransp(), contagem - 1);
         }
-        this.artigos.remove(c.getCodAlfaNum());
+
+        this.artigos.remove(c);
         defDimensaoCaixa();
         setPreco(preco);
     }

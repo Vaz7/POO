@@ -214,7 +214,10 @@ public class Controller {
                     case 1:
                         this.vintage.showArtigos();
                         artigo = this.view.encomendaCreation();
-                        this.encomenda_atual.addArtEncomenda(this.vintage.findArtigo(artigo));
+                        if(!this.encomenda_atual.contem(this.vintage.findArtigo(artigo))){
+                            this.encomenda_atual.addArtEncomenda(this.vintage.findArtigo(artigo));
+                        }
+
                         break;
                     case 2:
                         this.vintage.showArtigos(this.encomenda_atual.getArtigos());
