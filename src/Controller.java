@@ -179,6 +179,11 @@ public class Controller {
                                 else{
                                     art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]), Boolean.parseBoolean(tokens[10]));
                                 }
+                            case 0:
+                                return;
+                            default:
+                                this.view.invalidOption();
+                                break;
                         }
                         this.vintage.addArigoVenda(this.current_user, art1);
                         System.out.println(art1);
@@ -197,7 +202,7 @@ public class Controller {
 
         String tokens[] = this.view.transportadoraCreation();
         try{
-            Transportadora transportadora = new Transportadora(Boolean.parseBoolean(tokens[0]),0,tokens[1],0);
+            Transportadora transportadora = new Transportadora(tokens[0], Double.parseDouble(tokens[1]), Boolean.parseBoolean(tokens[2]));
             this.vintage.addTransportadora(transportadora);
         } catch (Exception e){
             System.out.println("Os parâmetros utilizados estão errados!" + e.getMessage());
@@ -217,12 +222,13 @@ public class Controller {
                         if(!this.encomenda_atual.contem(this.vintage.findArtigo(artigo))){
                             this.encomenda_atual.addArtEncomenda(this.vintage.findArtigo(artigo));
                         }
-
+                        this.encomenda_atual.showPrecoAtual();
                         break;
                     case 2:
                         this.vintage.showArtigos(this.encomenda_atual.getArtigos());
                         artigo = this.view.removeArtigo();
                         this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
+                        this.encomenda_atual.showPrecoAtual();
                         break;
                     case 3:
                         this.encomenda_atual.atualizaEncomenda();

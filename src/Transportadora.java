@@ -1,10 +1,10 @@
 import java.io.Serializable;
 
 public class Transportadora implements Serializable {
-    public final double PEQUENAS = 3.99;
-    public final double MEDIAS = 5.99;
-    public final double GRANDES = 10.99;
-    public final double IMPOSTO = 0.15;
+    public static final double PEQUENAS = 3.99;
+    public static final double MEDIAS = 5.99;
+    public static final double GRANDES = 10.99;
+    public static final double IMPOSTO = 0.15;
     private double lucro;
     private boolean premium;
     private String nome;
@@ -15,6 +15,13 @@ public class Transportadora implements Serializable {
         this.premium = false;
         this.lucro = 0;
         this.dinheiro_feito = 0;
+    }
+
+    public Transportadora(String nome, double lucro,boolean premium){
+        this.nome = nome;
+        this.lucro = lucro;
+        this.premium = premium;
+        this.dinheiro_feito = 0.0;
     }
 
     public Transportadora(boolean premium, double lucro, String nome, double dinheiro_feito){
@@ -95,7 +102,7 @@ public class Transportadora implements Serializable {
 
     }
     public String toLog(){
-        return ("Transportadora:" + this.isPremium() + "," + this.getLucro() + "," + this.getNome() + "," + this.getDinheiro_feito());
+        return ("Transportadora:" + this.getNome() + "," + this.getLucro() + "," + this.isPremium() + "," + this.getDinheiro_feito());
     }
 
 }

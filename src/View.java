@@ -156,10 +156,14 @@ public class View {
         String[] utilizadorInput = new String[5];
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("A transportadora é premium? (true/false):");
-        utilizadorInput[0] = sc.nextLine();
         System.out.println("Qual o nome da transportadora?:");
+        utilizadorInput[0] = sc.nextLine();
+
+        System.out.println("Indique a taxa de lucro da transportadora (entre 0.00 e 1.00):");
         utilizadorInput[1] = sc.nextLine();
+
+        System.out.println("A transportadora é premium? (true/false):");
+        utilizadorInput[2] = sc.nextLine();
 
         return utilizadorInput;
     }

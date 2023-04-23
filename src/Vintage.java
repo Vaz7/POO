@@ -262,28 +262,26 @@ public class Vintage implements Serializable {
         Utilizador utilizador = utilizadores.get(email);
 
         utilizador.addArtigoParaVender(artigo.getCodAlfaNum());
-        artigos_utilizadores_ligacao.put(email,artigo.getCodAlfaNum());
+        artigos_utilizadores_ligacao.put(artigo.getCodAlfaNum(),email);
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
     public void addEncomenda(String email,Encomenda encomenda){
         Utilizador utilizador = utilizadores.get(email);
 
-        encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo()));
+        encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo())); // isto está estupido, encomendas não é um map
         encomendas.add(encomenda);
 
         Set<String> artigos = encomenda.getArtigos();
         for(String c : artigos){
             Artigo aux = this.artigos.get(c).clone();
             String user = this.artigos_utilizadores_ligacao.get(c);
-            System.out.println(user);
             Utilizador utilizador1 = this.utilizadores.get(user);
             utilizador1.addArtigoVendido(aux);
             utilizador1.removeArtigoParaVender(c);
             utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() + aux.getPreco_curr());
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
             this.artigos.remove(c);
-            this.artigos_utilizadores_ligacao.remove(c);
         }
     }
 

@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -176,7 +177,10 @@ public class Encomenda implements Serializable {
         preco -= c.getPreco_curr();
         if(c.isNovo()) preco -= 0.5;
         else preco -= 0.25;
-        int contagem = this.contador.get(c.getTransp()).;
+        System.out.println(this.contador);
+        System.out.println(c.getTransp());
+        System.out.println(c.getTransp().equals(this.contador.get(c.getTransp())));
+        int contagem = this.contador.get(c.getTransp());
         if(contagem == 1){
             this.contador.remove(c.getTransp());
         }
@@ -184,7 +188,7 @@ public class Encomenda implements Serializable {
             this.contador.put(c.getTransp(), contagem - 1);
         }
 
-        this.artigos.remove(c);
+        this.artigos.remove(c.getCodAlfaNum());
         defDimensaoCaixa();
         setPreco(preco);
     }
@@ -234,10 +238,10 @@ public class Encomenda implements Serializable {
         }
         preco_transporte += this.preco;
         if(this.dim == Embalagem.Pequeno)
-            preco_transporte += 0.99;
+            preco_transporte += 0.29;
         else if(this.dim == Embalagem.Medio)
-            preco_transporte += 2.99;
-        else preco_transporte += 4.99;
+            preco_transporte += 0.79;
+        else preco_transporte += 1.29;
 
         return preco_transporte;
     }
@@ -246,6 +250,11 @@ public class Encomenda implements Serializable {
         defDimensaoCaixa();
         this.estado = State.Finalizada;
         setPreco(calculaPrecoFinal());
+    }
+
+    public void showPrecoAtual(){
+        DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println("Preço atual: "+ df.format(calculaPrecoFinal()));
     }
 
 }
