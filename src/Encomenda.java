@@ -172,14 +172,11 @@ public class Encomenda implements Serializable {
     }
 
     public void removeArtEncomenda(Artigo c){
-        System.out.println("removing " +c.getCodAlfaNum());
         double preco = this.preco;
         preco -= c.getPreco_curr();
         if(c.isNovo()) preco -= 0.5;
         else preco -= 0.25;
-        System.out.println(this.contador);
-        System.out.println(c.getTransp());
-        System.out.println(c.getTransp().equals(this.contador.get(c.getTransp())));
+
         int contagem = this.contador.get(c.getTransp());
         if(contagem == 1){
             this.contador.remove(c.getTransp());
@@ -231,17 +228,19 @@ public class Encomenda implements Serializable {
 
     public double calculaPrecoFinal() {
         double preco_transporte = 0;
-        for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){
-            Transportadora transp = c.getKey();
-            Integer num = c.getValue();
-            preco_transporte += transp.precoTransporte(num);
+        if(this.artigos.size() != 0){
+            for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){
+                Transportadora transp = c.getKey();
+                Integer num = c.getValue();
+                preco_transporte += transp.precoTransporte(num);
+            }
+            preco_transporte += this.preco;
+            if(this.dim == Embalagem.Pequeno)
+                preco_transporte += 0.29;
+            else if(this.dim == Embalagem.Medio)
+                preco_transporte += 0.79;
+            else preco_transporte += 1.29;
         }
-        preco_transporte += this.preco;
-        if(this.dim == Embalagem.Pequeno)
-            preco_transporte += 0.29;
-        else if(this.dim == Embalagem.Medio)
-            preco_transporte += 0.79;
-        else preco_transporte += 1.29;
 
         return preco_transporte;
     }

@@ -105,4 +105,18 @@ public class Transportadora implements Serializable {
         return ("Transportadora:" + this.getNome() + "," + this.getLucro() + "," + this.isPremium() + "," + this.getDinheiro_feito());
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(dinheiro_feito);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (premium ? 1231 : 1237);
+        temp = Double.doubleToLongBits(lucro);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+        return result;
+    }
+
 }
