@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Vintage implements Serializable {
     private Map<Integer,Encomenda> encomendas;
-    private Map<String,String> encomendas_utilizadores_ligacao;
+    private Map<Integer,String> encomendas_utilizadores_ligacao;
     private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadora> transportadoras;
     private Map<String,String> artigos_utilizadores_ligacao;
@@ -22,6 +22,7 @@ public class Vintage implements Serializable {
         this.artigos = new HashMap<>();
         this.artigos_utilizadores_ligacao = new HashMap<>();
         this.encomendas_utilizadores_ligacao = new HashMap<>();
+        this.artigos_vendidos = new HashMap<>();
     }
 
     public Map<String, Artigo> getArtigos() {
@@ -294,7 +295,7 @@ public class Vintage implements Serializable {
     public void addEncomenda(String email,Encomenda encomenda){
         Utilizador utilizador = utilizadores.get(email);
 
-        encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo())); // isto está estupido, encomendas não é um map
+        encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email); // isto está estupido, encomendas não é um map
         encomendas.put(encomenda.getCodigo(),encomenda);
 
         Set<String> artigos = encomenda.getArtigos();
@@ -403,7 +404,7 @@ public class Vintage implements Serializable {
         for(Map.Entry<Integer,Encomenda> c : this.encomendas.entrySet()){
             int aux = c.getKey();
             Encomenda use = c.getValue();
-            if(this.encomendas_utilizadores_ligacao.get(use).equals(user)){
+            if(this.encomendas_utilizadores_ligacao.get(use.getCodigo()).equals(user)){
                 System.out.println(c.toString());
                 contador++;
             }

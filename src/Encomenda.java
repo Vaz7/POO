@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Encomenda implements Serializable {
 
-    private static int count=0;
+    private static int count=1;
     private int codigo;
     public enum Embalagem{
         Pequeno,
