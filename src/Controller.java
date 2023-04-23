@@ -86,11 +86,21 @@ public class Controller {
                     criaEncomenda();
                     break;
                 case 5:
+                    int quantos = this.vintage.imprimeEncomendas(this.current_user);
+                    if(quantos != 0){
+                        String aux = view.codEncomenda();
+                        this.vintage.devolveEncomenda(Integer.parseInt(aux),current_user);
+                    }
+                    else{
+                        this.view.encomendaNaoExistente();
+                    }
                     break;
                 case 6:
-                    writeToObjectFile();
                     break;
                 case 7:
+                    writeToObjectFile();
+                    break;
+                case 8:
                     writeToLog();
                     break;
                 default:
@@ -394,7 +404,8 @@ public class Controller {
 
     //falta ler e escrever os ficheiros para venda e para vender
     public void writeToLog() throws IOException {
-        String name = this.view.ficheiroTxtEscreve();
+        String name = "./src/";
+        name.concat(this.view.ficheiroTxtEscreve());
         File file = new File(name);
         FileOutputStream fos = new FileOutputStream(file);
         try (PrintWriter pw = new PrintWriter(fos)) {
@@ -425,7 +436,4 @@ public class Controller {
         this.vintage = (Vintage) ois.readObject();
         ois.close();
     }
-
-
-
 }

@@ -6,16 +6,17 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Vintage implements Serializable {
-    private List<Encomenda> encomendas;
+    private Map<Integer,Encomenda> encomendas;
     private Map<String,String> encomendas_utilizadores_ligacao;
     private Map<String, Utilizador> utilizadores;
     private Map<String, Transportadora> transportadoras;
     private Map<String,String> artigos_utilizadores_ligacao;
     private Map<String,Artigo> artigos;
+    private Map<String,Artigo> artigos_vendidos;
 
 
     public Vintage(){
-        this.encomendas = new ArrayList<>();
+        this.encomendas = new HashMap<>();
         this.utilizadores = new HashMap<>();
         this.transportadoras = new HashMap<>();
         this.artigos = new HashMap<>();
@@ -40,6 +41,26 @@ public class Vintage implements Serializable {
             String aux = c.getKey();
             Artigo use = c.getValue().clone();
             this.artigos.put(aux,use);
+        }
+    }
+
+    public Map<String, Artigo> getArtigos_vendidos() {
+        Map<String,Artigo> novo = new HashMap<>();
+
+        for(Map.Entry<String, Artigo> c : this.artigos_vendidos.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            novo.put(aux,use);
+        }
+        return novo;
+    }
+
+    public void setArtigos_vendidos(Map<String, Artigo> artigos_vendidos) {
+        this.artigos = new HashMap<String,Artigo>();
+        for(Map.Entry<String, Artigo> c : artigos_vendidos.entrySet()){
+            String aux = c.getKey();
+            Artigo use = c.getValue().clone();
+            this.artigos_vendidos.put(aux,use);
         }
     }
 
@@ -87,18 +108,22 @@ public class Vintage implements Serializable {
         }
     }
 
-    public List<Encomenda> getEncomendas() {
-        List<Encomenda> novo = new ArrayList<>();
-        for(Encomenda c : this.encomendas){
-            novo.add(c.clone());
+    public Map<Integer,Encomenda> getEncomendas() {
+        Map<Integer,Encomenda> novo = new HashMap<>();
+        for(Map.Entry<Integer,Encomenda> c : this.encomendas.entrySet()){
+            int aux = c.getKey();
+            Encomenda use = (Encomenda) c.getValue();
+            novo.put(aux,use);
         }
         return novo;
     }
 
-    public void setEncomendas(Set<Encomenda> encomendas) {
-        this.encomendas = new ArrayList<>();
-        for(Encomenda c : encomendas){
-            this.encomendas.add(c.clone());
+    public void setEncomendas(Map<Integer,Encomenda> encomendas) {
+        this.encomendas = new HashMap<>();
+        for(Map.Entry<Integer,Encomenda> c : encomendas.entrySet()){
+            int aux = c.getKey();
+            Encomenda use = (Encomenda) c.getValue();
+            this.encomendas.put(aux,use);
         }
     }
 
@@ -236,14 +261,14 @@ public class Vintage implements Serializable {
         return true;
     }
 
-    public boolean equals(Object o) {
+    /*public boolean equals(Object o) {
         if (this == o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
         Vintage c = (Vintage) o;
-        return isDeepCloneList(this.encomendas, c.getEncomendas()) &&
+        return isDeepCloneMap(this.encomendas, c.getEncomendas()) &&
                 isDeepCloneMap(c.getUtilizadores(), this.utilizadores) &&
                 isDeepCloneMapTransport(this.transportadoras, c.getTransportadoras());
-    }
+    }*/
 
     public void printTransportadoras(){
         for(Transportadora c : this.transportadoras.values()){
@@ -270,7 +295,7 @@ public class Vintage implements Serializable {
         Utilizador utilizador = utilizadores.get(email);
 
         encomendas_utilizadores_ligacao.put(email,Integer.toString(encomenda.getCodigo())); // isto está estupido, encomendas não é um map
-        encomendas.add(encomenda);
+        encomendas.put(encomenda.getCodigo(),encomenda);
 
         Set<String> artigos = encomenda.getArtigos();
         for(String c : artigos){
@@ -278,6 +303,7 @@ public class Vintage implements Serializable {
             String user = this.artigos_utilizadores_ligacao.get(c);
             Utilizador utilizador1 = this.utilizadores.get(user);
             utilizador1.addArtigoVendido(aux);
+            this.artigos_vendidos.put(c,aux);
             utilizador1.removeArtigoParaVender(c);
             utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() + aux.getPreco_curr());
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
@@ -343,6 +369,47 @@ public class Vintage implements Serializable {
         return novo;
     }
 
+    public Boolean devolveEncomenda(int num_encomenda, String email){
+
+        Utilizador utilizador = utilizadores.get(email);
+
+        encomendas_utilizadores_ligacao.remove(email);
+
+        Encomenda encomenda = this.encomendas.get(num_encomenda);
+
+        if(encomenda.isRefundable()==false) return false;
+
+        else {
+            for (String codigo : encomenda.getArtigos()) {
+                Artigo artigo = this.artigos_vendidos.get(codigo).clone();
+                String user = this.artigos_utilizadores_ligacao.get(artigo);
+                Utilizador utilizador1 = this.utilizadores.get(user);
+                utilizador1.removeArtigoVendido(artigo.getCodAlfaNum());
+                utilizador1.addArtigoParaVender(artigo.getCodAlfaNum());
+                utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() - artigo.getPreco_curr());
+                utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() - artigo.getPreco_curr());
+                this.artigos_vendidos.remove(artigo.getCodAlfaNum());
+                this.artigos.put(artigo.getCodAlfaNum(), artigo);
+            }
+
+            this.encomendas.remove(num_encomenda);
+            return true;
+        }
+    }
+
+    //se der 0 diz que nao pode devolver
+    public int imprimeEncomendas(String user){
+        int contador = 0;
+        for(Map.Entry<Integer,Encomenda> c : this.encomendas.entrySet()){
+            int aux = c.getKey();
+            Encomenda use = c.getValue();
+            if(this.encomendas_utilizadores_ligacao.get(use).equals(user)){
+                System.out.println(c.toString());
+                contador++;
+            }
+        }
+        return contador;
+    }
 }
 
 

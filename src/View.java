@@ -9,8 +9,7 @@ public class View {
         System.out.println("1. Login/Sign-in");
         System.out.println("0. Terminar Programa");
 
-        String option = sc.next();
-        return option;
+        return sc.next();
     }
 
     public String logIn(){
@@ -53,16 +52,16 @@ public class View {
         System.out.println("2 - Criar Transportadora");
         System.out.println("3 - Criar Utilizador");
         System.out.println("4 - Fazer Encomenda");
-        System.out.println("5 - Mudar Data");
-        System.out.println("6 - Guardar num ficheiro de objetos");
-        System.out.println("7 - Guardar num ficheiro de texto");
+        System.out.println("5 - Devolver Encomenda");
+        System.out.println("6 - Mudar Data");
+        System.out.println("7 - Guardar num ficheiro de objetos");
+        System.out.println("8 - Guardar num ficheiro de texto");
         System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
 
         String option = sc.next();
         return option;
     }
-
     public String txtOrObject(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique a partir de qual dos seguintes tipos de ficheiro pretende carregar os dados:");
@@ -179,6 +178,16 @@ public class View {
 
         String opt = sc.nextLine();
         return opt;
+    }
+    public String codEncomenda(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Indique o código da encomenda que pretende devolver:");
+        String artigo = sc.nextLine();
+        return artigo;
+    }
+
+    public void encomendaNaoExistente(){
+        System.out.println("Não há nenhuma encomenda atribuida a este utilizador.");
     }
 
     public String removeArtigo(){

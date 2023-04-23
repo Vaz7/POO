@@ -177,7 +177,7 @@ public class Utilizador implements Serializable {
     public void removeArtigoParaVender(String c){
         this.para_vender.remove(c);
     }
-
+    public void removeArtigoVendido(String c){this.vendido.remove(c);}
 //    private void calculaDinheiroCompras(){
 //        double preco = 0;
 //        for(Artigo c : this.vendido){

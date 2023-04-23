@@ -201,15 +201,15 @@ public class Encomenda implements Serializable {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Encomenda :: \n");
-        sb.append("Embalagem: " + this.dim + "\n");
-        sb.append("Data de Criação: " + this.data + "\n");
-        sb.append("Estado : " + this.estado + "\n");
-        sb.append("Artigos: \n");
+        sb.append(this.codigo + ",");
+        sb.append(" Embalagem: " + this.dim + ",");
+        sb.append(" Data de Criação: " + this.data + ",");
+        sb.append(" Estado : " + this.estado + ",");
+        sb.append(" Artigos: ");
         for(String c : this.artigos){
-            sb.append(c.toString() + "\n");
+            sb.append(c.toString() + ", ");
         }
-        sb.append("Preço: " + this.preco + "\n");
+        sb.append(" Preço: " + this.preco + ",");
         return sb.toString();
     }
 
