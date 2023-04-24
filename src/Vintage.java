@@ -370,20 +370,20 @@ public class Vintage implements Serializable {
         return novo;
     }
 
-    public Boolean devolveEncomenda(int num_encomenda, String email){
+    public void devolveEncomenda(int num_encomenda, String email){
 
         Utilizador utilizador = utilizadores.get(email);
 
-        encomendas_utilizadores_ligacao.remove(email);
+        encomendas_utilizadores_ligacao.remove(num_encomenda);
 
         Encomenda encomenda = this.encomendas.get(num_encomenda);
 
-        if(encomenda.isRefundable()==false) return false;
+        //if(encomenda.isRefundable()==false) return false;
 
-        else {
+        //else {
             for (String codigo : encomenda.getArtigos()) {
                 Artigo artigo = this.artigos_vendidos.get(codigo).clone();
-                String user = this.artigos_utilizadores_ligacao.get(artigo);
+                String user = this.artigos_utilizadores_ligacao.get(artigo.getCodAlfaNum());
                 Utilizador utilizador1 = this.utilizadores.get(user);
                 utilizador1.removeArtigoVendido(artigo.getCodAlfaNum());
                 utilizador1.addArtigoParaVender(artigo.getCodAlfaNum());
@@ -391,26 +391,27 @@ public class Vintage implements Serializable {
                 utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() - artigo.getPreco_curr());
                 this.artigos_vendidos.remove(artigo.getCodAlfaNum());
                 this.artigos.put(artigo.getCodAlfaNum(), artigo);
-            }
+            //}
 
             this.encomendas.remove(num_encomenda);
-            return true;
+            //return true;
         }
     }
 
     //se der 0 diz que nao pode devolver
     public int imprimeEncomendas(String user){
         int contador = 0;
-        for(Map.Entry<Integer,Encomenda> c : this.encomendas.entrySet()){
-            int aux = c.getKey();
-            Encomenda use = c.getValue();
-            if(this.encomendas_utilizadores_ligacao.get(use.getCodigo()).equals(user)){
+
+        for(Encomenda c : this.encomendas.values()){
+            String name = this.encomendas_utilizadores_ligacao.get(c.getCodigo());
+            if(name != null && name.equals(user)){
                 System.out.println(c.toString());
                 contador++;
             }
         }
-        return contador;
-    }
-}
 
+        return contador;
+
+}
+}
 
