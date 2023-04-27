@@ -43,12 +43,13 @@ public class Encomenda implements Serializable {
         //this.preco = calculaPrecoEnc();
     }
 
-    public Encomenda(Set<String> lista, Embalagem dim, LocalDate data, State estado) {
+    public Encomenda(Set<String> lista, Embalagem dim, LocalDate data, State estado,Double preco) {
         setArtigos(lista);
         this.codigo = this.count++;
         this.dim = dim;
         this.data = data;
         this.estado = estado;
+        this.preco = preco;
         //this.preco = calculaPrecoEnc();
     }
 
@@ -199,9 +200,23 @@ public class Encomenda implements Serializable {
         return new Encomenda(this);
     }
 
+    public String toLog(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Encomenda:" + this.codigo);
+        sb.append("," + this.dim );
+        sb.append("," + this.data);
+        sb.append("," + this.estado);
+        sb.append("," + this.preco);
+
+        for(String c : this.artigos){
+            sb.append("," + c.toString());
+        }
+        return sb.toString();
+    }
+
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(this.codigo + ",");
+        sb.append("Encomenda:" + this.codigo + ",");
         sb.append(" Embalagem: " + this.dim + ",");
         sb.append(" Data de Criação: " + this.data + ",");
         sb.append(" Estado : " + this.estado + ",");
@@ -209,7 +224,7 @@ public class Encomenda implements Serializable {
         for(String c : this.artigos){
             sb.append(c.toString() + ", ");
         }
-        sb.append(" Preço: " + this.preco + ",");
+        sb.append(" Preço: " + this.preco);
         return sb.toString();
     }
 

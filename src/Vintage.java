@@ -310,12 +310,14 @@ public class Vintage implements Serializable {
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
             this.artigos.remove(c);
         }
+        utilizador.addEncomenda(encomenda.getCodigo());
     }
 
     public void addArigoVendido (String email, Artigo artigo){
         //este get é do map!!!
         Utilizador utilizador = utilizadores.get(email);
         utilizador.addArtigoVendido(artigo.clone());
+        this.artigos_vendidos.put(artigo.getCodAlfaNum(), artigo.clone());
     }
 
     public List<String> toLog(){
@@ -341,6 +343,10 @@ public class Vintage implements Serializable {
             }
             for(Artigo vend : vendidos.values()){
                 lines.add(vend.toLogVendidos());
+            }
+
+            for(Integer enc : use.getEncomendas()){
+                lines.add(this.encomendas.get(enc).toLog());
             }
 
         }
@@ -394,6 +400,7 @@ public class Vintage implements Serializable {
             //}
 
             this.encomendas.remove(num_encomenda);
+            utilizador.removeEncomenda(num_encomenda);
             //return true;
         }
     }

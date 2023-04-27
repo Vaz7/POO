@@ -13,6 +13,7 @@ public class Utilizador implements Serializable {
     private Map<String, Artigo> vendido;
     private Set<String> para_vender;
 
+    private Set<Integer> encomendas;
     private double dinheiro_vendas;
     private double dinheiro_compras;
 
@@ -24,6 +25,7 @@ public class Utilizador implements Serializable {
         this.nif = 0;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
+        this.encomendas = new HashSet<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
     }
@@ -36,6 +38,7 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
+        this.encomendas = new HashSet<>();
         this.dinheiro_vendas = 0.0;
         this.dinheiro_compras = 0.0;
     }
@@ -48,6 +51,7 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
+        this.encomendas = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
@@ -59,6 +63,7 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         setVendido(vendido);
         setPara_vender(para_vender);
+        this.encomendas = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
@@ -73,6 +78,7 @@ public class Utilizador implements Serializable {
         this.para_vender = o.getPara_vender();
         this.dinheiro_compras = o.getDinheiro_compras();
         this.dinheiro_vendas = o.getDinheiro_vendas();
+        this.encomendas = o.getEncomendas();
     }
 
     public int getCode() {
@@ -97,6 +103,22 @@ public class Utilizador implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Set<Integer> getEncomendas() {
+        Set novo = new HashSet<>();
+        for(Integer i : this.encomendas){
+            novo.add(i);
+        }
+        return novo;
+    }
+
+    public void setEncomendas(Set<Integer> a){
+            this.encomendas = new HashSet<>();
+            for(Integer c : a){
+                this.encomendas.add(c);
+            }
+
     }
 
     public String getMorada() {
@@ -185,6 +207,14 @@ public class Utilizador implements Serializable {
 //        }
 //        setDinheiro_vendas(preco);
 //    }
+
+    public void addEncomenda(Integer i){
+        this.encomendas.add(i);
+    }
+
+    public void removeEncomenda(Integer i){
+        this.encomendas.remove(i);
+    }
 
     public static boolean isDeepCloneSet(Set<String> set1, Set<String> set2) {
         if (set1 == null || set2 == null) {

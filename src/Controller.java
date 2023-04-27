@@ -66,6 +66,7 @@ public class Controller {
         return nome;
     }
 
+
     public void displayMenu(){
         try{
             int op2 = Integer.parseInt(this.view.menu());
@@ -163,6 +164,7 @@ public class Controller {
                 while(flag){
                     try{
                         int artcode = Integer.parseInt(this.view.tipoArtigoCriacao());
+                        if(artcode == 0) return;
                         String[] tokens = this.view.artigoCreation(artcode);
                         Artigo art1 = null;
                         switch(artcode){
@@ -290,7 +292,7 @@ public class Controller {
             //System.out.println(data);
 
             if(sub_strings[0].toLowerCase().equals("transportadora")){
-                Transportadora transportadora = new Transportadora(Boolean.parseBoolean(sub_strings[1]),Double.parseDouble(strings[1]),strings[2],Double.parseDouble(strings[3]));
+                Transportadora transportadora = new Transportadora(Boolean.parseBoolean(strings[2]),Double.parseDouble(strings[1]),sub_strings[1],Double.parseDouble(strings[3]));
                 this.vintage.addTransportadora(transportadora);
             }
 
@@ -393,8 +395,20 @@ public class Controller {
                     }
                 }
 
+                else if(sub_strings[0].equalsIgnoreCase("encomenda")){
+                    Set arts = new HashSet<>();
+                    for(int i=5;i<strings.length;i++){
+                        arts.add(strings[i]);
+                    }
+
+                    Encomenda encomenda = new Encomenda(arts,Encomenda.Embalagem.valueOf(strings[1].toUpperCase()),LocalDate.parse(strings[2]),Encomenda.State.valueOf(strings[3].toUpperCase()),Double.parseDouble(strings[4]));
+
+                    this.vintage.addEncomenda(currentUser.getEmail(),encomenda);
+                }
+
             }
             else{
+                System.out.println(sub_strings[0]);
                 System.out.println("erro");
             }
 
@@ -404,10 +418,15 @@ public class Controller {
 
     //falta ler e escrever os ficheiros para venda e para vender
     public void writeToLog() throws IOException {
-        String name = "./src/";
-        name.concat(this.view.ficheiroTxtEscreve());
+        String name = "./src/" + this.view.ficheiroTxtEscreve();
+
         File file = new File(name);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
         FileOutputStream fos = new FileOutputStream(file);
+
         try (PrintWriter pw = new PrintWriter(fos)) {
 
             List<String> lista;
@@ -418,9 +437,11 @@ public class Controller {
                 pw.println(s);
             }
 
+        } finally {
+            fos.close();
         }
-        fos.close();
-        }
+    }
+
 
     public void writeToObjectFile() throws IOException{
         FileOutputStream fos = new FileOutputStream("state.obj");
