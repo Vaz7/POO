@@ -188,59 +188,6 @@ public class Utilizador implements Serializable {
         this.dinheiro_compras = dinheiro_compras;
     }
 
-    public void addArtigoVendido(Artigo c){
-        this.vendido.put(c.getCodAlfaNum(), c);
-    }
-
-    public void addArtigoParaVender(String c){
-        this.para_vender.add(c);
-    }
-
-    public void removeArtigoParaVender(String c){
-        this.para_vender.remove(c);
-    }
-    public void removeArtigoVendido(String c){this.vendido.remove(c);}
-//    private void calculaDinheiroCompras(){
-//        double preco = 0;
-//        for(Artigo c : this.vendido){
-//            preco += c.getPreco_curr();
-//        }
-//        setDinheiro_vendas(preco);
-//    }
-
-    public void addEncomenda(Integer i){
-        this.encomendas.add(i);
-    }
-
-    public void removeEncomenda(Integer i){
-        this.encomendas.remove(i);
-    }
-
-    public static boolean isDeepCloneSet(Set<String> set1, Set<String> set2) {
-        if (set1 == null || set2 == null) {
-            return set1 == set2;
-        }
-
-        if (set1.size() != set2.size()) {
-            return false;
-        }
-        Iterator<String> it = set1.iterator();
-        while (it.hasNext()) {
-            String obj1 = it.next();
-            boolean found = false;
-            for (String obj2 : set2) {
-                if (obj2.equals(obj1)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public Utilizador clone(){
         return new Utilizador(this);
     }
@@ -280,9 +227,36 @@ public class Utilizador implements Serializable {
                 this.nif == l.getNif() &&
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
-                isDeepCloneSet(this.para_vender, l.getPara_vender()); //&&
-                //isDeepCloneSet(this.vendido, l.getVendido()); falta a função para o map
+                this.vendido.equals(l.getVendido()) &&
+                this.para_vender.equals(l.para_vender);
+    }
 
+    public void addArtigoVendido(Artigo c){
+        this.vendido.put(c.getCodAlfaNum(), c);
+    }
+
+    public void addArtigoParaVender(String c){
+        this.para_vender.add(c);
+    }
+
+    public void removeArtigoParaVender(String c){
+        this.para_vender.remove(c);
+    }
+    public void removeArtigoVendido(String c){this.vendido.remove(c);}
+//    private void calculaDinheiroCompras(){
+//        double preco = 0;
+//        for(Artigo c : this.vendido){
+//            preco += c.getPreco_curr();
+//        }
+//        setDinheiro_vendas(preco);
+//    }
+
+    public void addEncomenda(Integer i){
+        this.encomendas.add(i);
+    }
+
+    public void removeEncomenda(Integer i){
+        this.encomendas.remove(i);
     }
 
     public String toLog(){

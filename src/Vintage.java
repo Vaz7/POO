@@ -1,9 +1,15 @@
+import UserExceptions.ArtigoDoesntExistException;
+import UserExceptions.EncomendaDoesntExistException;
+import UserExceptions.TransportadoraDoesntExistException;
+import UserExceptions.UserDoesntExistException;
 import jdk.jshell.execution.Util;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Vintage implements Serializable {
     private Map<Integer,Encomenda> encomendas;
@@ -85,15 +91,17 @@ public class Vintage implements Serializable {
         }
     }
 
-    public Artigo findArtigo(String codigo){
-        return this.artigos.get(codigo).clone();
+    public Artigo findArtigo(String codigo) throws ArtigoDoesntExistException {
+        Artigo ret = this.artigos.get(codigo);
+        if(ret == null) throw new ArtigoDoesntExistException(codigo);
+        return ret.clone();
     }
 
-    public Map<String, String> getEncomendas_utilizadores_ligacao() {
-        Map<String,String> novo = new HashMap<>();
+    public Map<Integer, String> getEncomendas_utilizadores_ligacao() {
+        Map<Integer,String> novo = new HashMap<>();
 
-        for(Map.Entry<String, String> c : this.artigos_utilizadores_ligacao.entrySet()){
-            String aux = c.getKey();
+        for(Map.Entry<Integer, String> c : this.encomendas_utilizadores_ligacao.entrySet()){
+            Integer aux = c.getKey();
             String use = (String) c.getValue();
             novo.put(aux,use);
         }
@@ -181,8 +189,10 @@ public class Vintage implements Serializable {
         this.utilizadores.put(a.getEmail(), a.clone());
     }
 
-    public Transportadora getTransportadoraEspecifico(String nome){
-        return this.transportadoras.get(nome).clone();
+    public Transportadora getTransportadoraEspecifico(String nome) throws TransportadoraDoesntExistException {
+        Transportadora ret = this.transportadoras.get(nome);
+        if(ret == null) throw new TransportadoraDoesntExistException(nome);
+        return ret.clone();
     }
 
     public static boolean isDeepCloneList(List<Encomenda> set1, List<Encomenda> set2) {
@@ -262,19 +272,9 @@ public class Vintage implements Serializable {
         return true;
     }
 
-    /*public boolean equals(Object o) {
-        if (this == o) return true;
-        if ((o == null) || (this.getClass() != o.getClass())) return false;
-        Vintage c = (Vintage) o;
-        return isDeepCloneMap(this.encomendas, c.getEncomendas()) &&
-                isDeepCloneMap(c.getUtilizadores(), this.utilizadores) &&
-                isDeepCloneMapTransport(this.transportadoras, c.getTransportadoras());
-    }*/
-
-    public void printTransportadoras(){
-        for(Transportadora c : this.transportadoras.values()){
-            System.out.println(c.toString());
-        }
+    public List<Transportadora> getListaTransportadoras(){
+        return this.transportadoras.values().stream()
+                .collect(Collectors.toList());
     }
 
     public void addTransportadora(Transportadora a){
@@ -282,27 +282,30 @@ public class Vintage implements Serializable {
     }
 
 
-    public void addArigoVenda (String email, Artigo artigo){
-
-        //este get é do map!!!
+    public void addArigoVenda (String email, Artigo artigo) throws UserDoesntExistException {
         Utilizador utilizador = utilizadores.get(email);
+        if(utilizador == null) throw new UserDoesntExistException(email);
 
         utilizador.addArtigoParaVender(artigo.getCodAlfaNum());
         artigos_utilizadores_ligacao.put(artigo.getCodAlfaNum(),email);
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
-    public void addEncomenda(String email,Encomenda encomenda){
+    public void addEncomenda(String email,Encomenda encomenda) throws UserDoesntExistException, ArtigoDoesntExistException{
         Utilizador utilizador = utilizadores.get(email);
+        if(utilizador == null) throw new UserDoesntExistException(email);
 
         encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email); // isto está estupido, encomendas não é um map
         encomendas.put(encomenda.getCodigo(),encomenda);
 
         Set<String> artigos = encomenda.getArtigos();
         for(String c : artigos){
-            Artigo aux = this.artigos.get(c).clone();
+            Artigo aux = this.artigos.get(c);
+            if(aux == null) throw new ArtigoDoesntExistException(c);
             String user = this.artigos_utilizadores_ligacao.get(c);
+            if(user == null) throw new ArtigoDoesntExistException(c);
             Utilizador utilizador1 = this.utilizadores.get(user);
+            if(utilizador1 == null) throw new UserDoesntExistException(user);
             utilizador1.addArtigoVendido(aux);
             this.artigos_vendidos.put(c,aux);
             utilizador1.removeArtigoParaVender(c);
@@ -353,36 +356,39 @@ public class Vintage implements Serializable {
         return lines;
     }
 
-    public void showArtigos(){
-        for (Map.Entry<String, Artigo> c : this.artigos.entrySet()) {
-            String aux = c.getKey();
-            Artigo use = c.getValue().clone();
-            System.out.println(use.toString());
-        }
+    public List<Artigo> getListaArtigos(){
+        return this.artigos.values().stream()
+                .collect(Collectors.toList());
     }
 
-    public void showArtigos(Set<String> artigos){
-        for(String c : artigos){
-            System.out.println(this.artigos.get(c));
-        }
-    }
-
-    public List<Artigo> getArtigosEncomenda(Encomenda encomenda){
-        Set<String> artigos = encomenda.getArtigos();
+    /**
+     * Serve para obter uma lista com todos os artigos presentes numa encomenda.
+     * @param set de codigos alfanumericos de artigos existente numa encomenda.
+     * @return lista de artigos.
+     */
+    public List<Artigo> getListaArtigos(Set<String> set){
         List<Artigo> novo = new ArrayList<>();
-        for(String c : artigos){
-            novo.add(this.artigos.get(c).clone());
+        for(String c : set){
+            novo.add(this.artigos.get(c));
         }
         return novo;
     }
 
-    public void devolveEncomenda(int num_encomenda, String email){
+    public String getUserFromEncomenda(int cod) throws EncomendaDoesntExistException{
+        String nome = this.encomendas_utilizadores_ligacao.get(cod);
+        if(nome == null) throw new EncomendaDoesntExistException(Integer.toString(cod));
+        return nome;
+    }
+
+    public void devolveEncomenda(int num_encomenda, String email) throws UserDoesntExistException, EncomendaDoesntExistException{
 
         Utilizador utilizador = utilizadores.get(email);
+        if(utilizador == null) throw new UserDoesntExistException(email);
 
         encomendas_utilizadores_ligacao.remove(num_encomenda);
 
         Encomenda encomenda = this.encomendas.get(num_encomenda);
+        if(encomenda == null) throw new EncomendaDoesntExistException(Integer.toString(num_encomenda));
 
         //if(encomenda.isRefundable()==false) return false;
 
@@ -405,20 +411,11 @@ public class Vintage implements Serializable {
         }
     }
 
-    //se der 0 diz que nao pode devolver
-    public int imprimeEncomendas(String user){
-        int contador = 0;
-
+    public void atualizaEncomendas(LocalDate data){
         for(Encomenda c : this.encomendas.values()){
-            String name = this.encomendas_utilizadores_ligacao.get(c.getCodigo());
-            if(name != null && name.equals(user)){
-                System.out.println(c.toString());
-                contador++;
-            }
+
         }
+    }
 
-        return contador;
-
-}
 }
 

@@ -42,13 +42,6 @@ public class Sapatilha extends Artigo {
 
     public Sapatilha(Sapatilha o) {
         super(o);
-        setNovo(o.isNovo());
-        setN_donos(o.getN_donos());
-        setEstado(o.getEstado());
-        setDesc(o.getDesc());
-        setMarca(o.getMarca());
-        setCodAlfaNum(o.getCodAlfaNum());
-        setPreco_base(o.getPreco_base());
         this.tamanho = o.getTamanho();
         this.atacadores = o.isAtacadores();
         this.cor = o.getCor();
@@ -110,7 +103,7 @@ public class Sapatilha extends Artigo {
         int donos = this.getN_donos();
         long year_interval = ChronoUnit.YEARS.between(this.colecao, LocalDate.now());
         if(!this.premium) {
-            if (year_interval >= 1 || this.tamanho > 45) {
+            if (year_interval >= 1 && this.getEstado() != null) {
                 switch (this.getEstado()) {
                     case PESSIMO:
                         preco -= (preco/donos)*(1.0/5.0);
@@ -128,6 +121,9 @@ public class Sapatilha extends Artigo {
                         preco -= (preco/donos);
                         break;
                 }
+            }
+            else if(this.tamanho > 45 && this.getEstado() == null){
+                preco -= preco*(2.0/3.0);
             }
         }
         else {

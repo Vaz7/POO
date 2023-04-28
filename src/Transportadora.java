@@ -87,7 +87,7 @@ public class Transportadora implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Transportadora :: " + this.nome);
         sb.append(", Lucro: " + this.lucro);
-        sb.append(", Premium: " + this.premium + "\n");
+        sb.append(", Premium: " + this.premium);
         return sb.toString();
     }
 

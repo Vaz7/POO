@@ -21,14 +21,14 @@ public class Encomenda implements Serializable {
     private Map<Transportadora, Integer> contador;
     private Embalagem dim;
     private double preco;
-    private LocalDate data;
+    private LocalDate data_inicial;
     private State estado;
 
     public Encomenda(){
         this.codigo = this.count++;
         this.artigos = new HashSet<>();
         this.dim = Embalagem.Pequeno;
-        this.data = LocalDate.now();
+        this.data_inicial = LocalDate.now();
         this.estado = State.Pendente;
         this.preco = 0;
         this.contador = new HashMap<>();
@@ -38,7 +38,7 @@ public class Encomenda implements Serializable {
         this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
-        this.data = LocalDate.now();
+        this.data_inicial = LocalDate.now();
         this.estado = estado;
         //this.preco = calculaPrecoEnc();
     }
@@ -47,7 +47,7 @@ public class Encomenda implements Serializable {
         setArtigos(lista);
         this.codigo = this.count++;
         this.dim = dim;
-        this.data = data;
+        this.data_inicial = data;
         this.estado = estado;
         this.preco = preco;
         //this.preco = calculaPrecoEnc();
@@ -57,7 +57,7 @@ public class Encomenda implements Serializable {
         this.codigo = o.getCodigo();
         this.artigos = o.getArtigos();
         this.dim = o.getDim();
-        this.data = o.getData();
+        this.data_inicial = o.getData_inicial();
         this.estado = o.getEstado();
         this.preco = o.getPreco();
     }
@@ -129,12 +129,12 @@ public class Encomenda implements Serializable {
         this.preco = preco;
     }
 
-    public LocalDate getData() {
-        return this.data;
+    public LocalDate getData_inicial() {
+        return this.data_inicial;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setData_inicial(LocalDate data_inicial) {
+        this.data_inicial = data_inicial;
     }
 
     public State getEstado() {
@@ -143,6 +143,50 @@ public class Encomenda implements Serializable {
 
     public void setEstado(State estado) {
         this.estado = estado;
+    }
+
+    public Encomenda clone(){
+        return new Encomenda(this);
+    }
+
+    public String toLog(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Encomenda:" + this.codigo);
+        sb.append("," + this.dim );
+        sb.append("," + this.data_inicial);
+        sb.append("," + this.estado);
+        sb.append("," + this.preco);
+
+        for(String c : this.artigos){
+            sb.append("," + c.toString());
+        }
+        return sb.toString();
+    }
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Encomenda:" + this.codigo + ",");
+        sb.append(" Embalagem: " + this.dim + ",");
+        sb.append(" Data de Criação: " + this.data_inicial + ",");
+        sb.append(" Estado : " + this.estado + ",");
+        sb.append(" Artigos: ");
+        for(String c : this.artigos){
+            sb.append(c.toString() + ", ");
+        }
+        sb.append(" Preço: " + this.preco);
+        return sb.toString();
+    }
+
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if ((o == null) || (this.getClass() != o.getClass())) return false;
+
+        Encomenda l = (Encomenda) o;
+        return  this.dim == l.getDim() &&
+                this.estado == l.getEstado() &&
+                this.data_inicial.equals(l.getData_inicial()) &&
+                Double.compare(this.preco, l.getPreco()) == 0 &&
+                this.artigos.equals(l.getArtigos());
     }
 
     private void defDimensaoCaixa(){
@@ -200,54 +244,10 @@ public class Encomenda implements Serializable {
     }
 
     public boolean isRefundable(){
-        if(this.data.plusDays(2).isBefore(this.data)) return true;
+        if(this.data_inicial.plusDays(2).isBefore(this.data_inicial)) return true;
         return false;
     }
 
-    public Encomenda clone(){
-        return new Encomenda(this);
-    }
-
-    public String toLog(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Encomenda:" + this.codigo);
-        sb.append("," + this.dim );
-        sb.append("," + this.data);
-        sb.append("," + this.estado);
-        sb.append("," + this.preco);
-
-        for(String c : this.artigos){
-            sb.append("," + c.toString());
-        }
-        return sb.toString();
-    }
-
-    public String toString(){
-        StringBuilder sb = new StringBuilder();
-        sb.append("Encomenda:" + this.codigo + ",");
-        sb.append(" Embalagem: " + this.dim + ",");
-        sb.append(" Data de Criação: " + this.data + ",");
-        sb.append(" Estado : " + this.estado + ",");
-        sb.append(" Artigos: ");
-        for(String c : this.artigos){
-            sb.append(c.toString() + ", ");
-        }
-        sb.append(" Preço: " + this.preco);
-        return sb.toString();
-    }
-
-    public boolean equals(Object o){
-        if (this==o) return true;
-        if ((o == null) || (this.getClass() != o.getClass())) return false;
-
-        Encomenda l = (Encomenda) o;
-        return  this.dim == l.getDim() &&
-                this.estado == l.getEstado() &&
-                this.data.equals(l.getData()) &&
-                Double.compare(this.preco, l.getPreco()) == 0;// &&
-                //isDeepCloneMap(this.artigos, l.getArtigos()); falta deep clone do set
-
-    }
 
     public double calculaPrecoFinal() {
         double preco_transporte = 0;
