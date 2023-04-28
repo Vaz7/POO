@@ -62,6 +62,14 @@ public class Encomenda implements Serializable {
         this.preco = o.getPreco();
     }
 
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Encomenda.count = count;
+    }
+
     public Map<Transportadora, Integer> getContador() {
         Map<Transportadora, Integer> novo = new HashMap<>();
         for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){

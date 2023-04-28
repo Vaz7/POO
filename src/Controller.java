@@ -42,14 +42,7 @@ public class Controller {
                 int opt = Integer.parseInt(this.view.txtOrObject());
                 switch(opt){
                     case 1:
-                        try{
-                            nome = this.view.ficheiroTxtPath();
-                            this.loadFromLog("./src/" + nome);
-                        } catch (IOException fnf) {
-                            fnf.getMessage();
-                        } catch (UserAlreadyExistsException e) {
-                            e.getMessage();
-                        }
+                        Populator.populateData(vintage);
                         break;
                     case 2:
                         try{
@@ -100,9 +93,6 @@ public class Controller {
                     break;
                 case 7:
                     writeToObjectFile();
-                    break;
-                case 8:
-                    writeToLog();
                     break;
                 default:
                     break;
@@ -272,181 +262,11 @@ public class Controller {
         }
     }
 
-    public void loadFromLog(String name ) throws IOException,UserAlreadyExistsException{
-
-        File fich = new File(name);
-        FileInputStream sc = new FileInputStream(fich);
-        BufferedReader buff = new BufferedReader(new InputStreamReader(sc));
-
-        Utilizador currentUser = new Utilizador();
-        String data;
-
-        String strings[];
-        String sub_strings[];
-        while ((data = buff.readLine())!=null) {
-
-            strings = data.split(",");
-            sub_strings = strings[0].split(":"); //para separar nos ":"
-
-
-            //System.out.println(data);
-
-            if(sub_strings[0].toLowerCase().equals("transportadora")){
-                Transportadora transportadora = new Transportadora(Boolean.parseBoolean(strings[2]),Double.parseDouble(strings[1]),sub_strings[1],Double.parseDouble(strings[3]));
-                this.vintage.addTransportadora(transportadora);
-            }
-
-            else if(sub_strings[0].toLowerCase().equals("utilizador")){
-                currentUser = new Utilizador(sub_strings[1],strings[1],strings[2],Integer.parseInt(strings[3]),Double.parseDouble(strings[4]),Double.parseDouble(strings[5]));
-
-                if(this.vintage.userExists(sub_strings[1])){
-                    throw new UserAlreadyExistsException(sub_strings[1]);
-                }
-                else{
-                    this.vintage.addUser(currentUser);
-                }
-
-
-            }
-
-            else if(sub_strings[0].toLowerCase().equals("tshirt_vendida") || sub_strings[0].toLowerCase().equals("tshirt_vender")){
-
-                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==7){
-
-                    //Tshirt:true,Tshirt Name,123.45,M,stripes,Tshirt Transportadora padrao,Transportadora transportadora
-
-                    //da maneira que isto esta, os campos de enums tem de aparecer escritos EXATAMENTE iguais, prob depois muda se as enums para maiusculas e faz se Tshirt.Padrao.valueOf(strings[5].ToUpperCase())
-                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[4].toUpperCase()), Tshirt.Padrao.valueOf(strings[5].toUpperCase()));
-
-                    if(sub_strings[0].toLowerCase().equals("tshirt_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),tshirt);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
-                    }
-
-                }
-
-                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==9){
-
-                    Tshirt tshirt = new Tshirt(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2].toUpperCase()),strings[3],strings[4],Double.parseDouble(strings[5]),vintage.getTransportadoraEspecifico(strings[6]), Tshirt.Tamanho.valueOf(strings[7].toUpperCase()), Tshirt.Padrao.valueOf(strings[8].toUpperCase()));
-
-                    if(sub_strings[0].toLowerCase().equals("tshirt_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),tshirt);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),tshirt); //depois temos de verificar no caso em que o user nao existe
-                    }
-                }
-
-                else{
-                    System.out.println("erro");//depois meter exception quando percebermos como funfa
-                }
-
-            }
-
-            else if(sub_strings[0].toLowerCase().equals("mala_vendida") || sub_strings[0].toLowerCase().equals("mala_vender")){
-
-                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==9){
-
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[8]), Mala.Dim.valueOf(strings[4].toUpperCase()),strings[5], LocalDate.parse(strings[6]),Boolean.parseBoolean(strings[7]));
-                    if(sub_strings[0].toLowerCase().equals("mala_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),mala);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
-                    }
-                }
-                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==11){
-
-                    Mala mala = new Mala(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2].toUpperCase()),strings[3],strings[4],Double.parseDouble(strings[5]), vintage.getTransportadoraEspecifico(strings[10]), Mala.Dim.valueOf(strings[6].toUpperCase()),strings[7],LocalDate.parse(strings[8]),Boolean.parseBoolean(strings[9]));
-                    if(sub_strings[0].toLowerCase().equals("mala_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),mala);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),mala); //depois temos de verificar no caso em que o user nao existe
-                    }
-                }
-
-
-            }
-
-            else if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")||sub_strings[0].toLowerCase().equals("sapatilha_vender")){
-
-                if(Boolean.parseBoolean(sub_strings[1])==true && strings.length==10){
-
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),strings[1],strings[2],Double.parseDouble(strings[3]), vintage.getTransportadoraEspecifico(strings[9]), Double.parseDouble(strings[4]),Boolean.parseBoolean(strings[5]),strings[6],LocalDate.parse(strings[7]),Boolean.parseBoolean(strings[8]));
-                    if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
-                    }
-                }
-
-                else if(Boolean.parseBoolean(sub_strings[1])==false && strings.length==12){
-
-                    Sapatilha sapatilha = new Sapatilha(Boolean.parseBoolean(sub_strings[1]),Integer.parseInt(strings[1]),Artigo.Estado.valueOf(strings[2].toUpperCase()),strings[3],strings[4],Double.parseDouble(strings[5]), vintage.getTransportadoraEspecifico(strings[11]), Double.parseDouble(strings[6]),Boolean.parseBoolean(strings[7]),strings[8],LocalDate.parse(strings[9]),Boolean.parseBoolean(strings[10]));
-                    if(sub_strings[0].toLowerCase().equals("sapatilha_vendida")){
-                        vintage.addArigoVendido(currentUser.getEmail(),sapatilha);
-                    }
-                    else{
-                        vintage.addArigoVenda(currentUser.getEmail(),sapatilha); //depois temos de verificar no caso em que o user nao existe
-                    }
-                }
-
-                else if(sub_strings[0].equalsIgnoreCase("encomenda")){
-                    Set arts = new HashSet<>();
-                    for(int i=5;i<strings.length;i++){
-                        arts.add(strings[i]);
-                    }
-
-                    Encomenda encomenda = new Encomenda(arts,Encomenda.Embalagem.valueOf(strings[1].toUpperCase()),LocalDate.parse(strings[2]),Encomenda.State.valueOf(strings[3].toUpperCase()),Double.parseDouble(strings[4]));
-
-                    this.vintage.addEncomenda(currentUser.getEmail(),encomenda);
-                }
-
-            }
-            else{
-                System.out.println(sub_strings[0]);
-                System.out.println("erro");
-            }
-
-        }
-    }
-
-
-    //falta ler e escrever os ficheiros para venda e para vender
-    public void writeToLog() throws IOException {
-        String name = "./src/" + this.view.ficheiroTxtEscreve();
-
-        File file = new File(name);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        FileOutputStream fos = new FileOutputStream(file);
-
-        try (PrintWriter pw = new PrintWriter(fos)) {
-
-            List<String> lista;
-
-            lista = this.vintage.toLog();
-
-            for (String s : lista) {
-                pw.println(s);
-            }
-
-        } finally {
-            fos.close();
-        }
-    }
-
-
     public void writeToObjectFile() throws IOException{
         FileOutputStream fos = new FileOutputStream("state.obj");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this.vintage);
+        oos.write(Encomenda.getCount());
         oos.flush();
         oos.close();
     }
@@ -455,6 +275,7 @@ public class Controller {
         FileInputStream fis = new FileInputStream("state.obj");
         ObjectInputStream ois = new ObjectInputStream(fis);
         this.vintage = (Vintage) ois.readObject();
+        Encomenda.setCount(ois.read());
         ois.close();
     }
 }
