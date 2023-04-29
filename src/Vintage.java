@@ -196,86 +196,21 @@ public class Vintage implements Serializable {
         return ret.clone();
     }
 
-    public static boolean isDeepCloneList(List<Encomenda> set1, List<Encomenda> set2) {
-        if (set1 == null || set2 == null) {
-            return set1 == set2;
+    public Set<Transportadora> getListaTransportadoras(boolean prem){
+        Set<Transportadora> novo;
+        if(prem == true){
+            novo = this.transportadoras.values()
+                    .stream()
+                    .filter(t -> t instanceof TransportadoraPremium)
+                    .collect(Collectors.toSet());
         }
-
-        if (set1.size() != set2.size()) {
-            return false;
+        else{
+            novo = this.transportadoras.values()
+                    .stream()
+                    .filter(t -> !(t instanceof TransportadoraPremium))
+                    .collect(Collectors.toSet());
         }
-        Iterator<Encomenda> it = set1.iterator();
-        while (it.hasNext()) {
-            Encomenda obj1 = it.next();
-            boolean found = false;
-            for (Encomenda obj2 : set2) {
-                if (obj2.equals(obj1)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean isDeepCloneMap(Map<String, Utilizador> map1, Map<String, Utilizador> map2) {
-
-        if (map1 == null || map2 == null) {
-            return map1 == map2;
-        }
-
-        if (map1.size() != map2.size()) {
-            return false;
-        }
-
-        for (String key : map1.keySet()) {
-            if (!map2.containsKey(key)) {
-                return false;
-            }
-
-            Utilizador obj1 = map1.get(key);
-            Utilizador obj2 = map2.get(key);
-
-            if (!obj1.equals(obj2)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public static boolean isDeepCloneMapTransport(Map<String, Transportadora> map1, Map<String, Transportadora> map2) {
-
-        if (map1 == null || map2 == null) {
-            return map1 == map2;
-        }
-
-        if (map1.size() != map2.size()) {
-            return false;
-        }
-
-        for (String key : map1.keySet()) {
-            if (!map2.containsKey(key)) {
-                return false;
-            }
-
-            Transportadora obj1 = map1.get(key);
-            Transportadora obj2 = map2.get(key);
-
-            if (!obj1.equals(obj2)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public List<Transportadora> getListaTransportadoras(){
-        return this.transportadoras.values().stream()
-                .collect(Collectors.toList());
+        return novo;
     }
 
     public void addTransportadora(Transportadora a){

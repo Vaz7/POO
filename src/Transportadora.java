@@ -6,33 +6,28 @@ public class Transportadora implements Serializable {
     public static final double GRANDES = 10.99;
     public static final double IMPOSTO = 0.15;
     private double lucro;
-    private boolean premium;
     private String nome;
     private double dinheiro_feito;
 
     public Transportadora() {
         this.nome = "boua";
-        this.premium = false;
         this.lucro = 0;
         this.dinheiro_feito = 0;
     }
 
-    public Transportadora(String nome, double lucro, boolean premium) {
+    public Transportadora(String nome, double lucro) {
         this.nome = nome;
         this.lucro = lucro;
-        this.premium = premium;
         this.dinheiro_feito = 0.0;
     }
 
-    public Transportadora(boolean premium, double lucro, String nome, double dinheiro_feito) {
+    public Transportadora(double lucro, String nome, double dinheiro_feito) {
         this.nome = nome;
-        this.premium = premium;
         this.lucro = lucro;
         this.dinheiro_feito = dinheiro_feito;
     }
 
     public Transportadora(Transportadora o) {
-        this.premium = o.isPremium();
         this.lucro = o.getLucro();
         this.nome = o.getNome();
         this.dinheiro_feito = o.getDinheiro_feito();
@@ -62,14 +57,6 @@ public class Transportadora implements Serializable {
         this.lucro = lucro;
     }
 
-    public boolean isPremium() {
-        return premium;
-    }
-
-    public void setPremium(boolean premium) {
-        this.premium = premium;
-    }
-
     public double precoTransporte(int n_transp_apareceu) {
         double base = 0;
         if (n_transp_apareceu == 1) base = PEQUENAS;
@@ -87,7 +74,6 @@ public class Transportadora implements Serializable {
         StringBuilder sb = new StringBuilder();
         sb.append("Transportadora :: " + this.nome);
         sb.append(", Lucro: " + this.lucro);
-        sb.append(", Premium: " + this.premium);
         return sb.toString();
     }
 
@@ -97,13 +83,12 @@ public class Transportadora implements Serializable {
 
         Transportadora l = (Transportadora) o;
         return Double.compare(this.lucro, l.getLucro()) == 0 &&
-                this.premium == l.isPremium() &&
                 this.nome.equals(l.getNome());
 
     }
 
     public String toLog() {
-        return ("Transportadora:" + this.getNome() + "," + this.getLucro() + "," + this.isPremium() + "," + this.getDinheiro_feito());
+        return ("Transportadora:" + this.getNome() + "," + this.getLucro() + "," + this.getDinheiro_feito());
     }
 
     @Override
@@ -113,7 +98,6 @@ public class Transportadora implements Serializable {
         long temp;
         temp = Double.doubleToLongBits(dinheiro_feito);
         result = prime * result + (int) (temp ^ (temp >>> 32));
-        result = prime * result + (premium ? 1231 : 1237);
         temp = Double.doubleToLongBits(lucro);
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());

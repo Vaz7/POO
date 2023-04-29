@@ -6,8 +6,6 @@ public class Sapatilha extends Artigo {
     private boolean atacadores;
     private String cor;
     private LocalDate colecao;
-    private boolean premium;
-
     private double preco_curr;
 
     public Sapatilha(){
@@ -16,27 +14,24 @@ public class Sapatilha extends Artigo {
         this.atacadores = false;
         this.cor = "";
         this.colecao = LocalDate.now();
-        this.premium = false;
         this.preco_curr = getPreco_base();
     }
 
-    public Sapatilha(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium) {
+    public Sapatilha(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, desc, marca,preco_base,transportadora);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
         this.cor = cor;
         this.colecao = colecao;
-        this.premium = premium;
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Sapatilha(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao, boolean premium) {
+    public Sapatilha(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
         this.atacadores = atacadores;
         this.cor = cor;
         this.colecao = colecao;
-        this.premium = premium;
         this.preco_curr = calculaPrecoDesconto();
     }
 
@@ -46,7 +41,6 @@ public class Sapatilha extends Artigo {
         this.atacadores = o.isAtacadores();
         this.cor = o.getCor();
         this.colecao = o.getColecao();
-        this.premium = o.isPremium();
         this.preco_curr = o.getPreco_curr();
     }
 
@@ -90,44 +84,31 @@ public class Sapatilha extends Artigo {
         this.colecao = colecao;
     }
 
-    public boolean isPremium() {
-        return this.premium;
-    }
-
-    public void setPremium(boolean premium) {
-        this.premium = premium;
-    }
-
     private double calculaPrecoDesconto() {
         double preco = this.getPreco_base();
         int donos = this.getN_donos();
         long year_interval = ChronoUnit.YEARS.between(this.colecao, LocalDate.now());
-        if(!this.premium) {
-            if (year_interval >= 1 && this.getEstado() != null) {
-                switch (this.getEstado()) {
-                    case PESSIMO:
-                        preco -= (preco/donos)*(1.0/5.0);
-                        break;
-                    case MAU:
-                        preco -= (preco/donos)*(1.0/4.0);
-                        break;
-                    case RAZOAVEL:
-                        preco -= (preco/donos)*(1.0/3.0);
-                        break;
-                    case BOM:
-                        preco -= (preco/donos)*(1.0/2.0);
-                        break;
-                    case MUITO_BOM:
-                        preco -= (preco/donos);
-                        break;
-                }
-            }
-            else if(this.tamanho > 45 && this.getEstado() == null){
-                preco -= preco*(2.0/3.0);
+        if (year_interval >= 1 && this.getEstado() != null) {
+            switch (this.getEstado()) {
+                case PESSIMO:
+                    preco -= (preco/donos)*(1.0/5.0);
+                    break;
+                case MAU:
+                    preco -= (preco/donos)*(1.0/4.0);
+                    break;
+                case RAZOAVEL:
+                    preco -= (preco/donos)*(1.0/3.0);
+                    break;
+                case BOM:
+                    preco -= (preco/donos)*(1.0/2.0);
+                    break;
+                case MUITO_BOM:
+                    preco -= (preco/donos);
+                    break;
             }
         }
-        else {
-            preco += (double)year_interval * 0.1 * preco;
+        else if(this.tamanho > 45 && this.getEstado() == null){
+            preco -= preco*(2.0/3.0);
         }
         return preco;
     }
@@ -135,6 +116,7 @@ public class Sapatilha extends Artigo {
     public Sapatilha clone(){
         return new Sapatilha(this);
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -151,7 +133,6 @@ public class Sapatilha extends Artigo {
         sb.append(", Atacadores: " + this.atacadores);
         sb.append(", Cor: " + this.cor);
         sb.append(", Coleção: " + this.colecao);
-        sb.append(", Premium: " + this.premium);
         sb.append(", Preço Atual: " + this.preco_curr);
         return sb.toString();
     }
@@ -163,7 +144,6 @@ public class Sapatilha extends Artigo {
         Sapatilha sapatilha = (Sapatilha) o;
         return Double.compare(sapatilha.tamanho, tamanho) == 0 &&
                 atacadores == sapatilha.atacadores &&
-                premium == sapatilha.premium &&
                 Double.compare(sapatilha.preco_curr, preco_curr) == 0 &&
                 this.cor.equals(sapatilha.getCor()) &&
                 this.colecao.equals(sapatilha.getColecao());
@@ -171,19 +151,19 @@ public class Sapatilha extends Artigo {
 
     public String toLogVender(){
         if(super.isNovo()==true){
-            return("Sapatilha_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
         else{
-            return("Sapatilha_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
     }
 
     public String toLogVendidos(){
         if(super.isNovo()==true){
-            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
         else{
-            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return("Sapatilha_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
     }
 }

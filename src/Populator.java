@@ -10,10 +10,10 @@ public class Populator {
 
     public static void populateData(Vintage vintage){
         // cria transportadoras
-        Transportadora transp1 = new Transportadora(false,0.05,"gls",18000);
-        Transportadora transp2 = new Transportadora(false,0.07,"ctt",25000);
-        Transportadora transp3 = new Transportadora(false,0.06,"dhl",19000);
-        Transportadora transp4 = new Transportadora(true,0.15,"mrw premium",20000);
+        Transportadora transp1 = new Transportadora(0.05,"gls",18000);
+        Transportadora transp2 = new Transportadora(0.07,"ctt",25000);
+        Transportadora transp3 = new Transportadora(0.06,"dhl",19000);
+        Transportadora transp4 = new TransportadoraPremium(0.15,"mrw premium",20000);
 
         // cria utilizadores
         Utilizador user1 = new Utilizador("henrique@vaz.pt","Henrique Vaz","Rua das cenas, n12",260485489,12.5,11.2);
@@ -40,28 +40,29 @@ public class Populator {
         Artigo art9 =new Tshirt(false, 3, Artigo.Estado.MAU, "T-shirt cinza com logotipo", "Fila", 35.0, transp3, Tshirt.Tamanho.S, Tshirt.Padrao.PALMEIRAS);
         Artigo art10 =new Tshirt(false, 2, Artigo.Estado.PESSIMO, "T-shirt vermelha com padrão", "Under Armour", 40.0, transp2, Tshirt.Tamanho.S, Tshirt.Padrao.RISCAS);
 
-        Artigo art11 = new Mala(true,"Artigo novo","prada",245,transp3, Mala.Dim.GRANDE,"pele sintética",LocalDate.parse("2023-12-12"),false);
-        Artigo art12 = new Mala(true,"Artigo novo","Tous",40,transp3, Mala.Dim.GRANDE,"pele sintética",LocalDate.parse("2023-12-12"),false);
-        Artigo art13 = new Mala(true, "Mala de viagem nova", "Samsonite", 300.0, transp1, Mala.Dim.PEQUENO, "Couro sintético", LocalDate.parse("2019-06-30"), true);
-        Artigo art14 = new Mala(true, "Mala de rodinhas usada", "Delsey", 200.0, transp1, Mala.Dim.MEDIO, "Poliéster", LocalDate.parse("2022-05-15"), false);
-        Artigo art15 = new Mala(true, "Mala executiva nova", "Tumi", 400.0, transp2, Mala.Dim.GRANDE, "Couro", LocalDate.parse("2021-07-31"), false);
-        Artigo art16 = new Mala(false, 5, Artigo.Estado.BOM, "Mala de mão usada", "Louis Vuitton", 800.0, transp1, Mala.Dim.PEQUENO, "Couro", LocalDate.parse("2022-12-31"), false);
-        Artigo art17 = new Mala(false, 3, Artigo.Estado.RAZOAVEL, "Mala de viagem grande nova", "Rimowa", 1200.0, transp4, Mala.Dim.GRANDE, "Poliéster", LocalDate.parse("2024-05-30"), true);
-        Artigo art18 = new Mala(false, 2, Artigo.Estado.MUITO_BOM, "Mala de rodinhas usada", "Tumi", 500.0, transp4, Mala.Dim.MEDIO, "Nylon", LocalDate.parse("2023-11-15"), false);
-        Artigo art19 = new Mala(false, 4, Artigo.Estado.MAU, "Mala de mão premium nova", "Prada", 1000.0, transp1, Mala.Dim.PEQUENO, "Couro", LocalDate.parse("2023-08-31"), true);
-        Artigo art20 = new Mala(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp2, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2023-09-30"), false);
+        Artigo art11 = new Mala(true,"Artigo novo","prada",245,transp3, Mala.Dim.GRANDE,"pele sintética",LocalDate.parse("2023-12-12"));
+        Artigo art12 = new Mala(true,"Artigo novo","Tous",40,transp3, Mala.Dim.GRANDE,"pele sintética",LocalDate.parse("2023-12-12"));
+        Artigo art13 = new Mala(true, "Mala de viagem nova", "Samsonite", 300.0, transp1, Mala.Dim.PEQUENO, "Couro sintético", LocalDate.parse("2019-06-30"));
+        Artigo art14 = new Mala(true, "Mala de rodinhas usada", "Delsey", 200.0, transp1, Mala.Dim.MEDIO, "Poliéster", LocalDate.parse("2022-05-15"));
+        Artigo art15 = new Mala(true, "Mala executiva nova", "Tumi", 400.0, transp2, Mala.Dim.GRANDE, "Couro", LocalDate.parse("2021-07-31"));
+        Artigo art16 = new Mala(false, 5, Artigo.Estado.BOM, "Mala de mão usada", "Louis Vuitton", 800.0, transp1, Mala.Dim.PEQUENO, "Couro", LocalDate.parse("2022-12-31"));
+        Artigo art17 = new Mala(false, 3, Artigo.Estado.RAZOAVEL, "Mala de viagem grande nova", "Rimowa", 1200.0, transp4, Mala.Dim.GRANDE, "Poliéster", LocalDate.parse("2024-05-30"));
+        Artigo art18 = new Mala(false, 2, Artigo.Estado.MUITO_BOM, "Mala de rodinhas usada", "Tumi", 500.0, transp4, Mala.Dim.MEDIO, "Nylon", LocalDate.parse("2023-11-15"));
+        Artigo art19 = new Mala(false, 4, Artigo.Estado.MAU, "Mala de mão premium nova", "Prada", 1000.0, transp1, Mala.Dim.PEQUENO, "Couro", LocalDate.parse("2023-08-31"));
+        Artigo art20 = new Mala(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp2, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2020-09-30"));
+        Artigo art32 = new MalaPremium(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp2, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2020-09-30"));
 
-
-        Artigo art21 = new Sapatilha(true, "Sapatilha feminina de tecido", "Nike", 200.0, transp1, 36.5, true, "Cinza", LocalDate.parse("2022-08-15"), false);
-        Artigo art22 = new Sapatilha(true, "Sapatilha masculina de couro", "Adidas", 250.0, transp2, 42.0, false, "Preto", LocalDate.parse("2021-04-01"), false);
-        Artigo art23 = new Sapatilha(true, "Sapatilha infantil de tecido", "Puma", 100.0, transp3, 28.0, true, "Rosa", LocalDate.parse("2019-06-30"), false);
-        Artigo art24 = new Sapatilha(true, "Sapatilha unissex de couro", "Converse", 150.0, transp4, 39.5, false, "Branco", LocalDate.parse("2009-12-31"), false);
-        Artigo art25 = new Sapatilha(true, "Sapatilha feminina de camurça", "Vans", 180.0, transp1, 38.5, true, "Roxo", LocalDate.parse("2013-09-30"), false);
-        Artigo art26 = new Sapatilha(false, 1, Artigo.Estado.BOM, "Sapatilha em ótimo estado", "Adidas", 129.99, transp1, 37.5, true, "Branca", LocalDate.parse("2020-03-01"), false);
-        Artigo art27 = new Sapatilha(false, 3, Artigo.Estado.RAZOAVEL, "Sapatilha nova na caixa", "Nike", 159.99, transp2, 40.0, true, "Vermelha", LocalDate.parse("2021-01-01"), false);
-        Artigo art28 = new Sapatilha(false, 3, Artigo.Estado.MUITO_BOM, "Sapatilha com uso moderado", "Puma", 89.99, transp3, 39.0, false, "Preta", LocalDate.parse("2022-09-01"), false);
-        Artigo art29 = new Sapatilha(false, 2, Artigo.Estado.MAU, "Sapatilha em bom estado", "Reebok", 99.99, transp2, 38.5, true, "Azul", LocalDate.parse("2022-06-01"), false);
-        Artigo art30 = new Sapatilha(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"), false);
+        Artigo art21 = new Sapatilha(true, "Sapatilha feminina de tecido", "Nike", 200.0, transp1, 36.5, true, "Cinza", LocalDate.parse("2022-08-15"));
+        Artigo art22 = new Sapatilha(true, "Sapatilha masculina de couro", "Adidas", 250.0, transp2, 42.0, false, "Preto", LocalDate.parse("2021-04-01"));
+        Artigo art23 = new Sapatilha(true, "Sapatilha infantil de tecido", "Puma", 100.0, transp3, 28.0, true, "Rosa", LocalDate.parse("2019-06-30"));
+        Artigo art24 = new Sapatilha(true, "Sapatilha unissex de couro", "Converse", 150.0, transp4, 39.5, false, "Branco", LocalDate.parse("2009-12-31"));
+        Artigo art25 = new Sapatilha(true, "Sapatilha feminina de camurça", "Vans", 180.0, transp1, 38.5, true, "Roxo", LocalDate.parse("2013-09-30"));
+        Artigo art26 = new Sapatilha(false, 1, Artigo.Estado.BOM, "Sapatilha em ótimo estado", "Adidas", 129.99, transp1, 37.5, true, "Branca", LocalDate.parse("2020-03-01"));
+        Artigo art27 = new Sapatilha(false, 3, Artigo.Estado.RAZOAVEL, "Sapatilha nova na caixa", "Nike", 159.99, transp2, 40.0, true, "Vermelha", LocalDate.parse("2021-01-01"));
+        Artigo art28 = new Sapatilha(false, 3, Artigo.Estado.MUITO_BOM, "Sapatilha com uso moderado", "Puma", 89.99, transp3, 39.0, false, "Preta", LocalDate.parse("2022-09-01"));
+        Artigo art29 = new Sapatilha(false, 2, Artigo.Estado.MAU, "Sapatilha em bom estado", "Reebok", 99.99, transp2, 38.5, true, "Azul", LocalDate.parse("2022-06-01"));
+        Artigo art30 = new Sapatilha(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"));
+        Artigo art31 = new SapatilhaPremium(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"));
 
         // cria encomenda
         Encomenda encDoUser1 = new Encomenda();
@@ -81,13 +82,6 @@ public class Populator {
         encDoUser4.addArtEncomenda(art19);
         encDoUser5.addArtEncomenda(art1);
         encDoUser5.addArtEncomenda(art12);
-
-        //finaliza as encomendas
-        encDoUser1.setEstado(Encomenda.State.Finalizada);
-        encDoUser2.setEstado(Encomenda.State.Finalizada);
-        encDoUser3.setEstado(Encomenda.State.Finalizada);
-        encDoUser4.setEstado(Encomenda.State.Finalizada);
-        encDoUser5.setEstado(Encomenda.State.Finalizada);
 
         // insere na vintage users
         vintage.addUser(user1);
@@ -143,6 +137,8 @@ public class Populator {
             vintage.addArigoVenda(user10.getEmail(),art10);
             vintage.addArigoVenda(user10.getEmail(),art20);
             vintage.addArigoVenda(user10.getEmail(),art30);
+            vintage.addArigoVenda(user10.getEmail(),art31);
+            vintage.addArigoVenda(user10.getEmail(),art32);
         } catch (UserDoesntExistException e){
             e.getMessage();
         }

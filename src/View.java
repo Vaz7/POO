@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.spi.LocaleServiceProvider;
 
 public class View {
@@ -179,6 +180,10 @@ public class View {
         return utilizadorInput;
     }
 
+    public void imprimeTransportadora(Set<Transportadora> list){
+        list.stream().forEach(System.out::println);
+    }
+
     public int OpcaoEncomenda() {
         Scanner sc = new Scanner(System.in);
 
@@ -252,7 +257,10 @@ public class View {
         return ret;
     }
 
-
+    public void transpNaoCorresponde(){
+        System.out.println("O nome que escreveu não corresponde a nenhum dos que foi exposto.\n");
+    }
+    
     public String tipoArtigoCompra() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Que tipo de produtos estás à procura?");
@@ -264,16 +272,6 @@ public class View {
         String option = sc.next();
         sc.close();
         return option;
-    }
-
-    public void imprimeTransportadora(List<Transportadora> list, boolean premium){
-        if(premium == true) list.stream()
-                .filter(Transportadora::isPremium)
-                .forEach(System.out::println);
-        else
-            list.stream()
-                    .filter(t -> !t.isPremium())
-                    .forEach(System.out::println);
     }
 
     public int artPremium(){

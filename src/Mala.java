@@ -11,32 +11,28 @@ public class Mala extends Artigo {
     private Dim dimensao;
     private String material;
     private LocalDate colecao;
-    private boolean premium;
     private double preco_curr;
 
     public Mala(){
         this.dimensao = Dim.PEQUENO;
         this.material = "";
         this.colecao = LocalDate.now();
-        this.premium = false;
         this.preco_curr = this.getPreco_base();
     }
 
-    public Mala(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao, boolean premium) {
+    public Mala(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao) {
         super(novo, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
         this.material = material;
         this.colecao = colecao;
-        this.premium = premium;
         this.preco_curr = calculaPrecoDesconto();
     }
 
-    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao, boolean premium) {
+    public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
         this.material = material;
         this.colecao = colecao;
-        this.premium = premium;
         this.preco_curr = calculaPrecoDesconto();
     }
 
@@ -45,7 +41,6 @@ public class Mala extends Artigo {
         this.dimensao = o.getDimensao();
         this.material = o.getMaterial();
         this.colecao = o.getColecao();
-        this.premium = o.isPremium();
         this.preco_curr = o.getPreco_curr();
     }
 
@@ -73,14 +68,6 @@ public class Mala extends Artigo {
         this.colecao = colecao;
     }
 
-    public boolean isPremium() {
-        return this.premium;
-    }
-
-    public void setPremium(boolean premium) {
-        this.premium = premium;
-    }
-
     public double getPreco_curr() {
         return this.preco_curr;
     }
@@ -92,7 +79,6 @@ public class Mala extends Artigo {
     private double calculaPrecoDesconto(){
         double preco = this.getPreco_base();
         long year_interval = ChronoUnit.YEARS.between(this.colecao, LocalDate.now());
-        if(!this.premium) {
             switch (this.dimensao) {
                 case PEQUENO:
                     preco -= preco * 0.25;
@@ -104,10 +90,6 @@ public class Mala extends Artigo {
                     preco -= preco * 0.1;
                     break;
             }
-        }
-        else{
-            preco += (double)year_interval * 0.1 * preco;
-        }
         return preco;
     }
 
@@ -130,7 +112,6 @@ public class Mala extends Artigo {
         sb.append(", Dimensão: " + this.dimensao);
         sb.append(", Material: " + this.material);
         sb.append(", Coleção: " + this.colecao);
-        sb.append(", Premium: " + this.premium);
         sb.append(", Preço Atual: " + this.preco_curr);
         return sb.toString();
     }
@@ -141,8 +122,7 @@ public class Mala extends Artigo {
         if ((o == null) || (this.getClass() != o.getClass())) return false;
         if (!super.equals(o)) return false;
         Mala mala = (Mala) o;
-        return premium == mala.premium &&
-                Double.compare(mala.preco_curr, preco_curr) == 0 &&
+        return Double.compare(mala.getPreco_curr(), preco_curr) == 0 &&
                 this.colecao.equals(mala.getColecao()) &&
                 this.dimensao == mala.getDimensao() &&
                 this.material.equals(mala.getMaterial());
@@ -152,17 +132,17 @@ public class Mala extends Artigo {
         public String toLogVender() {
 
             if (super.isNovo() == true) {
-                return ("Mala_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
+                return ("Mala_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.getTransp().getNome());
             } else {
-                return ("Mala_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+                return ("Mala_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.getTransp().getNome());
             }
         }
     public String toLogVendidos() {
 
         if (super.isNovo() == true) {
-            return ("Mala_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.isPremium()  + "," +  this.getTransp().getNome());
+            return ("Mala_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.getTransp().getNome());
         } else {
-            return ("Mala_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.isPremium() + "," + this.getTransp().getNome());
+            return ("Mala_vendida:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
     }
 }

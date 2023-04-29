@@ -173,19 +173,24 @@ public class Controller {
         }
     }
 
-    public void createArtigo(){
+    public void createArtigo(){ //adaptar para premium
         boolean flag = true;
         boolean flag2 = true;
         Transportadora c = null;
         int premium = this.view.artPremium();
         boolean prem = (premium == 1) ? false : true;
         while(flag){
-            this.view.imprimeTransportadora(this.vintage.getListaTransportadoras(), prem);
+            Set<Transportadora> transpSet = this.vintage.getListaTransportadoras(prem);
+            this.view.imprimeTransportadora(transpSet);
             String transp = this.view.escolheTransportadora();
 
             try{
                 c = this.vintage.getTransportadoraEspecifico(transp); // está a aceitar premium e não pode
-                flag = false;
+                if(transpSet.contains(c))
+                    flag = false;
+                else
+                    this.view.transpNaoCorresponde();
+
             } catch (TransportadoraDoesntExistException e){
                 e.getMessage();
             }
@@ -206,18 +211,18 @@ public class Controller {
                         break;
                     case 2:
                         if(tokens[0].toLowerCase().equals("false")){
-                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]), prem);
+                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
                         }
                         else{
-                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]), prem);
+                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
                         }
                         break;
                     case 3:
                         if(tokens[0].toLowerCase().equals("false")){
-                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]), prem);
+                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
                         }
                         else{
-                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]), prem);
+                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
                         }
                     case 0:
                         return;
@@ -234,10 +239,15 @@ public class Controller {
         }
     }
 
-    public void createTransportadora(){
-
+    public void createTransportadora(){ // adaptar para premium tmb
+        Transportadora transportadora = null;
         String tokens[] = this.view.transportadoraCreation();
-        Transportadora transportadora = new Transportadora(tokens[0], Double.parseDouble(tokens[1]), Boolean.parseBoolean(tokens[2]));
+        if(tokens[3].equalsIgnoreCase("false")) {
+            transportadora = new Transportadora(tokens[0], Double.parseDouble(tokens[1]));
+        }
+        else{
+            transportadora = new TransportadoraPremium(tokens[0], Double.parseDouble(tokens[1]));
+        }
         this.vintage.addTransportadora(transportadora);
     }
 
