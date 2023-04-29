@@ -136,6 +136,8 @@ public class Controller {
                         fne.getMessage();
                     }
                     break;
+                case 9:
+                    calculaEstatisticas();
             }
         } catch(Exception e){
             System.out.println("Opção Inválida! " + e.getMessage());
@@ -297,6 +299,42 @@ public class Controller {
         this.vintage.addUser(utilizador);
     }
 
+    public void calculaEstatisticas() {
+        boolean flag = true;
+        LocalDate datas[];
+        while (flag) {
+            try {
+                int op2 = Integer.parseInt(this.view.menuEstatisticas());
+                switch (op2) {
+                    case 0:
+                        flag = false; // Exit loop
+                        break;
+                    case 1:
+                         datas = this.view.intervaloTempo();
+                    System.out.println("stats1");
+                        break;
+                    case 2:
+                        System.out.println("stats2");
+                        break;
+                    case 3:
+                        System.out.println("stats3");
+                        break;
+                    case 4:
+                        datas = this.view.intervaloTempo();
+                        System.out.println("stats4");
+                        break;
+                    case 5:
+                        System.out.println("stats5");
+                        break;
+                    default:
+                        System.out.println("Opção Inválida!");
+                        break;
+                }
+            } catch(Exception e) {
+                System.out.println("Opção Inválida! " + e.getMessage());
+            }
+        }
+    }
     public void writeToObjectFile() throws IOException{
         FileOutputStream fos = new FileOutputStream("state.obj");
         ObjectOutputStream oos = new ObjectOutputStream(fos);

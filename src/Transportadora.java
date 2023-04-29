@@ -10,28 +10,28 @@ public class Transportadora implements Serializable {
     private String nome;
     private double dinheiro_feito;
 
-    public Transportadora(){
+    public Transportadora() {
         this.nome = "boua";
         this.premium = false;
         this.lucro = 0;
         this.dinheiro_feito = 0;
     }
 
-    public Transportadora(String nome, double lucro,boolean premium){
+    public Transportadora(String nome, double lucro, boolean premium) {
         this.nome = nome;
         this.lucro = lucro;
         this.premium = premium;
         this.dinheiro_feito = 0.0;
     }
 
-    public Transportadora(boolean premium, double lucro, String nome, double dinheiro_feito){
+    public Transportadora(boolean premium, double lucro, String nome, double dinheiro_feito) {
         this.nome = nome;
         this.premium = premium;
         this.lucro = lucro;
         this.dinheiro_feito = dinheiro_feito;
     }
 
-    public Transportadora(Transportadora o){
+    public Transportadora(Transportadora o) {
         this.premium = o.isPremium();
         this.lucro = o.getLucro();
         this.nome = o.getNome();
@@ -70,20 +70,20 @@ public class Transportadora implements Serializable {
         this.premium = premium;
     }
 
-    public double precoTransporte(int n_transp_apareceu){
+    public double precoTransporte(int n_transp_apareceu) {
         double base = 0;
-        if(n_transp_apareceu == 1) base = PEQUENAS;
-        else if(n_transp_apareceu >= 2 && n_transp_apareceu <=5 ) base = MEDIAS;
-        else if(n_transp_apareceu > 5) base = GRANDES;
-        double preco = base * (1.0+this.lucro) * (1.0+IMPOSTO) * 0.9;
+        if (n_transp_apareceu == 1) base = PEQUENAS;
+        else if (n_transp_apareceu >= 2 && n_transp_apareceu <= 5) base = MEDIAS;
+        else if (n_transp_apareceu > 5) base = GRANDES;
+        double preco = base * (1.0 + this.lucro) * (1.0 + IMPOSTO) * 0.9;
         return preco;
     }
 
-    public Transportadora clone(){
+    public Transportadora clone() {
         return new Transportadora(this);
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Transportadora :: " + this.nome);
         sb.append(", Lucro: " + this.lucro);
@@ -91,8 +91,8 @@ public class Transportadora implements Serializable {
         return sb.toString();
     }
 
-    public boolean equals(Object o){
-        if (this==o) return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
         if ((o == null) || (this.getClass() != o.getClass())) return false;
 
         Transportadora l = (Transportadora) o;
@@ -101,7 +101,8 @@ public class Transportadora implements Serializable {
                 this.nome.equals(l.getNome());
 
     }
-    public String toLog(){
+
+    public String toLog() {
         return ("Transportadora:" + this.getNome() + "," + this.getLucro() + "," + this.isPremium() + "," + this.getDinheiro_feito());
     }
 
@@ -118,5 +119,4 @@ public class Transportadora implements Serializable {
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         return result;
     }
-
 }

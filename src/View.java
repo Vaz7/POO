@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.spi.LocaleServiceProvider;
 
 public class View {
     public int logInMenu() {
@@ -57,6 +58,7 @@ public class View {
         System.out.println("6 - Mudar Data");
         System.out.println("7 - Guardar num ficheiro de objetos");
         System.out.println("8 - Escreve ficheiro de txt");
+        System.out.println("9 - Calcular Estatísticas");
         System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
 
@@ -439,10 +441,32 @@ public class View {
         return contador;
     }
 
+    public String menuEstatisticas() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Qual a estatística que pretende calcular?");
+        System.out.println("1 - Qual é o vendedor que mais facturou num período ou desde sempre");
+        System.out.println("2 - Qual o transportador com maior volume de facturação");
+        System.out.println("3 - listar as encomendas emitidas por um vendedor");
+        System.out.println("4 - Fornecer uma ordenação dos maiores compradores/vendedores do sistema durante um período a determinar");
+        System.out.println("5 - Determinar quanto dinheiro ganhou o Vintage no seu funcionamento");
 
+        System.out.println("0 - Voltar ao Menu Inicial");
 
+        String option = sc.next();
+        return option;
+    }
 
+    public LocalDate[] intervaloTempo(){
+        LocalDate datas[] = new LocalDate[2];
 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introduza a data inicial: (yyyy-mm-dd)");
+        datas[0]=LocalDate.parse(leLocalDate());
+        System.out.println("Introduza a data final: (yyyy-mm-dd)");
+        datas[1]=LocalDate.parse(leLocalDate());
+
+        return datas;
+    }
     public void invalidOption() {
         System.out.println("Opcao invalida.");
     }

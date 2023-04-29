@@ -421,5 +421,9 @@ public class Vintage implements Serializable {
         }
     }
 
+    //public Transportadora transportadoraMaiorVolFact(){
+    //
+    //}
+
 }
 
