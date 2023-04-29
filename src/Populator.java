@@ -82,6 +82,13 @@ public class Populator {
         encDoUser5.addArtEncomenda(art1);
         encDoUser5.addArtEncomenda(art12);
 
+        //finaliza as encomendas
+        encDoUser1.setEstado(Encomenda.State.Finalizada);
+        encDoUser2.setEstado(Encomenda.State.Finalizada);
+        encDoUser3.setEstado(Encomenda.State.Finalizada);
+        encDoUser4.setEstado(Encomenda.State.Finalizada);
+        encDoUser5.setEstado(Encomenda.State.Finalizada);
+
         // insere na vintage users
         vintage.addUser(user1);
         vintage.addUser(user2);

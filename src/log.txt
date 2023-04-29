@@ -1,18 +1,50 @@
-Transportadora:ctt,0.0,false,0.0
-Transportadora:mrw,123.45,true,67.89
-Transportadora:boua,0.0,false,0.0
-Transportadora:gls,100.0,false,100.0
-Utilizador:henrique@vaz.pt,Henrique Vaz,bzxlea,25,1173.19,4666.38
-Tshirt_vender:false,12,BOM,bom estado geral,glein klein,11.5,mrw,S,LISO
-Sapatilha_vender:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,1990-12-12,true,mrw
-Mala_vender:false,12,BOM,uma merda,cagalhao,12.5,GRANDE,merda,2023-11-11,false,mrw
-Sapatilha_vendida:true,Ganda borrada,nike,123.6,43.5,false,bermeilho,1990-12-12,true,mrw
-encomenda:1,Pequeno,2023-04-28,Finalizada,1033.8449425,Rvw8f3mbP8EY
-Utilizador:asd,asd,123,123,3537.5,0.0
-Mala_vender:true,asdasd,ganso,450.0,PEQUENO,pele,2019-12-03,false,mrw
-Sapatilha_vender:false,3,BOM,asdasd,broas,670.0,54.0,false,vermelho,1986-01-01,true,gls
-Mala_vendida:true,FICHEIRO DE OBJETOS AQUI,FICHEIRO DE OBJETOS,34.0,PEQUENO,FICHEIRO DE OBJETOS,2021-01-01,false,boua
-Utilizador:user@example.com,John Doe,Address 123,25,134.7,67.89
-Mala_vender:false,12,BOM,uma merda,cagalhao,12.5,GRANDE,merda,2023-11-11,false,mrw
-Tshirt_vender:false,12,BOM,bom estado geral,glein klein,11.5,mrw,S,LISO
-Utilizador:TESTE AQUI,TESTE TESTE,TESTE TESTE TESTE,123123,0.0,0.0
+Transportadora:ctt,0.07,false,25000.0
+Transportadora:mrw premium,0.15,true,20000.0
+Transportadora:dhl,0.06,false,19000.0
+Transportadora:gls,0.05,false,18000.0
+Utilizador:henrique@vaz.pt,Henrique Vaz,Rua das cenas, n12,260485489,122.5,221.2
+Sapatilha_vender:true,Sapatilha feminina de tecido,Nike,200.0,36.5,true,Cinza,2022-08-15,false,gls
+Mala_vender:true,Artigo novo,prada,245.0,GRANDE,pele sintética,2023-12-12,false,dhl
+Tshirt_vendida:true,Tshirt nova,Ferrari,110.0,XL,LISO,gls
+Encomenda:2,Medio,2023-04-29T16:28:10.816701832,Expedida,211.0,y99qao9w5YfP,JIpq5IBhHBqS
+Utilizador:asd,Inês Silva,Rua J, nº 100,147258369,0.0,0.0
+Utilizador:goncalo@goncalves.pt,Gonçalo Gonçalves,Rua das batatas, n15,123456789,280.4,430.1
+Sapatilha_vender:true,Sapatilha masculina de couro,Adidas,250.0,42.0,false,Preto,2021-04-01,false,ctt
+Tshirt_vendida:true,Tshirt nova,Dragon Lore,99.0,L,LISO,gls
+Mala_vendida:true,Artigo novo,Tous,40.0,GRANDE,pele sintética,2023-12-12,false,dhl
+Encomenda:3,Medio,2023-04-29T16:28:10.816714091,Expedida,280.0,nSlllsXcIHx3,3rXnUMoTcUdV
+Utilizador:user1@gmail.com,João Silva,Rua A, nº 10,123456789,0.0,142.21333333333334
+Mala_vender:true,Mala de viagem nova,Samsonite,300.0,PEQUENO,Couro sintético,2019-06-30,true,gls
+Tshirt_vender:true,Tshirt nova,Lacoste,90.0,L,PALMEIRAS,ctt
+Sapatilha_vender:true,Sapatilha infantil de tecido,Puma,100.0,28.0,true,Rosa,2019-06-30,false,dhl
+Encomenda:4,Pequeno,2023-04-29T16:28:10.816724349,Expedida,142.46333333333334,eqKXMpYHB0me
+Utilizador:user3@gmail.com,Pedro Oliveira,Rua C, nº 30,456789123,330.0,146.0
+Mala_vender:true,Mala executiva nova,Tumi,400.0,GRANDE,Couro,2021-07-31,false,ctt
+Tshirt_vendida:true,Tshirt nova,Nude project,150.0,L,PALMEIRAS,ctt
+Sapatilha_vendida:true,Sapatilha feminina de camurça,Vans,180.0,38.5,true,Roxo,2013-09-30,false,gls
+Encomenda:6,Medio,2023-04-29T16:28:10.816747729,Expedida,147.0,5lst99EdZ5pR,P6Zy3rQtiDPc
+Utilizador:user4@yahoo.com,Mariana Santos,Rua D, nº 40,789123456,0.0,0.0
+Tshirt_vender:false,5,BOM,T-shirt branca lisa,Nike,30.0,gls,L,LISO
+Sapatilha_vender:false,1,BOM,Sapatilha em ótimo estado,Adidas,129.99,37.5,true,Branca,2020-03-01,false,gls
+Mala_vender:false,5,BOM,Mala de mão usada,Louis Vuitton,800.0,PEQUENO,Couro,2022-12-31,false,gls
+Utilizador:user8@gmail.com,Marta Santos,Rua H, nº 80,753159246,0.0,0.0
+Mala_vender:false,2,PESSIMO,Mala executiva usada,Montblanc,900.0,MEDIO,Couro,2023-09-30,false,ctt
+Sapatilha_vender:false,5,PESSIMO,Sapatilha de lançamento,Under Armour,179.99,41.0,true,Verde,2017-02-01,false,mrw premium
+Tshirt_vender:false,2,PESSIMO,T-shirt vermelha com padrão,Under Armour,40.0,ctt,S,RISCAS
+Utilizador:user7@yahoo.com,Ricardo Pereira,Rua G, nº 70,159357246,1000.0,0.0
+Sapatilha_vender:false,2,MAU,Sapatilha em bom estado,Reebok,99.99,38.5,true,Azul,2022-06-01,false,ctt
+Tshirt_vender:false,3,MAU,T-shirt cinza com logotipo,Fila,35.0,dhl,S,PALMEIRAS
+Mala_vendida:false,4,MAU,Mala de mão premium nova,Prada,1000.0,PEQUENO,Couro,2023-08-31,true,gls
+Utilizador:user2@hotmail.com,Ana Santos,Rua B, nº 20,987654321,60.0,1437.5
+Mala_vender:true,Mala de rodinhas usada,Delsey,200.0,MEDIO,Poliéster,2022-05-15,false,gls
+Sapatilha_vender:true,Sapatilha unissex de couro,Converse,150.0,39.5,false,Branco,2009-12-31,false,mrw premium
+Tshirt_vendida:true,Tshirt nova,Puma,60.0,XL,LISO,gls
+Encomenda:5,Medio,2023-04-29T16:28:10.816737560,Expedida,1438.25,bidSJU8Gg3VH,3qCZeAQOkl4M,s4lFJ9Tcm1aK
+Utilizador:user5@gmail.com,Bruno Oliveira,Rua E, nº 50,321654987,154.71333333333334,0.0
+Mala_vender:false,3,RAZOAVEL,Mala de viagem grande nova,Rimowa,1200.0,GRANDE,Poliéster,2024-05-30,true,mrw premium
+Tshirt_vendida:false,2,RAZOAVEL,T-shirt preta estampada,Adidas,25.0,mrw premium,M,PALMEIRAS
+Sapatilha_vendida:false,3,RAZOAVEL,Sapatilha nova na caixa,Nike,159.99,40.0,true,Vermelha,2021-01-01,false,ctt
+Utilizador:user6@hotmail.com,Catarina Silva,Rua F, nº 60,654987321,425.0,0.0
+Tshirt_vender:false,3,MUITO_BOM,T-shirt azul com listras,Puma,20.0,ctt,XL,LISO
+Sapatilha_vender:false,3,MUITO_BOM,Sapatilha com uso moderado,Puma,89.99,39.0,false,Preta,2022-09-01,false,dhl
+Mala_vendida:false,2,MUITO_BOM,Mala de rodinhas usada,Tumi,500.0,MEDIO,Nylon,2023-11-15,false,mrw premium

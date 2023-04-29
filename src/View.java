@@ -56,6 +56,7 @@ public class View {
         System.out.println("5 - Devolver Encomenda");
         System.out.println("6 - Mudar Data");
         System.out.println("7 - Guardar num ficheiro de objetos");
+        System.out.println("8 - Escreve ficheiro de txt");
         System.out.println("0 - Terminar Sessão");
         System.out.println("Indique a opcao: ");
 
@@ -65,7 +66,7 @@ public class View {
 
     public int avancaData(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Indique quantos dias pretende avançar:");
+        System.out.println("Indique quantas horas pretende avançar:");
         int opt = 0;
         do{
             opt = leInteiro();
@@ -79,6 +80,7 @@ public class View {
         System.out.println("Indique como pretende carregar os dados:");
         System.out.println("1. Popular com os dados de teste");
         System.out.println("2. Ficheiro de Objetos");
+
 
         int opt = 0;
         do{

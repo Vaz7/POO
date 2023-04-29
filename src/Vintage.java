@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -411,9 +412,12 @@ public class Vintage implements Serializable {
         }
     }
 
-    public void atualizaEncomendas(LocalDate data){
+    public void atualizaEncomendas(LocalDateTime data,int nrHoras){
         for(Encomenda c : this.encomendas.values()){
-
+            LocalDateTime aux = c.getData_inicial();
+            if(aux.plusHours(nrHoras).isAfter(data)){
+                c.setEstado(Encomenda.State.Expedida);
+            }
         }
     }
 

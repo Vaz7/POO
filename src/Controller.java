@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import UserExceptions.*;
@@ -11,7 +12,7 @@ public class Controller {
     private Encomenda encomenda_atual;
     private boolean run;
     private boolean logged;
-    private LocalDate data;
+    private LocalDateTime data;
 
     public static void main(String[] args) {
 
@@ -34,7 +35,15 @@ public class Controller {
         this.run = true;
         this.logged = false;
         this.encomenda_atual = new Encomenda();
-        this.data = LocalDate.now();
+        this.data = LocalDateTime.now();
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     public String loadFileMenu() {
@@ -112,11 +121,20 @@ public class Controller {
                     }
                     break;
                 case 6:
+                    avancaData(); //para ja o tempo para passar de finalizada a expedida é de 5h
                     break;
                 case 7:
                     writeToObjectFile();
                     break;
                 default:
+                    break;
+                case 8:
+                    try{
+                        writeToLog();
+                    }
+                    catch (IOException fne){
+                        fne.getMessage();
+                    }
                     break;
             }
         } catch(Exception e){
@@ -272,11 +290,6 @@ public class Controller {
         }
     }
 
-    public void avancaData(){
-        int dias = this.view.avancaData();
-        this.data = this.data.plusDays(dias);
-
-    }
 
     public void criaUtilizador(){
         String tokens[] = this.view.userCreation();
@@ -300,4 +313,39 @@ public class Controller {
         Encomenda.setCount(ois.read());
         ois.close();
     }
+
+    //depois vai para o lixo
+    public void writeToLog() throws IOException {
+        String name = "./src/log.txt";
+
+        File file = new File(name);
+        FileOutputStream fos = new FileOutputStream(file);
+        try (PrintWriter pw = new PrintWriter(fos)) {
+
+            List<String> lista;
+
+            lista = this.vintage.toLog();
+
+            for (String s : lista) {
+                pw.println(s);
+            }
+
+        }
+        fos.close();
+    }
+
+
+    public void avancaData(){
+        int nrHoras = this.view.avancaData();
+
+        this.data.plusHours(nrHoras);
+        LocalDateTime date = getData();
+
+        this.vintage.atualizaEncomendas(date,nrHoras);
+
+        System.out.println("Foram avançadas " + nrHoras + " horas");
+
+
+    }
+
 }

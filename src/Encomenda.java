@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Encomenda implements Serializable {
@@ -21,14 +22,14 @@ public class Encomenda implements Serializable {
     private Map<Transportadora, Integer> contador;
     private Embalagem dim;
     private double preco;
-    private LocalDate data_inicial;
+    private LocalDateTime data_inicial;
     private State estado;
 
     public Encomenda(){
         this.codigo = this.count++;
         this.artigos = new HashSet<>();
         this.dim = Embalagem.Pequeno;
-        this.data_inicial = LocalDate.now();
+        this.data_inicial = LocalDateTime.now();
         this.estado = State.Pendente;
         this.preco = 0;
         this.contador = new HashMap<>();
@@ -38,12 +39,12 @@ public class Encomenda implements Serializable {
         this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
-        this.data_inicial = LocalDate.now();
+        this.data_inicial = LocalDateTime.now();
         this.estado = estado;
         //this.preco = calculaPrecoEnc();
     }
 
-    public Encomenda(Set<String> lista, Embalagem dim, LocalDate data, State estado,Double preco) {
+    public Encomenda(Set<String> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
         setArtigos(lista);
         this.codigo = this.count++;
         this.dim = dim;
@@ -129,11 +130,11 @@ public class Encomenda implements Serializable {
         this.preco = preco;
     }
 
-    public LocalDate getData_inicial() {
+    public LocalDateTime getData_inicial() {
         return this.data_inicial;
     }
 
-    public void setData_inicial(LocalDate data_inicial) {
+    public void setData_inicial(LocalDateTime data_inicial) {
         this.data_inicial = data_inicial;
     }
 
