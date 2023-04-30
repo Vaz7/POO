@@ -290,15 +290,22 @@ public class Vintage implements Serializable {
         return lines;
     }
 
-    public Set<Artigo> getListaArtigos(){
+
+    /**
+     * Obtem a lista com todos os artigos sem incluir os que dado utilizador tem à venda.
+     * @param email Utilizador que está logged atualmente na app.
+     * @return lista de artigos
+     */
+    public Set<Artigo> getListaArtigos(String email){
         return this.artigos.values().stream()
+                .filter(t -> !this.artigos_utilizadores_ligacao.get(t.getCodAlfaNum()).equals(email))
                 .collect(Collectors.toSet());
     }
 
     /**
-     * Serve para obter uma lista com todos os artigos presentes numa encomenda.
+     * Serve para obter um Set com todos os artigos presentes numa encomenda.
      * @param set de codigos alfanumericos de artigos existente numa encomenda.
-     * @return lista de artigos.
+     * @return Set de artigos.
      */
     public Set<Artigo> getListaArtigos(Set<String> set){
         Set<Artigo> novo = new HashSet<>();

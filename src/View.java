@@ -95,20 +95,24 @@ public class View {
         return opt;
     }
 
-    public int tipoArtigoCriacao() {
+    public int tipoArtigoCriacao(boolean prem) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Que tipo de artigo queres criar?");
-        System.out.println("1. Tshirt");
-        System.out.println("2. Mala");
-        System.out.println("3. Sapatilha");
+        System.out.println("1. Mala");
+        System.out.println("2. Sapatilha");
+        if(!prem){
+            System.out.println("3. Tshirt");
+        }
         System.out.println("0 - Voltar ao Menu Inicial");
 
         int option = 0;
         do{
             option = leInteiro();
-            if(option != 1 && option != 2 && option != 3 && option != 0)
+            if(option != 1 && option != 2 && option != 3 && option != 0 && !prem)
                 System.out.println("Introduza o valor 0, 1, 2 ou 3.");
-        } while(option != 1 && option != 2 && option != 3 && option != 0);
+            else if (option != 1 && option != 2 && option != 0 && prem)
+                System.out.println("Introduza o valor 0, 1, 2.");
+        } while((option != 1 && option != 2 && option != 3 && option != 0 && !prem) || (option != 1 && option != 2 && option != 0 && prem));
 
         return option;
     }
@@ -136,13 +140,13 @@ public class View {
         utilizadorInput[5] = Double.toString(leDouble());
 
         switch (option) {
-            case 1:
+            case 3:
                 System.out.println("Indique o Tamanho da Tshirt (S/M/L/XL): ");
                 utilizadorInput[6] = leTamanho();
                 System.out.println("Indique o Padrao da Tshirt (RISCAS/LISO/PALMEIRAS): ");
                 utilizadorInput[7] = lePadrao();
                 break;
-            case 2:
+            case 1:
                 System.out.println("Indique a dimensão da Mala (PEQUENO/MEDIO/GRANDE): ");
                 utilizadorInput[6] = leDimensao();
                 System.out.println("Indique o seu material: ");
@@ -150,7 +154,7 @@ public class View {
                 System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
                 utilizadorInput[8] = leLocalDate();
                 break;
-            case 3:
+            case 2:
                 System.out.println("Indique o Tamanho da Sapatilha: ");
                 utilizadorInput[6] = Double.toString(leDouble());
                 System.out.println("Indique se tem atacadores (true/false): ");

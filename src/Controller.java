@@ -19,15 +19,15 @@ public class Controller {
         Controller controller = new Controller();
         controller.loadFileMenu();
 
-            do {
-                if (!controller.logged)
-                    controller.logIn();
+        do {
+            if (!controller.logged)
+                controller.logIn();
 
-                if (controller.logged)
-                    controller.displayMenu();
+            if (controller.logged)
+                controller.displayMenu();
 
-            } while (controller.run);
-        }
+        } while (controller.run);
+    }
 
     public Controller(){
         this.data = LocalDateTime.now();
@@ -185,7 +185,7 @@ public class Controller {
             String transp = this.view.escolheTransportadora();
 
             try{
-                c = this.vintage.getTransportadoraEspecifico(transp); // está a aceitar premium e não pode
+                c = this.vintage.getTransportadoraEspecifico(transp);
                 if(transpSet.contains(c))
                     flag = false;
                 else
@@ -196,20 +196,25 @@ public class Controller {
             }
 
             while(flag2 && !flag){
-                int artcode = this.view.tipoArtigoCriacao();
+                int artcode = this.view.tipoArtigoCriacao(prem);
                 if(artcode == 0) return;
                 String[] tokens = this.view.artigoCreation(artcode);
                 Artigo art1 = null;
                 switch(artcode){
-                    case 1:
-                        if(tokens[0].toLowerCase().equals("false")){
-                            art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                    case 3:
+                        if(!prem){
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                            }
+                            else{
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                            }
                         }
                         else{
-                            art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+
                         }
                         break;
-                    case 2:
+                    case 1:
                         if(tokens[0].toLowerCase().equals("false")){
                             art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
                         }
@@ -217,7 +222,7 @@ public class Controller {
                             art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
                         }
                         break;
-                    case 3:
+                    case 2:
                         if(tokens[0].toLowerCase().equals("false")){
                             art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
                         }
@@ -258,7 +263,7 @@ public class Controller {
             int opt = this.view.OpcaoEncomenda();
             switch(opt){
                 case 1:
-                    this.view.imprimeArtigos(this.vintage.getListaArtigos());
+                    this.view.imprimeArtigos(this.vintage.getListaArtigos(this.current_user));
                     artigo = this.view.encomendaCreation();
                     try{
                         Artigo art = this.vintage.findArtigo(artigo);
