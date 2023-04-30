@@ -63,7 +63,6 @@ public class MalaPremium extends Mala implements Premium{
         return Double.compare(mala.getPremiumPrice(), this.premiumPrice) == 0;
     }
 
-    @Override
     public double calculaPreco() {
         double preco = this.getPreco_base();
         long year_interval = ChronoUnit.YEARS.between(this.getColecao(), LocalDate.now());

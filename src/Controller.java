@@ -30,12 +30,12 @@ public class Controller {
         }
 
     public Controller(){
+        this.data = LocalDateTime.now();
         this.view = new View();
         this.vintage = new Vintage();
         this.run = true;
         this.logged = false;
         this.encomenda_atual = new Encomenda();
-        this.data = LocalDateTime.now();
     }
 
     public LocalDateTime getData() {
@@ -383,17 +383,26 @@ public class Controller {
     }
 
 
-    public void avancaData(){
+    public void avancaData() throws IOException{
         int nrHoras = this.view.avancaData();
 
-        this.data.plusHours(nrHoras);
-        LocalDateTime date = getData();
+        this.data = this.data.plusHours(nrHoras);
 
-        this.vintage.atualizaEncomendas(date,nrHoras);
+        Map<Integer,String> recibos = this.vintage.atualizaEncomendas(this.data,nrHoras);
 
+        for(Map.Entry<Integer,String> a : recibos.entrySet()){
+            int cod = a.getKey();
+            String recib = a.getValue();
+            String nome = "./src/Recibos/" + cod + ".txt";
+            File file = new File(nome);
+            FileOutputStream fos = new FileOutputStream(file);
+
+            try (PrintWriter pw = new PrintWriter(fos)){
+                pw.println(recib);
+            }
+            fos.close();
+        }
         System.out.println("Foram avançadas " + nrHoras + " horas");
-
-
     }
 
 }

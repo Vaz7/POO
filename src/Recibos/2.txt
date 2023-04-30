@@ -1,0 +1,8 @@
+Utilizador:henrique@vaz.pt
+Número da Encomenda:2
+Dimensão da Embalagem: Medio
+Data de Compra: 2023-04-30T14:23:49.695455576
+Artigos: 
+oUKT2ifqcR7D--T-shirt Puma, Novo: true, Preço Base: 60.0, Descrição: Tshirt nova, Tamanho: XL, Padrão: LISO, Preço Atual: 60.0
+ndJ6z0aj0wVe--T-shirt Nude project, Novo: true, Preço Base: 150.0, Descrição: Tshirt nova, Tamanho: L, Padrão: PALMEIRAS, Preço Atual: 150.0
+Preço Final (c/IVA): 211.0

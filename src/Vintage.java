@@ -201,13 +201,13 @@ public class Vintage implements Serializable {
         if(prem == true){
             novo = this.transportadoras.values()
                     .stream()
-                    .filter(t -> t instanceof TransportadoraPremium)
+                    .filter(t -> t instanceof Premium)
                     .collect(Collectors.toSet());
         }
         else{
             novo = this.transportadoras.values()
                     .stream()
-                    .filter(t -> !(t instanceof TransportadoraPremium))
+                    .filter(t -> !(t instanceof Premium))
                     .collect(Collectors.toSet());
         }
         return novo;
@@ -347,18 +347,33 @@ public class Vintage implements Serializable {
         }
     }
 
-    public void atualizaEncomendas(LocalDateTime data,int nrHoras){
+    public Map<Integer,String> atualizaEncomendas(LocalDateTime data,int nrHoras){
+        Map<Integer,String> recibos = new HashMap<>();
         for(Encomenda c : this.encomendas.values()){
             LocalDateTime aux = c.getData_inicial();
-            if(aux.plusHours(nrHoras).isAfter(data)){
+            if(aux.plusHours(nrHoras).isAfter(data.plusHours(2)) && !c.getEstado().equals(Encomenda.State.valueOf("Expedida"))){
                 c.setEstado(Encomenda.State.Expedida);
             }
+            if(data.isBefore(aux.plusHours(48)) || data.equals(aux.plusHours(48))){
+                recibos.put(c.getCodigo(), toRecibo(c));
+            }
         }
+        return recibos;
     }
 
-    //public Transportadora transportadoraMaiorVolFact(){
-    //
-    //}
+    public String toRecibo(Encomenda c){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Utilizador:" + this.encomendas_utilizadores_ligacao.get(c.getCodigo()) + "\n");
+        sb.append("Número da Encomenda:" + c.getCodigo() + "\n");
+        sb.append("Dimensão da Embalagem: " + c.getDim() + "\n");
+        sb.append("Data de Compra: " + c.getData_inicial() + "\n");
+        sb.append("Artigos: \n");
+        for(String b : c.getArtigos()){
+            sb.append(this.artigos_vendidos.get(b).toString()+"\n");
+        }
+        sb.append("Preço Final (c/IVA): " + c.getPreco());
+        return sb.toString();
+    }
 
 }
 

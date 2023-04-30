@@ -1,6 +1,6 @@
 import java.util.Set;
 
-public class TransportadoraPremium extends Transportadora {
+public class TransportadoraPremium extends Transportadora implements Premium {
     public final static double impostoPremium = 0.25;
     public static final double P_PEQUENAS = 6.99;
     public static final double P_MEDIAS = 14.99;

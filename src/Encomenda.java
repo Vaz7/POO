@@ -273,6 +273,7 @@ public class Encomenda implements Serializable {
         defDimensaoCaixa();
         this.estado = State.Finalizada;
         setPreco(calculaPrecoFinal());
+        setData_inicial(LocalDateTime.now());
     }
 
     public void showPrecoAtual(){
