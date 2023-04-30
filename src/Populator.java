@@ -50,7 +50,7 @@ public class Populator {
         Artigo art18 = new Mala(false, 2, Artigo.Estado.MUITO_BOM, "Mala de rodinhas usada", "Tumi", 500.0, transp4, Mala.Dim.MEDIO, "Nylon", LocalDate.parse("2023-11-15"));
         Artigo art19 = new Mala(false, 4, Artigo.Estado.MAU, "Mala de mão premium nova", "Prada", 1000.0, transp1, Mala.Dim.PEQUENO, "Couro", LocalDate.parse("2023-08-31"));
         Artigo art20 = new Mala(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp2, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2020-09-30"));
-        Artigo art32 = new MalaPremium(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp2, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2020-09-30"));
+        Artigo art32 = new MalaPremium(false, 2, Artigo.Estado.PESSIMO, "Mala executiva usada", "Montblanc", 900.0, transp4, Mala.Dim.MEDIO, "Couro", LocalDate.parse("2020-09-30"));
 
         Artigo art21 = new Sapatilha(true, "Sapatilha feminina de tecido", "Nike", 200.0, transp1, 36.5, true, "Cinza", LocalDate.parse("2022-08-15"));
         Artigo art22 = new Sapatilha(true, "Sapatilha masculina de couro", "Adidas", 250.0, transp2, 42.0, false, "Preto", LocalDate.parse("2021-04-01"));

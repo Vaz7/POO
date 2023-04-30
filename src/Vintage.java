@@ -1,7 +1,4 @@
-import UserExceptions.ArtigoDoesntExistException;
-import UserExceptions.EncomendaDoesntExistException;
-import UserExceptions.TransportadoraDoesntExistException;
-import UserExceptions.UserDoesntExistException;
+import UserExceptions.*;
 import jdk.jshell.execution.Util;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -234,20 +231,21 @@ public class Vintage implements Serializable {
         encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email); // isto está estupido, encomendas não é um map
         encomendas.put(encomenda.getCodigo(),encomenda);
 
-        Set<String> artigos = encomenda.getArtigos();
-        for(String c : artigos){
-            Artigo aux = this.artigos.get(c);
-            if(aux == null) throw new ArtigoDoesntExistException(c);
-            String user = this.artigos_utilizadores_ligacao.get(c);
-            if(user == null) throw new ArtigoDoesntExistException(c);
+        Set<Artigo> artigos = encomenda.getArtigos();
+        for(Artigo c : artigos){
+            String codalfa = c.getCodAlfaNum();
+            Artigo aux = this.artigos.get(codalfa);
+            if(aux == null) throw new ArtigoDoesntExistException(codalfa);
+            String user = this.artigos_utilizadores_ligacao.get(codalfa);
+            if(user == null) throw new ArtigoDoesntExistException(codalfa);
             Utilizador utilizador1 = this.utilizadores.get(user);
             if(utilizador1 == null) throw new UserDoesntExistException(user);
             utilizador1.addArtigoVendido(aux);
-            this.artigos_vendidos.put(c,aux);
-            utilizador1.removeArtigoParaVender(c);
+            this.artigos_vendidos.put(codalfa,aux);
+            utilizador1.removeArtigoParaVender(codalfa);
             utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() + aux.getPreco_curr());
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
-            this.artigos.remove(c);
+            this.artigos.remove(codalfa);
         }
         utilizador.addEncomenda(encomenda.getCodigo());
     }
@@ -292,9 +290,9 @@ public class Vintage implements Serializable {
         return lines;
     }
 
-    public List<Artigo> getListaArtigos(){
+    public Set<Artigo> getListaArtigos(){
         return this.artigos.values().stream()
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -302,8 +300,8 @@ public class Vintage implements Serializable {
      * @param set de codigos alfanumericos de artigos existente numa encomenda.
      * @return lista de artigos.
      */
-    public List<Artigo> getListaArtigos(Set<String> set){
-        List<Artigo> novo = new ArrayList<>();
+    public Set<Artigo> getListaArtigos(Set<String> set){
+        Set<Artigo> novo = new HashSet<>();
         for(String c : set){
             novo.add(this.artigos.get(c));
         }
@@ -316,7 +314,7 @@ public class Vintage implements Serializable {
         return nome;
     }
 
-    public void devolveEncomenda(int num_encomenda, String email) throws UserDoesntExistException, EncomendaDoesntExistException{
+    public void devolveEncomenda(int num_encomenda, String email, LocalDateTime data) throws UserDoesntExistException, EncomendaDoesntExistException, EncomendaNotRefundableException{
 
         Utilizador utilizador = utilizadores.get(email);
         if(utilizador == null) throw new UserDoesntExistException(email);
@@ -326,20 +324,19 @@ public class Vintage implements Serializable {
         Encomenda encomenda = this.encomendas.get(num_encomenda);
         if(encomenda == null) throw new EncomendaDoesntExistException(Integer.toString(num_encomenda));
 
-        //if(encomenda.isRefundable()==false) return false;
+        if(encomenda.isRefundable(data)==false) throw new EncomendaNotRefundableException(Integer.toString(num_encomenda));
 
-        //else {
-            for (String codigo : encomenda.getArtigos()) {
-                Artigo artigo = this.artigos_vendidos.get(codigo).clone();
-                String user = this.artigos_utilizadores_ligacao.get(artigo.getCodAlfaNum());
-                Utilizador utilizador1 = this.utilizadores.get(user);
-                utilizador1.removeArtigoVendido(artigo.getCodAlfaNum());
-                utilizador1.addArtigoParaVender(artigo.getCodAlfaNum());
-                utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() - artigo.getPreco_curr());
-                utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() - artigo.getPreco_curr());
-                this.artigos_vendidos.remove(artigo.getCodAlfaNum());
-                this.artigos.put(artigo.getCodAlfaNum(), artigo);
-            //}
+        for (Artigo art : encomenda.getArtigos()) {
+            String cod = art.getCodAlfaNum();
+            Artigo artigo = this.artigos_vendidos.get(cod);
+            String user = this.artigos_utilizadores_ligacao.get(cod);
+            Utilizador utilizador1 = this.utilizadores.get(user);
+            utilizador1.removeArtigoVendido(artigo.getCodAlfaNum());
+            utilizador1.addArtigoParaVender(artigo.getCodAlfaNum());
+            utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() - artigo.getPreco_curr());
+            utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() - artigo.getPreco_curr());
+            this.artigos_vendidos.remove(artigo.getCodAlfaNum());
+            this.artigos.put(artigo.getCodAlfaNum(), artigo);
 
             this.encomendas.remove(num_encomenda);
             utilizador.removeEncomenda(num_encomenda);
@@ -368,10 +365,10 @@ public class Vintage implements Serializable {
         sb.append("Dimensão da Embalagem: " + c.getDim() + "\n");
         sb.append("Data de Compra: " + c.getData_inicial() + "\n");
         sb.append("Artigos: \n");
-        for(String b : c.getArtigos()){
-            sb.append(this.artigos_vendidos.get(b).toString()+"\n");
+        for(Artigo b : c.getArtigos()){
+            sb.append(b.toString() +"\n");
         }
-        sb.append("Preço Final (c/IVA): " + c.getPreco());
+        sb.append("Preço Final (c/IVA): " + (c.getPrecoArtigos()+c.getPreco_transporte()));
         return sb.toString();
     }
 

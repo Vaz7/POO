@@ -2,34 +2,24 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class SapatilhaPremium extends Sapatilha implements Premium {
-    private double premiumPrice;
 
     public SapatilhaPremium(){
         super();
-        this.premiumPrice = 0;
     }
 
     public SapatilhaPremium(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao){
         super(novo, desc, marca,preco_base,transportadora, tamanho, atacadores,cor,colecao);
-        this.premiumPrice = calculaPreco();
+        setPreco_curr(calculaPreco());
     }
 
     public SapatilhaPremium(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora,tamanho,atacadores,cor,colecao);
-        this.premiumPrice = calculaPreco();
+        setPreco_curr(calculaPreco());
     }
 
     public SapatilhaPremium(SapatilhaPremium o){
         super(o);
-        this.premiumPrice = calculaPreco();
-    }
-
-    public double getPremiumPrice() {
-        return premiumPrice;
-    }
-
-    public void setPremiumPrice(double premiumPrice) {
-        this.premiumPrice = premiumPrice;
+        setPreco_curr(calculaPreco());
     }
 
     public SapatilhaPremium clone(){
@@ -51,16 +41,8 @@ public class SapatilhaPremium extends Sapatilha implements Premium {
         sb.append(", Atacadores: " + this.isAtacadores());
         sb.append(", Cor: " + this.getCor());
         sb.append(", Coleção: " + this.getColecao());
-        sb.append(", Preço Atual: " + this.premiumPrice);
+        sb.append(", Preço Atual: " + this.getPreco_curr());
         return sb.toString();
-    }
-
-    public boolean equals(Object o){
-        if (this==o) return true;
-        if ((o == null) || (this.getClass() != o.getClass())) return false;
-        if (!super.equals(o)) return false;
-        SapatilhaPremium sapatilha = (SapatilhaPremium) o;
-        return Double.compare(sapatilha.getPremiumPrice(), this.premiumPrice) == 0;
     }
 
     public double calculaPreco() {

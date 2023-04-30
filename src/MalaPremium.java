@@ -3,34 +3,23 @@ import java.time.temporal.ChronoUnit;
 
 public class MalaPremium extends Mala implements Premium{
 
-    private double premiumPrice;
-
     public MalaPremium(){
         super();
-        this.premiumPrice = 0;
     }
 
     public MalaPremium(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao){
         super(novo, desc, marca, preco_base,transportadora,dimensao,material,colecao);
-        this.premiumPrice = calculaPreco();
+        setPreco_curr(calculaPreco());
     }
 
     public MalaPremium(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao){
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora,dimensao,material,colecao);
-        this.premiumPrice = calculaPreco();
+        setPreco_curr(calculaPreco());
     }
 
     public MalaPremium(MalaPremium o){
         super(o);
-        this.premiumPrice = calculaPreco();
-    }
-
-    public double getPremiumPrice() {
-        return premiumPrice;
-    }
-
-    public void setPremiumPrice(double premiumPrice) {
-        this.premiumPrice = premiumPrice;
+        setPreco_curr(calculaPreco());
     }
 
     public MalaPremium clone(){
@@ -51,16 +40,8 @@ public class MalaPremium extends Mala implements Premium{
         sb.append(", Dimensão: " + this.getDimensao());
         sb.append(", Material: " + this.getMaterial());
         sb.append(", Coleção: " + this.getColecao());
-        sb.append(", Preço Atual: " + this.premiumPrice);
+        sb.append(", Preço Atual: " + this.getPreco_curr());
         return sb.toString();
-    }
-
-    public boolean equals(Object o){
-        if (this==o) return true;
-        if ((o == null) || (this.getClass() != o.getClass())) return false;
-        if (!super.equals(o)) return false;
-        MalaPremium mala = (MalaPremium) o;
-        return Double.compare(mala.getPremiumPrice(), this.premiumPrice) == 0;
     }
 
     public double calculaPreco() {

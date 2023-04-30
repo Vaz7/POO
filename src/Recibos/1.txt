@@ -1,7 +1,0 @@
-Utilizador:asd
-Número da Encomenda:1
-Dimensão da Embalagem: Pequeno
-Data de Compra: 2023-04-30T14:23:48.221932691
-Artigos: 
-HkdkcHtcQFgY--Sapatilha Premium Under Armour, Novo: false, Estado: PESSIMO, Nº de donos: 5, Preço Base: 179.99, Descrição: Sapatilha de lançamento, Tamanho: 41.0, Atacadores: true, Cor: Verde, Coleção: 2017-02-01, Preço Atual: 287.98400000000004
-Preço Final (c/IVA): 178.0794975

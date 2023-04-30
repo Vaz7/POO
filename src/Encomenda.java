@@ -18,10 +18,11 @@ public class Encomenda implements Serializable {
         Finalizada,
         Expedida
     }
-    private Set<String> artigos;
+    private Set<Artigo> artigos; // agregação com o artigo
     private Map<Transportadora, Integer> contador;
     private Embalagem dim;
-    private double preco;
+    private double preco_artigos;
+    private double preco_transporte;
     private LocalDateTime data_inicial;
     private State estado;
 
@@ -31,27 +32,29 @@ public class Encomenda implements Serializable {
         this.dim = Embalagem.Pequeno;
         this.data_inicial = LocalDateTime.now();
         this.estado = State.Pendente;
-        this.preco = 0;
+        this.preco_artigos = 0;
+        this.preco_transporte = 0;
         this.contador = new HashMap<>();
     }
 
-    public Encomenda(Set<String> lista, State estado){
+    public Encomenda(Set<Artigo> lista, State estado){
         this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
         this.data_inicial = LocalDateTime.now();
         this.estado = estado;
-        //this.preco = calculaPrecoEnc();
+        this.preco_artigos = calculaPrecoArtigos();
+        this.preco_transporte = calculaPrecoTransporte();
     }
 
-    public Encomenda(Set<String> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
+    public Encomenda(Set<Artigo> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
         setArtigos(lista);
         this.codigo = this.count++;
         this.dim = dim;
         this.data_inicial = data;
         this.estado = estado;
-        this.preco = preco;
-        //this.preco = calculaPrecoEnc();
+        this.preco_artigos = preco;
+        this.preco_transporte = calculaPrecoTransporte();
     }
 
     public Encomenda(Encomenda o){
@@ -60,7 +63,8 @@ public class Encomenda implements Serializable {
         this.dim = o.getDim();
         this.data_inicial = o.getData_inicial();
         this.estado = o.getEstado();
-        this.preco = o.getPreco();
+        this.preco_artigos = o.getPrecoArtigos();
+        this.preco_transporte = o.getPreco_transporte();
     }
 
     public static int getCount() {
@@ -90,6 +94,14 @@ public class Encomenda implements Serializable {
         }
     }
 
+    public double getPreco_transporte() {
+        return preco_transporte;
+    }
+
+    public void setPreco_transporte(double preco_transporte) {
+        this.preco_transporte = preco_transporte;
+    }
+
     public int getCodigo() {
         return codigo;
     }
@@ -98,19 +110,19 @@ public class Encomenda implements Serializable {
         this.codigo = codigo;
     }
 
-    public Set<String> getArtigos() {
-        Set<String> novo = new HashSet<>();
+    public Set<Artigo> getArtigos() {
+        Set<Artigo> novo = new HashSet<>();
 
-        for(String c : this.artigos){
-            novo.add(c);
+        for(Artigo c : this.artigos){
+            novo.add(c.clone());
         }
         return novo;
     }
 
-    public void setArtigos(Set<String> artigos) {
+    public void setArtigos(Set<Artigo> artigos) {
         this.artigos = new HashSet<>();
-        for(String c : artigos){
-            this.artigos.add(c);
+        for(Artigo c : artigos){
+            this.artigos.add(c.clone());
         }
     }
 
@@ -122,12 +134,12 @@ public class Encomenda implements Serializable {
         this.dim = dim;
     }
 
-    public double getPreco() {
-        return this.preco;
+    public double getPrecoArtigos() {
+        return this.preco_artigos;
     }
 
-    public void setPreco(double preco) {
-        this.preco = preco;
+    public void setPrecoArtigos(double preco) {
+        this.preco_artigos = preco;
     }
 
     public LocalDateTime getData_inicial() {
@@ -156,9 +168,9 @@ public class Encomenda implements Serializable {
         sb.append("," + this.dim );
         sb.append("," + this.data_inicial);
         sb.append("," + this.estado);
-        sb.append("," + this.preco);
+        sb.append("," + (this.preco_artigos + this.preco_transporte));
 
-        for(String c : this.artigos){
+        for(Artigo c: this.artigos){
             sb.append("," + c.toString());
         }
         return sb.toString();
@@ -171,10 +183,10 @@ public class Encomenda implements Serializable {
         sb.append(" Data de Criação: " + this.data_inicial + ",");
         sb.append(" Estado : " + this.estado + ",");
         sb.append(" Artigos: ");
-        for(String c : this.artigos){
-            sb.append(c.toString() + ", ");
+        for(Artigo c : this.artigos){
+            sb.append(c.toString() + "\n");
         }
-        sb.append(" Preço: " + this.preco);
+        sb.append(" Preço: " + (this.preco_artigos + this.preco_transporte));
         return sb.toString();
     }
 
@@ -186,8 +198,9 @@ public class Encomenda implements Serializable {
         return  this.dim == l.getDim() &&
                 this.estado == l.getEstado() &&
                 this.data_inicial.equals(l.getData_inicial()) &&
-                Double.compare(this.preco, l.getPreco()) == 0 &&
-                this.artigos.equals(l.getArtigos());
+                Double.compare(this.preco_artigos, l.getPrecoArtigos()) == 0 &&
+                this.artigos.equals(l.getArtigos()) &&
+                Double.compare(this.preco_transporte, l.getPreco_transporte()) == 0;
     }
 
     private void defDimensaoCaixa(){
@@ -200,8 +213,8 @@ public class Encomenda implements Serializable {
     }
 
     public void addArtEncomenda(Artigo c){
-        double preco = this.preco;
-        this.artigos.add(c.getCodAlfaNum());
+        double preco = this.preco_artigos;
+        this.artigos.add(c);
         Transportadora aux = c.getTransp();
 
         if (this.contador.containsKey(aux)) {
@@ -218,7 +231,8 @@ public class Encomenda implements Serializable {
         }
         else preco += 0.25;
         defDimensaoCaixa();
-        setPreco(preco);
+        setPrecoArtigos(preco);
+        setPreco_transporte(calculaPrecoTransporte());
     }
 
     public boolean contem (Artigo artigo){
@@ -226,7 +240,7 @@ public class Encomenda implements Serializable {
     }
 
     public void removeArtEncomenda(Artigo c){
-        double preco = this.preco;
+        double preco = this.preco_artigos;
         preco -= c.getPreco_curr();
         if(c.isNovo()) preco -= 0.5;
         else preco -= 0.25;
@@ -239,18 +253,13 @@ public class Encomenda implements Serializable {
             this.contador.put(c.getTransp(), contagem - 1);
         }
 
-        this.artigos.remove(c.getCodAlfaNum());
+        this.artigos.remove(c);
         defDimensaoCaixa();
-        setPreco(preco);
+        setPrecoArtigos(preco);
+        setPreco_transporte(calculaPrecoTransporte());
     }
 
-    public boolean isRefundable(){
-        if(this.data_inicial.plusDays(2).isBefore(this.data_inicial)) return true;
-        return false;
-    }
-
-
-    public double calculaPrecoFinal() {
+    public double calculaPrecoTransporte() {
         double preco_transporte = 0;
         if(this.artigos.size() != 0){
             for(Map.Entry<Transportadora, Integer> c : this.contador.entrySet()){
@@ -258,7 +267,6 @@ public class Encomenda implements Serializable {
                 Integer num = c.getValue();
                 preco_transporte += transp.precoTransporte(num);
             }
-            preco_transporte += this.preco;
             if(this.dim == Embalagem.Pequeno)
                 preco_transporte += 0.29;
             else if(this.dim == Embalagem.Medio)
@@ -269,16 +277,30 @@ public class Encomenda implements Serializable {
         return preco_transporte;
     }
 
+    public double calculaPrecoArtigos(){
+        double preco = 0;
+        for(Artigo c : this.artigos){
+            if(c.isNovo()) preco += 0.5;
+            else preco += 0.25;
+            preco += c.getPreco_curr();
+        }
+        return preco;
+    }
+
+    public boolean isRefundable(LocalDateTime data){
+        if(data.isAfter(this.data_inicial.plusHours(50))) return false;
+        return true;
+    }
+
     public void atualizaEncomenda(){
         defDimensaoCaixa();
         this.estado = State.Finalizada;
-        setPreco(calculaPrecoFinal());
         setData_inicial(LocalDateTime.now());
     }
 
     public void showPrecoAtual(){
         DecimalFormat df = new DecimalFormat("0.00");
-        System.out.println("Preço atual: "+ df.format(calculaPrecoFinal()));
+        System.out.println("Preço atual: "+ df.format(calculaPrecoTransporte() + + this.preco_artigos));
     }
 
 }

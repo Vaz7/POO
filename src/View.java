@@ -421,7 +421,7 @@ public class View {
         return ret;
     }
 
-    public void imprimeArtigos(List<Artigo> list){
+    public void imprimeArtigos(Set<Artigo> list){
         for (Artigo c : list) {
             System.out.println(c.toString());
         }

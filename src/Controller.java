@@ -105,7 +105,7 @@ public class Controller {
                         try{
                             nome = this.vintage.getUserFromEncomenda(cod);
                             if(nome.equals(this.current_user)){
-                                this.vintage.devolveEncomenda(cod,current_user);
+                                this.vintage.devolveEncomenda(cod,current_user, this.data);
                             }
                             else
                                 this.view.encomendaNaoAssociada(this.current_user);
@@ -271,7 +271,7 @@ public class Controller {
                     this.encomenda_atual.showPrecoAtual();
                     break;
                 case 2:
-                    this.view.imprimeArtigos(this.vintage.getListaArtigos(this.encomenda_atual.getArtigos()));
+                    this.view.imprimeArtigos(this.encomenda_atual.getArtigos());
                     artigo = this.view.removeArtigo();
                     try{
                         this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
