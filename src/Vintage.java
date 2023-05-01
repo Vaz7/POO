@@ -399,6 +399,8 @@ public class Vintage implements Serializable {
         return sb.toString();
     }
 
+
+    //1ª estatistica
     public Map<String, List<Encomenda>> getEncomendasPeriodo(LocalDate start, LocalDate end){
         LocalDateTime inicio = start.atStartOfDay().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime fim = end.atStartOfDay().withHour(23).withMinute(59).withSecond(59);
@@ -414,6 +416,7 @@ public class Vintage implements Serializable {
         return aux;
     }
 
+    //1ª estatistica
     public double calculcaGanhoEncomendaUser(String email, Encomenda enc){
         double preco = 0;
         Set<Artigo> artigos = enc.getArtigos();
@@ -424,6 +427,7 @@ public class Vintage implements Serializable {
         return preco;
     }
 
+    //1ª estatistica
     public double calculaTotalGanhoUser(String email, List<Encomenda> encomendas) {
         double totalGasto = 0;
         for (Encomenda enc : encomendas) {
@@ -431,6 +435,8 @@ public class Vintage implements Serializable {
         }
         return totalGasto;
     }
+
+
 
 }
 

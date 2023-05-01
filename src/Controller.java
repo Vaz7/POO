@@ -233,7 +233,7 @@ public class Controller {
                         return;
                 }
                 try{
-                    this.vintage.addArigoVenda(this.current_user, art1);
+                    this.vintage.addArigoVenda(this.current_user, art1.clone()); //composição no artigo -> agregação artigo entre vintage e encomendas
                     flag2 = false;
                 } catch (UserDoesntExistException udee){
                     udee.getMessage();
@@ -421,7 +421,7 @@ public class Controller {
                 .orElse(null);
 
         Utilizador melhor = this.vintage.getUserEspecifico(nome);
-        System.out.println(melhor);
+        this.view.imprimeUtilizador(melhor);
     }
 
 }

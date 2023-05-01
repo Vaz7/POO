@@ -481,6 +481,10 @@ public class View {
 
         return datas;
     }
+
+    public void imprimeUtilizador(Utilizador a){
+        System.out.println(a.toString());
+    }
     public void invalidOption() {
         System.out.println("Opcao invalida.");
     }
