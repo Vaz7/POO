@@ -48,7 +48,6 @@ public class Encomenda implements Serializable {
         this.preco_artigos = calculaPrecoArtigos();
         this.preco_transporte = calculaPrecoTransporte();
         atualizaEncomenda();
-        atualizaContador(this.artigos);
     }
 
     public Encomenda(Set<Artigo> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
@@ -60,7 +59,6 @@ public class Encomenda implements Serializable {
         this.preco_artigos = preco;
         this.preco_transporte = calculaPrecoTransporte();
         atualizaEncomenda();
-        atualizaContador(this.artigos);
     }
 
     public Encomenda(Encomenda o){
@@ -168,9 +166,23 @@ public class Encomenda implements Serializable {
         return new Encomenda(this);
     }
 
-    public String toLog(){
+    public String toLogC(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Encomenda:" + this.codigo);
+        sb.append("EncomendaComprada:" + this.codigo);
+        sb.append("," + this.dim );
+        sb.append("," + this.data_inicial);
+        sb.append("," + this.estado);
+        sb.append("," + (this.preco_artigos + this.preco_transporte));
+
+        for(Artigo c: this.artigos){
+            sb.append("," + c.toString());
+        }
+        return sb.toString();
+    }
+
+    public String toLogV(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("EncomendaVendida:" + this.codigo);
         sb.append("," + this.dim );
         sb.append("," + this.data_inicial);
         sb.append("," + this.estado);
@@ -283,20 +295,6 @@ public class Encomenda implements Serializable {
         return preco_transporte;
     }
 
-    public void atualizaContador(Set<Artigo> a){
-        for(Artigo c : a){
-            Transportadora aux = c.getTransp();
-
-            if (this.contador.containsKey(aux)) {
-                int contagem = this.contador.get(aux);
-                this.contador.put(aux, contagem + 1);
-            }
-            else {
-                this.contador.put(aux, 1);
-            }
-        }
-    }
-
     public double calculaPrecoArtigos(){
         double preco = 0;
         for(Artigo c : this.artigos){
@@ -333,5 +331,6 @@ public class Encomenda implements Serializable {
         DecimalFormat df = new DecimalFormat("0.00");
         System.out.println("Preço atual: "+ df.format(calculaPrecoTransporte() + + this.preco_artigos));
     }
+
 
 }

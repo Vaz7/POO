@@ -13,7 +13,8 @@ public class Utilizador implements Serializable {
     private Map<String, Artigo> vendido;
     private Set<String> para_vender;
 
-    private Set<Integer> encomendas;
+    private Set<Encomenda> encomendas_compradas;
+    private Set<Encomenda> encomendas_vendidas;
     private double dinheiro_vendas;
     private double dinheiro_compras;
 
@@ -25,7 +26,8 @@ public class Utilizador implements Serializable {
         this.nif = 0;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
-        this.encomendas = new HashSet<>();
+        this.encomendas_compradas = new HashSet<>();
+        this.encomendas_vendidas = new HashSet<>();
         this.dinheiro_compras = 0;
         this.dinheiro_vendas = 0;
     }
@@ -38,7 +40,8 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
-        this.encomendas = new HashSet<>();
+        this.encomendas_compradas = new HashSet<>();
+        this.encomendas_vendidas = new HashSet<>();
         this.dinheiro_vendas = 0.0;
         this.dinheiro_compras = 0.0;
     }
@@ -51,7 +54,8 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         this.vendido = new HashMap<>();
         this.para_vender = new HashSet<>();
-        this.encomendas = new HashSet<>();
+        this.encomendas_compradas = new HashSet<>();
+        this.encomendas_vendidas = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
@@ -63,7 +67,8 @@ public class Utilizador implements Serializable {
         this.nif = nif;
         setVendido(vendido);
         setPara_vender(para_vender);
-        this.encomendas = new HashSet<>();
+        this.encomendas_compradas = new HashSet<>();
+        this.encomendas_vendidas = new HashSet<>();
         this.dinheiro_vendas = dinheiro_vendas;
         this.dinheiro_compras = dinheiro_compras;
     }
@@ -78,7 +83,23 @@ public class Utilizador implements Serializable {
         this.para_vender = o.getPara_vender();
         this.dinheiro_compras = o.getDinheiro_compras();
         this.dinheiro_vendas = o.getDinheiro_vendas();
-        this.encomendas = o.getEncomendas();
+        this.encomendas_compradas = o.getEncomendasCompradas();
+        this.encomendas_vendidas = o.getEncomendas_vendidas();
+    }
+
+    public Set<Encomenda> getEncomendas_vendidas() {
+        Set<Encomenda> novo = new HashSet<>();
+        for(Encomenda i : this.encomendas_vendidas){
+            novo.add(i.clone());
+        }
+        return novo;
+    }
+
+    public void setEncomendas_vendidas(Set<Encomenda> a) {
+        this.encomendas_vendidas = new HashSet<>();
+        for(Encomenda c : a){
+            this.encomendas_vendidas.add(c.clone());
+        }
     }
 
     public int getCode() {
@@ -105,18 +126,18 @@ public class Utilizador implements Serializable {
         this.nome = nome;
     }
 
-    public Set<Integer> getEncomendas() {
-        Set novo = new HashSet<>();
-        for(Integer i : this.encomendas){
-            novo.add(i);
+    public Set<Encomenda> getEncomendasCompradas() {
+        Set<Encomenda> novo = new HashSet<>();
+        for(Encomenda i : this.encomendas_compradas){
+            novo.add(i.clone());
         }
         return novo;
     }
 
-    public void setEncomendas(Set<Integer> a){
-            this.encomendas = new HashSet<>();
-            for(Integer c : a){
-                this.encomendas.add(c);
+    public void setEncomendasCompradas(Set<Encomenda> a){
+            this.encomendas_compradas = new HashSet<>();
+            for(Encomenda c : a){
+                this.encomendas_compradas.add(c.clone());
             }
 
     }
@@ -242,21 +263,19 @@ public class Utilizador implements Serializable {
     public void removeArtigoParaVender(String c){
         this.para_vender.remove(c);
     }
-    public void removeArtigoVendido(String c){this.vendido.remove(c);}
-//    private void calculaDinheiroCompras(){
-//        double preco = 0;
-//        for(Artigo c : this.vendido){
-//            preco += c.getPreco_curr();
-//        }
-//        setDinheiro_vendas(preco);
-//    }
 
-    public void addEncomenda(Integer i){
-        this.encomendas.add(i);
+    public void removeArtigoVendido(String c){this.vendido.remove(c);}
+
+    public void addEncomendaComprada(Encomenda i){
+        this.encomendas_compradas.add(i);
     }
 
-    public void removeEncomenda(Integer i){
-        this.encomendas.remove(i);
+    public void addEncomendaVendida(Encomenda i){
+        this.encomendas_vendidas.add(i);
+    }
+
+    public void removeEncomenda(Encomenda i){
+        this.encomendas_compradas.remove(i);
     }
 
     public String toLog(){

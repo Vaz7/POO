@@ -1,7 +1,5 @@
 import UserExceptions.*;
 import jdk.jshell.execution.Util;
-import java.io.FileWriter;
-import java.io.IOException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -246,13 +244,14 @@ public class Vintage implements Serializable {
             utilizador1.setDinheiro_vendas(utilizador1.getDinheiro_vendas() + aux.getPreco_curr());
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
             this.artigos.remove(codalfa);
+            utilizador1.addEncomendaVendida(encomenda);
         }
         try{
             atualizaTransportadoras(encomenda);
         } catch (TransportadoraDoesntExistException e){
             e.getMessage();
         }
-        utilizador.addEncomenda(encomenda.getCodigo());
+        utilizador.addEncomendaComprada(encomenda);
     }
 
     public void atualizaTransportadoras(Encomenda a) throws TransportadoraDoesntExistException{
@@ -298,9 +297,15 @@ public class Vintage implements Serializable {
                 lines.add(vend.toLogVendidos());
             }
 
-            for(Integer enc : use.getEncomendas()){
-                lines.add(this.encomendas.get(enc).toLog());
+            for(Encomenda enc : use.getEncomendasCompradas()){
+                lines.add(enc.toLogC());
             }
+
+            for(Encomenda enc : use.getEncomendas_vendidas()){
+                lines.add(enc.toLogV());
+            }
+
+
 
         }
         return lines;
@@ -362,8 +367,7 @@ public class Vintage implements Serializable {
             this.artigos.put(artigo.getCodAlfaNum(), artigo);
 
             this.encomendas.remove(num_encomenda);
-            utilizador.removeEncomenda(num_encomenda);
-            //return true;
+            utilizador.removeEncomenda(encomenda);
         }
     }
 
@@ -393,6 +397,39 @@ public class Vintage implements Serializable {
         }
         sb.append("Preço Final (c/IVA): " + (c.getPrecoArtigos()+c.getPreco_transporte()));
         return sb.toString();
+    }
+
+    public Map<String, List<Encomenda>> getEncomendasPeriodo(LocalDate start, LocalDate end){
+        LocalDateTime inicio = start.atStartOfDay().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime fim = end.atStartOfDay().withHour(23).withMinute(59).withSecond(59);
+        Map<String, List<Encomenda>> aux = new HashMap<>();
+        for(Utilizador c : this.utilizadores.values()){
+            List<Encomenda> lista = new ArrayList<>();
+            for(Encomenda d : c.getEncomendas_vendidas()){
+                if((d.getData_inicial().isAfter(inicio) || d.getData_inicial().isEqual(inicio)) && (d.getData_inicial().isBefore(fim) ||  d.getData_inicial().isEqual(fim)))
+                    lista.add(d);
+            }
+            aux.put(c.getEmail(),lista);
+        }
+        return aux;
+    }
+
+    public double calculcaGanhoEncomendaUser(String email, Encomenda enc){
+        double preco = 0;
+        Set<Artigo> artigos = enc.getArtigos();
+        for(Artigo c : artigos){
+            if(this.artigos_utilizadores_ligacao.get(c.getCodAlfaNum()).equals(email))
+                preco += c.getPreco_curr();
+        }
+        return preco;
+    }
+
+    public double calculaTotalGanhoUser(String email, List<Encomenda> encomendas) {
+        double totalGasto = 0;
+        for (Encomenda enc : encomendas) {
+            totalGasto += calculcaGanhoEncomendaUser(email, enc);
+        }
+        return totalGasto;
     }
 
 }

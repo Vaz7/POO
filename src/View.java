@@ -468,10 +468,16 @@ public class View {
         LocalDate datas[] = new LocalDate[2];
 
         Scanner sc = new Scanner(System.in);
-        System.out.println("Introduza a data inicial: (yyyy-mm-dd)");
-        datas[0]=LocalDate.parse(leLocalDate());
-        System.out.println("Introduza a data final: (yyyy-mm-dd)");
-        datas[1]=LocalDate.parse(leLocalDate());
+
+        do{
+            System.out.println("Introduza a data inicial: (yyyy-mm-dd)");
+            datas[0]=LocalDate.parse(leLocalDate());
+            System.out.println("Introduza a data final: (yyyy-mm-dd)");
+            datas[1]=LocalDate.parse(leLocalDate());
+
+            if(datas[0].isAfter(datas[1]))
+                System.out.println("Por favor introduza uma data inicial inferior ou igual à data superior.");
+        } while(datas[0].isAfter(datas[1]));
 
         return datas;
     }

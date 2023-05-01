@@ -328,7 +328,7 @@ public class Controller {
                         break;
                     case 1:
                         datas = this.view.intervaloTempo();
-                        System.out.println("stats1");
+                        maiorVendedorIntervaloTempo(datas[0],datas[1]);
                         break;
                     case 2:
                         System.out.println("stats2");
@@ -410,6 +410,18 @@ public class Controller {
             fos.close();
         }
         System.out.println("Foram avançadas " + nrHoras + " horas");
+    }
+
+    public void maiorVendedorIntervaloTempo(LocalDate start, LocalDate end){
+        Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end);
+
+        String nome = encs.entrySet().stream()
+                .max(Comparator.comparingDouble(entry -> this.vintage.calculaTotalGanhoUser(entry.getKey(), entry.getValue())))
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        Utilizador melhor = this.vintage.getUserEspecifico(nome);
+        System.out.println(melhor);
     }
 
 }
