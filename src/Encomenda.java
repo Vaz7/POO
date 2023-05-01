@@ -332,5 +332,16 @@ public class Encomenda implements Serializable {
         System.out.println("Preço atual: "+ df.format(calculaPrecoTransporte() + + this.preco_artigos));
     }
 
+    public double calculaPrecoSatisfacao(){
+        return this.artigos.stream()
+                .map(enc -> enc.isNovo())
+                .map(novo -> {
+                    if(novo == false)
+                        return 0.25;
+                    else return 0.5;
+                })
+                .reduce(0.0,(subtotal, element) -> subtotal + element);
+    }
+
 
 }

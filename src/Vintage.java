@@ -436,7 +436,12 @@ public class Vintage implements Serializable {
         return totalGasto;
     }
 
-
+    public double calculaDinheiroVintage(){
+        return this.encomendas.values()
+                .stream()
+                .map(Encomenda::calculaPrecoSatisfacao)
+                .reduce(0.0, (subtotal, element) -> subtotal + element);
+    }
 
 }
 

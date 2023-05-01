@@ -485,6 +485,11 @@ public class View {
     public void imprimeUtilizador(Utilizador a){
         System.out.println(a.toString());
     }
+
+    public void imprimeDouble(double a){
+        System.out.println(a);
+    }
+
     public void invalidOption() {
         System.out.println("Opcao invalida.");
     }

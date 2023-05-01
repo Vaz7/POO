@@ -341,7 +341,7 @@ public class Controller {
                         System.out.println("stats4");
                         break;
                     case 5:
-                        System.out.println("stats5");
+                        dinheiroVintage();
                         break;
                     default:
                         System.out.println("Opção Inválida!");
@@ -422,6 +422,11 @@ public class Controller {
 
         Utilizador melhor = this.vintage.getUserEspecifico(nome);
         this.view.imprimeUtilizador(melhor);
+    }
+
+    public void dinheiroVintage(){
+        double total = this.vintage.calculaDinheiroVintage();
+        this.view.imprimeDouble(total);
     }
 
 }
