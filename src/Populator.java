@@ -1,4 +1,5 @@
 import UserExceptions.ArtigoDoesntExistException;
+import UserExceptions.TransportadoraDoesntExistException;
 import UserExceptions.UserDoesntExistException;
 
 import java.time.LocalDate;
@@ -8,12 +9,19 @@ import java.util.Set;
 public class Populator {
 
 
-    public static void populateData(Vintage vintage){
+    public static Vintage populateData(){
+        Vintage vintage = new Vintage();
         // cria transportadoras
-        Transportadora transp1 = new Transportadora(0.05,"gls",18000);
-        Transportadora transp2 = new Transportadora(0.07,"ctt",25000);
-        Transportadora transp3 = new Transportadora(0.06,"dhl",19000);
-        Transportadora transp4 = new TransportadoraPremium(0.15,"mrw premium",20000);
+        Transportadora transp1 = new Transportadora(0.05,"gls",0.0);
+        Transportadora transp2 = new Transportadora(0.07,"ctt",0.0);
+        Transportadora transp3 = new Transportadora(0.06,"dhl",0.0);
+        Transportadora transp4 = new TransportadoraPremium(0.15,"mrw premium",0.0);
+
+        // insere na vintage transportadoras
+        vintage.addTransportadora(transp1);
+        vintage.addTransportadora(transp2);
+        vintage.addTransportadora(transp3);
+        vintage.addTransportadora(transp4);
 
         // cria utilizadores
         Utilizador user1 = new Utilizador("henrique@vaz.pt","Henrique Vaz","Rua das cenas, n12",260485489,12.5,11.2);
@@ -27,6 +35,19 @@ public class Populator {
         Utilizador user9 = new Utilizador("user7@yahoo.com", "Ricardo Pereira", "Rua G, nº 70", 159357246, 0, 0);
         Utilizador user10 = new Utilizador("user8@gmail.com", "Marta Santos", "Rua H, nº 80", 753159246, 0, 0);
         Utilizador admin = new Utilizador("asd", "Inês Silva", "Rua J, nº 100", 147258369, 0, 0);
+
+        // insere na vintage users
+        vintage.addUser(user1);
+        vintage.addUser(user2);
+        vintage.addUser(user3);
+        vintage.addUser(user4);
+        vintage.addUser(user5);
+        vintage.addUser(user6);
+        vintage.addUser(user7);
+        vintage.addUser(user8);
+        vintage.addUser(user9);
+        vintage.addUser(user10);
+        vintage.addUser(admin);
 
         // cria artigos
         Artigo art1 =new Tshirt(true,"Tshirt nova","Ferrari",110,transp1,Tshirt.Tamanho.XL,Tshirt.Padrao.LISO);
@@ -63,38 +84,6 @@ public class Populator {
         Artigo art29 = new Sapatilha(false, 2, Artigo.Estado.MAU, "Sapatilha em bom estado", "Reebok", 99.99, transp2, 38.5, true, "Azul", LocalDate.parse("2022-06-01"));
         Artigo art30 = new Sapatilha(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"));
         Artigo art31 = new SapatilhaPremium(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"));
-
-        // cria encomenda
-        Encomenda encDoUser1 = new Encomenda();
-        Encomenda encDoUser2 = new Encomenda();
-        Encomenda encDoUser3 = new Encomenda();
-        Encomenda encDoUser4 = new Encomenda();
-        Encomenda encDoUser5 = new Encomenda();
-
-        // adiciona artigos encomenda
-        encDoUser1.addArtEncomenda(art4);
-        encDoUser1.addArtEncomenda(art5);
-        encDoUser2.addArtEncomenda(art2);
-        encDoUser2.addArtEncomenda(art25);
-        encDoUser3.addArtEncomenda(art27);
-        encDoUser4.addArtEncomenda(art18);
-        encDoUser4.addArtEncomenda(art7);
-        encDoUser4.addArtEncomenda(art19);
-        encDoUser5.addArtEncomenda(art1);
-        encDoUser5.addArtEncomenda(art12);
-
-        // insere na vintage users
-        vintage.addUser(user1);
-        vintage.addUser(user2);
-        vintage.addUser(user3);
-        vintage.addUser(user4);
-        vintage.addUser(user5);
-        vintage.addUser(user6);
-        vintage.addUser(user7);
-        vintage.addUser(user8);
-        vintage.addUser(user9);
-        vintage.addUser(user10);
-        vintage.addUser(admin);
 
         // insere na vintage artigos
         try{
@@ -143,6 +132,24 @@ public class Populator {
             e.getMessage();
         }
 
+        // cria encomenda
+        Encomenda encDoUser1 = new Encomenda();
+        Encomenda encDoUser2 = new Encomenda();
+        Encomenda encDoUser3 = new Encomenda();
+        Encomenda encDoUser4 = new Encomenda();
+        Encomenda encDoUser5 = new Encomenda();
+
+        // adiciona artigos encomenda
+        encDoUser1.addArtEncomenda(art4);
+        encDoUser1.addArtEncomenda(art5);
+        encDoUser2.addArtEncomenda(art2);
+        encDoUser2.addArtEncomenda(art25);
+        encDoUser3.addArtEncomenda(art27);
+        encDoUser4.addArtEncomenda(art18);
+        encDoUser4.addArtEncomenda(art7);
+        encDoUser4.addArtEncomenda(art19);
+        encDoUser5.addArtEncomenda(art1);
+        encDoUser5.addArtEncomenda(art12);
 
         // insere na vintage encomendas
         try{
@@ -155,13 +162,11 @@ public class Populator {
             e.getMessage();
         } catch (ArtigoDoesntExistException adee){
             adee.getMessage();
+        } catch (TransportadoraDoesntExistException tdee){
+            tdee.getMessage();
         }
 
-        // insere na vintage transportadoras
-        vintage.addTransportadora(transp1);
-        vintage.addTransportadora(transp2);
-        vintage.addTransportadora(transp3);
-        vintage.addTransportadora(transp4);
+        return vintage;
     }
 
 }

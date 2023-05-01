@@ -443,7 +443,7 @@ public class View {
         return contador;
     }
 
-    public String menuEstatisticas() {
+    public int menuEstatisticas() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Qual a estatística que pretende calcular?");
         System.out.println("1 - Qual é o vendedor que mais facturou num período ou desde sempre");
@@ -454,8 +454,14 @@ public class View {
 
         System.out.println("0 - Voltar ao Menu Inicial");
 
-        String option = sc.next();
-        return option;
+        int opt = 0;
+        do{
+            opt = leInteiro();
+            if(opt != 0 && opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5)
+                System.out.println("Introduza um valor igual a 0, 1, 2, 3, 4 ou 5.");
+        } while(opt != 0 && opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5);
+
+        return opt;
     }
 
     public LocalDate[] intervaloTempo(){

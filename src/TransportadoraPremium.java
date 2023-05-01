@@ -51,4 +51,10 @@ public class TransportadoraPremium extends Transportadora implements Premium {
 
         return base;
     }
+
+    public void addLucro(int n){
+        double dinheiro = this.getDinheiro_feito();
+        dinheiro += precoTransporte(n);
+        setDinheiro_feito(dinheiro);
+    }
 }

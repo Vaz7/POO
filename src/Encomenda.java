@@ -1,3 +1,5 @@
+import UserExceptions.TransportadoraDoesntExistException;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -45,6 +47,8 @@ public class Encomenda implements Serializable {
         this.estado = estado;
         this.preco_artigos = calculaPrecoArtigos();
         this.preco_transporte = calculaPrecoTransporte();
+        atualizaEncomenda();
+        atualizaContador(this.artigos);
     }
 
     public Encomenda(Set<Artigo> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
@@ -55,6 +59,8 @@ public class Encomenda implements Serializable {
         this.estado = estado;
         this.preco_artigos = preco;
         this.preco_transporte = calculaPrecoTransporte();
+        atualizaEncomenda();
+        atualizaContador(this.artigos);
     }
 
     public Encomenda(Encomenda o){
@@ -277,6 +283,20 @@ public class Encomenda implements Serializable {
         return preco_transporte;
     }
 
+    public void atualizaContador(Set<Artigo> a){
+        for(Artigo c : a){
+            Transportadora aux = c.getTransp();
+
+            if (this.contador.containsKey(aux)) {
+                int contagem = this.contador.get(aux);
+                this.contador.put(aux, contagem + 1);
+            }
+            else {
+                this.contador.put(aux, 1);
+            }
+        }
+    }
+
     public double calculaPrecoArtigos(){
         double preco = 0;
         for(Artigo c : this.artigos){
@@ -296,6 +316,17 @@ public class Encomenda implements Serializable {
         defDimensaoCaixa();
         this.estado = State.Finalizada;
         setData_inicial(LocalDateTime.now());
+    }
+
+    public int getTranspOccur(Transportadora a) throws TransportadoraDoesntExistException {
+        int b = 0;
+        System.out.println(this.contador);
+        if(this.contador.containsKey(a)) {
+            b = this.contador.get(a);
+        } else {
+            throw new TransportadoraDoesntExistException(a.getNome());
+        }
+        return b;
     }
 
     public void showPrecoAtual(){

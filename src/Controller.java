@@ -53,7 +53,7 @@ public class Controller {
             int opt = this.view.txtOrObject();
             switch(opt){
                 case 1:
-                    Populator.populateData(vintage);
+                    this.vintage = Populator.populateData();
                     flag = false;
                     break;
                 case 2:
@@ -294,6 +294,8 @@ public class Controller {
                             udee.getMessage();
                         } catch (ArtigoDoesntExistException adee){
                             adee.getMessage();
+                        } catch (TransportadoraDoesntExistException tdee){
+                            tdee.getMessage();
                         }
                     }
                     this.encomenda_atual = new Encomenda();
@@ -319,14 +321,14 @@ public class Controller {
         LocalDate datas[];
         while (flag) {
             try {
-                int op2 = Integer.parseInt(this.view.menuEstatisticas());
+                int op2 = this.view.menuEstatisticas();
                 switch (op2) {
                     case 0:
                         flag = false; // Exit loop
                         break;
                     case 1:
-                         datas = this.view.intervaloTempo();
-                    System.out.println("stats1");
+                        datas = this.view.intervaloTempo();
+                        System.out.println("stats1");
                         break;
                     case 2:
                         System.out.println("stats2");

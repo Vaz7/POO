@@ -211,7 +211,7 @@ public class Vintage implements Serializable {
     }
 
     public void addTransportadora(Transportadora a){
-        this.transportadoras.put(a.getNome(), a.clone());
+        this.transportadoras.put(a.getNome(), a);
     }
 
 
@@ -224,7 +224,7 @@ public class Vintage implements Serializable {
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
-    public void addEncomenda(String email,Encomenda encomenda) throws UserDoesntExistException, ArtigoDoesntExistException{
+    public void addEncomenda(String email,Encomenda encomenda) throws UserDoesntExistException, ArtigoDoesntExistException, TransportadoraDoesntExistException {
         Utilizador utilizador = utilizadores.get(email);
         if(utilizador == null) throw new UserDoesntExistException(email);
 
@@ -247,7 +247,23 @@ public class Vintage implements Serializable {
             utilizador.setDinheiro_compras(utilizador.getDinheiro_compras() + aux.getPreco_curr());
             this.artigos.remove(codalfa);
         }
+        try{
+            atualizaTransportadoras(encomenda);
+        } catch (TransportadoraDoesntExistException e){
+            e.getMessage();
+        }
         utilizador.addEncomenda(encomenda.getCodigo());
+    }
+
+    public void atualizaTransportadoras(Encomenda a) throws TransportadoraDoesntExistException{
+        Map<Transportadora, Integer> aux = a.getContador();
+        for(Map.Entry<Transportadora, Integer> c : aux.entrySet()){
+            Transportadora trans = c.getKey();
+            int valor = c.getValue();
+            Transportadora original = this.transportadoras.get(trans.getNome());
+            if(original == null) throw new TransportadoraDoesntExistException(trans.getNome());
+            original.addLucro(valor);
+        }
     }
 
     public void addArigoVendido (String email, Artigo artigo){

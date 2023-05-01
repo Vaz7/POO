@@ -83,7 +83,8 @@ public class Transportadora implements Serializable {
 
         Transportadora l = (Transportadora) o;
         return Double.compare(this.lucro, l.getLucro()) == 0 &&
-                this.nome.equals(l.getNome());
+                this.nome.equals(l.getNome()) &&
+                Double.compare(this.dinheiro_feito, l.getDinheiro_feito()) == 0;
 
     }
 
@@ -102,5 +103,9 @@ public class Transportadora implements Serializable {
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + ((nome == null) ? 0 : nome.hashCode());
         return result;
+    }
+
+    public void addLucro(int n){
+        this.dinheiro_feito += precoTransporte(n);
     }
 }
