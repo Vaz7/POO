@@ -403,16 +403,25 @@ public class Vintage implements Serializable {
 
 
     //1ª estatistica
-    public Map<String, List<Encomenda>> getEncomendasPeriodo(LocalDate start, LocalDate end){
+    public Map<String, List<Encomenda>> getEncomendasPeriodo(LocalDate start, LocalDate end,boolean tipo_encomenda){
         LocalDateTime inicio = start.atStartOfDay().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime fim = end.atStartOfDay().withHour(23).withMinute(59).withSecond(59);
         Map<String, List<Encomenda>> aux = new HashMap<>();
         for(Utilizador c : this.utilizadores.values()){
             List<Encomenda> lista = new ArrayList<>();
-            for(Encomenda d : c.getEncomendas_vendidas()){
-                if((d.getData_inicial().isAfter(inicio) || d.getData_inicial().isEqual(inicio)) && (d.getData_inicial().isBefore(fim) ||  d.getData_inicial().isEqual(fim)))
-                    lista.add(d);
+            if(tipo_encomenda==true){
+                for(Encomenda d : c.getEncomendas_vendidas()){
+                    if((d.getData_inicial().isAfter(inicio) || d.getData_inicial().isEqual(inicio)) && (d.getData_inicial().isBefore(fim) ||  d.getData_inicial().isEqual(fim)))
+                        lista.add(d);
+                }
             }
+            else if(tipo_encomenda==false){
+                for(Encomenda d : c.getEncomendasCompradas()){
+                    if((d.getData_inicial().isAfter(inicio) || d.getData_inicial().isEqual(inicio)) && (d.getData_inicial().isBefore(fim) ||  d.getData_inicial().isEqual(fim)))
+                        lista.add(d);
+                }
+            }
+
             aux.put(c.getEmail(),lista);
         }
         return aux;
@@ -451,6 +460,21 @@ public class Vintage implements Serializable {
                 .max(Comparator.comparingDouble(Transportadora::getDinheiro_feito))
                 .orElse(null);
 
+    }
+
+    //4ª estatistica
+    public double calculcaGastoEncomendaUser(Encomenda enc){
+        double preco = enc.calculaTotalEncomenda();
+        return preco;
+    }
+    //4ª estatistica
+    public double calculaTotalGastoUsers(List<Encomenda> encomendas){
+        double totalGasto = 0;
+
+        for (Encomenda enc : encomendas) {
+            totalGasto += calculcaGastoEncomendaUser(enc);
+        }
+        return totalGasto;
     }
 
 }

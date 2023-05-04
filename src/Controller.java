@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import UserExceptions.*;
 
@@ -349,7 +350,8 @@ public class Controller {
                         break;
                     case 4:
                         datas = this.view.intervaloTempo();
-                        System.out.println("stats4");
+                        maioresCompradores(datas[0],datas[1]);
+                        maioresVendedores(datas[0],datas[1]);
                         break;
                     case 5:
                         dinheiroVintage();
@@ -424,13 +426,12 @@ public class Controller {
     }
 
     public void maiorVendedorIntervaloTempo(LocalDate start, LocalDate end){
-        Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end);
+        Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,true);
 
         String nome = encs.entrySet().stream()
                 .max(Comparator.comparingDouble(entry -> this.vintage.calculaTotalGanhoUser(entry.getKey(), entry.getValue())))
                 .map(Map.Entry::getKey)
                 .orElse(null);
-
         try{
             Utilizador melhor = this.vintage.getUserEspecifico(nome);
             this.view.imprimeUtilizador(melhor);
@@ -459,5 +460,52 @@ public class Controller {
             this.view.imprimeString(c.toString());
         }
     }
+
+    public void maioresCompradores(LocalDate start, LocalDate end){
+        Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,false);
+
+        Map<String,Double> gastos = new HashMap<>();
+
+        for(Map.Entry<String,List<Encomenda>> c : encs.entrySet()){
+            String email = c.getKey();
+            List<Encomenda> aux = c.getValue();
+
+            double total_gasto = this.vintage.calculaTotalGastoUsers(aux);
+
+            gastos.put(email,total_gasto);
+        }
+
+        List<String> chavesOrdenadas = gastos.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        System.out.println("Maiores compradores " + chavesOrdenadas.toString());
+        System.out.println("Maiores compradores: " + gastos.toString());
+    }
+
+    public void maioresVendedores(LocalDate start, LocalDate end){
+        Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,true);
+
+        Map<String,Double> ganhos = new HashMap<>();
+
+        for(Map.Entry<String,List<Encomenda>> c : encs.entrySet()){
+            String email = c.getKey();
+            List<Encomenda> aux = c.getValue();
+
+            double total_ganho = this.vintage.calculaTotalGanhoUser(email,aux);
+
+            ganhos.put(email,total_ganho);
+        }
+
+        List<String> chavesOrdenadas = ganhos.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        System.out.println("Maiores vendedores: " + chavesOrdenadas.toString());
+        System.out.println("Maiores vendedores: " + ganhos.toString());
+    }
+
 
 }

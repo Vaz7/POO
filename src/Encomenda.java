@@ -69,6 +69,7 @@ public class Encomenda implements Serializable {
         this.estado = o.getEstado();
         this.preco_artigos = o.getPrecoArtigos();
         this.preco_transporte = o.getPreco_transporte();
+        this.contador = o.getContador();
     }
 
     public static int getCount() {
@@ -275,6 +276,10 @@ public class Encomenda implements Serializable {
         defDimensaoCaixa();
         setPrecoArtigos(preco);
         setPreco_transporte(calculaPrecoTransporte());
+    }
+
+    public double calculaTotalEncomenda(){
+        return (calculaPrecoTransporte() +  this.preco_artigos);
     }
 
     public double calculaPrecoTransporte() {
