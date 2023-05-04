@@ -177,7 +177,9 @@ public class Vintage implements Serializable {
         else return false;
     }
 
-    public Utilizador getUserEspecifico(String mail){
+    public Utilizador getUserEspecifico(String mail) throws UserDoesntExistException{
+        if(!this.utilizadores.containsKey(mail))
+            throw new UserDoesntExistException(mail);
         return this.utilizadores.get(mail).clone();
     }
 
@@ -441,6 +443,14 @@ public class Vintage implements Serializable {
                 .stream()
                 .map(Encomenda::calculaPrecoSatisfacao)
                 .reduce(0.0, (subtotal, element) -> subtotal + element);
+    }
+
+    public Transportadora maiorFaturacaoTransportadora(){
+        return this.transportadoras.values()
+                .stream()
+                .max(Comparator.comparingDouble(Transportadora::getDinheiro_feito))
+                .orElse(null);
+
     }
 
 }

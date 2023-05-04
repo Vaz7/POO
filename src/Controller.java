@@ -156,7 +156,11 @@ public class Controller {
                 while (flag) {
                     username = this.view.logIn();
                     if (this.vintage.userExists(username)) {
-                        current_user = this.vintage.getUserEspecifico(username).getEmail();
+                        try{ // ISTO ESTÁ MUITO À TROLHA, REVER!!
+                            current_user = this.vintage.getUserEspecifico(username).getEmail();
+                        } catch (UserDoesntExistException e){
+                            e.getMessage();
+                        }
                         this.logged = true;
                         flag = false;
                     } else {
@@ -331,10 +335,17 @@ public class Controller {
                         maiorVendedorIntervaloTempo(datas[0],datas[1]);
                         break;
                     case 2:
-                        System.out.println("stats2");
+                        melhorTransportadora();
                         break;
                     case 3:
-                        System.out.println("stats3");
+                        String nome = this.view.leEmail();
+                        try{
+                            encomendasEmitidasVendedor(nome);
+                        } catch (UserDoesntExistException e){
+                            e.getMessage();
+                        } catch (EncomendasNonExistentException enee){
+                            enee.getMessage();
+                        }
                         break;
                     case 4:
                         datas = this.view.intervaloTempo();
@@ -420,13 +431,33 @@ public class Controller {
                 .map(Map.Entry::getKey)
                 .orElse(null);
 
-        Utilizador melhor = this.vintage.getUserEspecifico(nome);
-        this.view.imprimeUtilizador(melhor);
+        try{
+            Utilizador melhor = this.vintage.getUserEspecifico(nome);
+            this.view.imprimeUtilizador(melhor);
+        }
+        catch (UserDoesntExistException e){
+            e.getMessage();
+        }
     }
 
     public void dinheiroVintage(){
         double total = this.vintage.calculaDinheiroVintage();
         this.view.imprimeDouble(total);
+    }
+
+    public void melhorTransportadora(){
+        String transportadora = this.vintage.maiorFaturacaoTransportadora().toString();
+        this.view.imprimeString(transportadora);
+    }
+
+    public void encomendasEmitidasVendedor(String email) throws UserDoesntExistException, EncomendasNonExistentException{
+        Utilizador user = this.vintage.getUserEspecifico(email);
+        Set<Encomenda> aux = user.getEncomendas_vendidas();
+        if(aux.size() == 0)
+            throw new EncomendasNonExistentException(user.getEmail());
+        for(Encomenda c : aux){
+            this.view.imprimeString(c.toString());
+        }
     }
 
 }

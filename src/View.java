@@ -490,6 +490,16 @@ public class View {
         System.out.println(a);
     }
 
+    public String leEmail(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Insira o email do utilizador que pretende efetuar a estatística.");
+        String email = sc.nextLine();
+        return email;
+    }
+
+    public void imprimeString(String def){
+        System.out.println(def);
+    }
     public void invalidOption() {
         System.out.println("Opcao invalida.");
     }
