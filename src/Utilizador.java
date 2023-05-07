@@ -12,7 +12,6 @@ public class Utilizador implements Serializable {
     private int nif;
     private Map<String, Artigo> vendido;
     private Set<String> para_vender;
-
     private Set<Encomenda> encomendas_compradas;
     private Set<Encomenda> encomendas_vendidas;
     private double dinheiro_vendas;
@@ -249,7 +248,9 @@ public class Utilizador implements Serializable {
                 Double.compare(this.dinheiro_compras, l.getDinheiro_compras()) == 0 &&
                 Double.compare(this.dinheiro_vendas, l.getDinheiro_vendas()) == 0 &&
                 this.vendido.equals(l.getVendido()) &&
-                this.para_vender.equals(l.para_vender);
+                this.para_vender.equals(l.para_vender) &&
+                this.encomendas_vendidas.equals(l.getEncomendas_vendidas()) &&
+                this.encomendas_compradas.equals(l.getEncomendasCompradas());
     }
 
     public void addArtigoVendido(Artigo c){

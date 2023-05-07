@@ -114,6 +114,8 @@ public class Controller {
                             e.getMessage();
                         } catch (UserDoesntExistException udee){
                             udee.getMessage();
+                        } catch (EncomendaNotRefundableException enre){
+                            enre.getMessage();
                         }
                         break;
                     }

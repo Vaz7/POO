@@ -33,6 +33,7 @@ public class Transportadora implements Serializable {
         this.dinheiro_feito = o.getDinheiro_feito();
     }
 
+
     public double getDinheiro_feito() {
         return dinheiro_feito;
     }

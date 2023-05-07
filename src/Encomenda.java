@@ -205,7 +205,7 @@ public class Encomenda implements Serializable {
         for(Artigo c : this.artigos){
             sb.append(c.toString() + "\n");
         }
-        sb.append(" Preço: " + (this.preco_artigos + this.preco_transporte));
+        sb.append("Preço: " + (this.preco_artigos + this.preco_transporte));
         return sb.toString();
     }
 
@@ -321,18 +321,7 @@ public class Encomenda implements Serializable {
         setData_inicial(LocalDateTime.now());
     }
 
-    public int getTranspOccur(Transportadora a) throws TransportadoraDoesntExistException {
-        int b = 0;
-        System.out.println(this.contador);
-        if(this.contador.containsKey(a)) {
-            b = this.contador.get(a);
-        } else {
-            throw new TransportadoraDoesntExistException(a.getNome());
-        }
-        return b;
-    }
-
-    public void showPrecoAtual(){
+    public void showPrecoAtual(){ // mudar isto
         DecimalFormat df = new DecimalFormat("0.00");
         System.out.println("Preço atual: "+ df.format(calculaPrecoTransporte() + + this.preco_artigos));
     }

@@ -1,5 +1,4 @@
 import UserExceptions.*;
-import jdk.jshell.execution.Util;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -211,7 +210,7 @@ public class Vintage implements Serializable {
     }
 
     public void addTransportadora(Transportadora a){
-        this.transportadoras.put(a.getNome(), a);
+        this.transportadoras.put(a.getNome(), a.clone());
     }
 
 
@@ -228,8 +227,9 @@ public class Vintage implements Serializable {
         Utilizador utilizador = utilizadores.get(email);
         if(utilizador == null) throw new UserDoesntExistException(email);
 
-        encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email); // isto está estupido, encomendas não é um map
-        encomendas.put(encomenda.getCodigo(),encomenda);
+        encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email);
+        Encomenda encomenda2 = encomenda.clone();
+        encomendas.put(encomenda.getCodigo(),encomenda2);
 
         Set<Artigo> artigos = encomenda.getArtigos();
         for(Artigo c : artigos){
@@ -248,12 +248,8 @@ public class Vintage implements Serializable {
             this.artigos.remove(codalfa);
             utilizador1.addEncomendaVendida(encomenda);
         }
-        try{
-            atualizaTransportadoras(encomenda);
-        } catch (TransportadoraDoesntExistException e){
-            e.getMessage();
-        }
-        utilizador.addEncomendaComprada(encomenda);
+        atualizaTransportadoras(encomenda);
+        utilizador.addEncomendaComprada(encomenda2);
     }
 
     public void atualizaTransportadoras(Encomenda a) throws TransportadoraDoesntExistException{
@@ -265,13 +261,6 @@ public class Vintage implements Serializable {
             if(original == null) throw new TransportadoraDoesntExistException(trans.getNome());
             original.addLucro(valor);
         }
-    }
-
-    public void addArigoVendido (String email, Artigo artigo){
-        //este get é do map!!!
-        Utilizador utilizador = utilizadores.get(email);
-        utilizador.addArtigoVendido(artigo.clone());
-        this.artigos_vendidos.put(artigo.getCodAlfaNum(), artigo.clone());
     }
 
     public List<String> toLog(){
@@ -325,19 +314,6 @@ public class Vintage implements Serializable {
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Serve para obter um Set com todos os artigos presentes numa encomenda.
-     * @param set de codigos alfanumericos de artigos existente numa encomenda.
-     * @return Set de artigos.
-     */
-    public Set<Artigo> getListaArtigos(Set<String> set){
-        Set<Artigo> novo = new HashSet<>();
-        for(String c : set){
-            novo.add(this.artigos.get(c));
-        }
-        return novo;
-    }
-
     public String getUserFromEncomenda(int cod) throws EncomendaDoesntExistException{
         String nome = this.encomendas_utilizadores_ligacao.get(cod);
         if(nome == null) throw new EncomendaDoesntExistException(Integer.toString(cod));
@@ -354,7 +330,7 @@ public class Vintage implements Serializable {
         Encomenda encomenda = this.encomendas.get(num_encomenda);
         if(encomenda == null) throw new EncomendaDoesntExistException(Integer.toString(num_encomenda));
 
-        if(encomenda.isRefundable(data)==false) throw new EncomendaNotRefundableException(Integer.toString(num_encomenda));
+        if(!encomenda.isRefundable(data)) throw new EncomendaNotRefundableException(Integer.toString(num_encomenda));
 
         for (Artigo art : encomenda.getArtigos()) {
             String cod = art.getCodAlfaNum();
@@ -422,7 +398,8 @@ public class Vintage implements Serializable {
                 }
             }
 
-            aux.put(c.getEmail(),lista);
+            if(lista.size() != 0)
+                aux.put(c.getEmail(),lista);
         }
         return aux;
     }
@@ -463,7 +440,7 @@ public class Vintage implements Serializable {
     }
 
     //4ª estatistica
-    public double calculcaGastoEncomendaUser(Encomenda enc){
+    public double calculaGastoEncomendaUser(Encomenda enc){
         double preco = enc.calculaTotalEncomenda();
         return preco;
     }
@@ -472,7 +449,7 @@ public class Vintage implements Serializable {
         double totalGasto = 0;
 
         for (Encomenda enc : encomendas) {
-            totalGasto += calculcaGastoEncomendaUser(enc);
+            totalGasto += calculaGastoEncomendaUser(enc);
         }
         return totalGasto;
     }

@@ -33,12 +33,6 @@ public class TransportadoraPremium extends Transportadora implements Premium {
         return sb.toString();
     }
 
-    public boolean equals(Object o){
-        if (this==o) return true;
-        if ((o == null) || (this.getClass() != o.getClass())) return false;
-        return super.equals(o);
-    }
-
     @Override
     public double precoTransporte(int num) {
         double base = 0;
