@@ -454,5 +454,24 @@ public class Vintage implements Serializable {
         return totalGasto;
     }
 
+    public String setToString(Set<?> a){
+        StringBuilder sb = new StringBuilder();
+        for(Object c : a){
+            sb.append(c.toString() + "\n");
+        }
+        return sb.toString();
+    }
+
+    public Set<Encomenda> getEncomendasUser(String email){
+        Set<Encomenda> encs = new HashSet<>();
+        for(Encomenda c : this.encomendas.values()){
+            String name = this.encomendas_utilizadores_ligacao.get(c.getCodigo());
+            if(name != null && name.equals(email)){
+                encs.add(c.clone());
+            }
+        }
+        return encs;
+    }
+
 }
 

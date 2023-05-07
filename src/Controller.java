@@ -99,7 +99,9 @@ public class Controller {
                     criaEncomenda();
                     break;
                 case 5:
-                    int quantos = this.view.imprimeEncomendasUser(this.current_user, this.vintage.getEncomendas(), this.vintage.getEncomendas_utilizadores_ligacao());
+                    Set<Encomenda> encs = this.vintage.getEncomendasUser(this.current_user);
+                    this.view.imprimeEncomendasUser(this.vintage.setToString(encs));
+                    int quantos = encs.size();
                     if(quantos != 0){
                         int cod = this.view.codEncomenda();
                         String nome;
@@ -270,7 +272,7 @@ public class Controller {
             int opt = this.view.OpcaoEncomenda();
             switch(opt){
                 case 1:
-                    this.view.imprimeArtigos(this.vintage.getListaArtigos(this.current_user));
+                    this.view.imprimeArtigos(this.vintage.setToString(this.vintage.getListaArtigos(this.current_user)));
                     artigo = this.view.encomendaCreation();
                     try{
                         Artigo art = this.vintage.findArtigo(artigo);
@@ -283,7 +285,7 @@ public class Controller {
                     this.encomenda_atual.showPrecoAtual();
                     break;
                 case 2:
-                    this.view.imprimeArtigos(this.encomenda_atual.getArtigos());
+                    this.view.imprimeArtigos(this.vintage.setToString(this.encomenda_atual.getArtigos()));
                     artigo = this.view.removeArtigo();
                     try{
                         this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
@@ -436,7 +438,7 @@ public class Controller {
                 .orElse(null);
         try{
             Utilizador melhor = this.vintage.getUserEspecifico(nome);
-            this.view.imprimeUtilizador(melhor);
+            this.view.imprimeUtilizador(melhor.toString());
         }
         catch (UserDoesntExistException e){
             e.getMessage();

@@ -108,11 +108,11 @@ public class View {
         int option = 0;
         do{
             option = leInteiro();
-            if(option != 1 && option != 2 && option != 3 && option != 0 && !prem)
+            if((option < 0 || option > 3) && !prem)
                 System.out.println("Introduza o valor 0, 1, 2 ou 3.");
-            else if (option != 1 && option != 2 && option != 0 && prem)
+            else if ((option < 0 || option > 2) && prem)
                 System.out.println("Introduza o valor 0, 1, 2.");
-        } while((option != 1 && option != 2 && option != 3 && option != 0 && !prem) || (option != 1 && option != 2 && option != 0 && prem));
+        } while(((option < 0 || option > 3) && !prem) || ((option < 0 || option > 2) && prem));
 
         return option;
     }
@@ -199,10 +199,10 @@ public class View {
         int opt = 0;
         do{
             opt = leInteiro();
-            if(opt != 1 && opt != 2 && opt != 3 && opt != 4){
+            if((opt < 1 || opt > 4)){
                 System.out.println("Introduza o valor 1, 2, 3 ou 4.");
             }
-        } while(opt != 1 && opt != 2 && opt != 3 && opt != 4);
+        } while(opt < 1 || opt > 4);
         return opt;
     }
 
@@ -263,19 +263,6 @@ public class View {
 
     public void transpNaoCorresponde(){
         System.out.println("O nome que escreveu não corresponde a nenhum dos que foi exposto.\n");
-    }
-    
-    public String tipoArtigoCompra() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Que tipo de produtos estás à procura?");
-        System.out.println("1. Tshirts");
-        System.out.println("2. Malas");
-        System.out.println("3. Sapatilhas");
-        System.out.println("0 - Voltar ao Menu Inicial");
-
-        String option = sc.next();
-        sc.close();
-        return option;
     }
 
     public int artPremium(){
@@ -425,22 +412,12 @@ public class View {
         return ret;
     }
 
-    public void imprimeArtigos(Set<Artigo> list){
-        for (Artigo c : list) {
-            System.out.println(c.toString());
-        }
+    public void imprimeArtigos(String arts){
+        System.out.println(arts);
     }
 
-    public int imprimeEncomendasUser(String email, Map<Integer,Encomenda> encs, Map<Integer,String> lig){
-        int contador = 0;
-        for(Encomenda c : encs.values()){
-            String name = lig.get(c.getCodigo());
-            if(name != null && name.equals(email)){
-                System.out.println(c.toString());
-                contador++;
-            }
-        }
-        return contador;
+    public void imprimeEncomendasUser(String encs){
+        System.out.println(encs);
     }
 
     public int menuEstatisticas() {
@@ -457,9 +434,9 @@ public class View {
         int opt = 0;
         do{
             opt = leInteiro();
-            if(opt != 0 && opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5)
+            if(opt < 0 || opt > 5)
                 System.out.println("Introduza um valor igual a 0, 1, 2, 3, 4 ou 5.");
-        } while(opt != 0 && opt != 1 && opt != 2 && opt != 3 && opt != 4 && opt != 5);
+        } while(opt < 0 || opt > 5);
 
         return opt;
     }
@@ -482,8 +459,8 @@ public class View {
         return datas;
     }
 
-    public void imprimeUtilizador(Utilizador a){
-        System.out.println(a.toString());
+    public void imprimeUtilizador(String a){
+        System.out.println(a);
     }
 
     public void imprimeDouble(double a){
