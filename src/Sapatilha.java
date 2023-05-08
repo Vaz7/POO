@@ -149,6 +149,21 @@ public class Sapatilha extends Artigo {
                 this.colecao.equals(sapatilha.getColecao());
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        long temp;
+        temp = Double.doubleToLongBits(tamanho);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + (atacadores ? 1 : 0);
+        result = prime * result + ((cor == null) ? 0 : cor.hashCode());
+        result = prime * result + ((colecao == null) ? 0 : colecao.hashCode());
+        temp = Double.doubleToLongBits(preco_curr);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
     public String toLogVender(){
         if(super.isNovo()==true){
             return("Sapatilha_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());

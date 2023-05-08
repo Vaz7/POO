@@ -279,6 +279,8 @@ public class Controller {
                         if(!this.encomenda_atual.contem(art)){
                             this.encomenda_atual.addArtEncomenda(art);
                         }
+                        else
+                            this.view.artigoRepetido();
                     } catch (ArtigoDoesntExistException e){
                         e.getMessage();
                     }

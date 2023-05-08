@@ -128,6 +128,18 @@ public class Mala extends Artigo {
                 this.material.equals(mala.getMaterial());
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((dimensao == null) ? 0 : dimensao.hashCode());
+        result = prime * result + ((material == null) ? 0 : material.hashCode());
+        result = prime * result + ((colecao == null) ? 0 : colecao.hashCode());
+        long temp = Double.doubleToLongBits(preco_curr);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
 
         public String toLogVender() {
 

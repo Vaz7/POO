@@ -237,6 +237,10 @@ public class View {
         return artigo;
     }
 
+    public void artigoRepetido(){
+        System.out.println("O código do artigo que inseriu já se encontra na encomenda, pelo que não foi adicionado.");
+    }
+
     public String[] userCreation() {
         String[] utilizadorInput = new String[4];
         Scanner sc = new Scanner(System.in);

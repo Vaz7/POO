@@ -168,5 +168,19 @@ public abstract class Artigo implements Serializable {
                 this.transp.equals(l.getTransp());
     }
 
-
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 17;
+        result = prime * result + (novo ? 1 : 0);
+        result = prime * result + n_donos;
+        result = prime * result + ((estado == null) ? 0 : estado.hashCode());
+        result = prime * result + ((desc == null) ? 0 : desc.hashCode());
+        result = prime * result + ((marca == null) ? 0 : marca.hashCode());
+        result = prime * result + ((codAlfaNum == null) ? 0 : codAlfaNum.hashCode());
+        long temp = Double.doubleToLongBits(preco_base);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((transp == null) ? 0 : transp.hashCode());
+        return result;
+    }
 }

@@ -96,6 +96,7 @@ public class Tshirt extends Artigo{
         sb.append(", Preço Atual: " + this.preco_curr);
         return sb.toString();
     }
+
     @Override
     public boolean equals(Object o){
         if (this==o) return true;
@@ -105,6 +106,17 @@ public class Tshirt extends Artigo{
         return Double.compare(tshirt.preco_curr, preco_curr) == 0 &&
                 this.padrao == tshirt.getPadrao() &&
                 this.tamanho == tshirt.getTamanho();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode(); // código hash da classe superior
+        result = prime * result + ((tamanho == null) ? 0 : tamanho.hashCode());
+        result = prime * result + ((padrao == null) ? 0 : padrao.hashCode());
+        long temp = Double.doubleToLongBits(preco_curr);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 
     public String toLogVender(){
