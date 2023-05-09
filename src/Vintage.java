@@ -171,27 +171,53 @@ public class Vintage implements Serializable {
         }
     }
 
+    /**
+     * Método que verifica se um dado email está associado a algum utilizador inscrito no sistema.
+     * @param email
+     * @return true/false
+     */
     public boolean userExists(String email){
         if(this.utilizadores.containsKey(email)) return true;
         else return false;
     }
 
+    /**
+     * Método que devolve o utilizador associado a um email se existir.
+     * @param mail
+     * @return Utilizador associado ao email
+     * @throws UserDoesntExistException
+     */
     public Utilizador getUserEspecifico(String mail) throws UserDoesntExistException{
         if(!this.utilizadores.containsKey(mail))
             throw new UserDoesntExistException(mail);
         return this.utilizadores.get(mail).clone();
     }
 
+    /**
+     * Método que adiciona um utilizador à coleção dos utilizadores.
+     * @param a
+     */
     public void addUser(Utilizador a){
         this.utilizadores.put(a.getEmail(), a.clone());
     }
 
+    /**
+     * Método que devolve a transportadora associada a um dado nome.
+     * @param nome
+     * @return Transportadora associada à key "nome"
+     * @throws TransportadoraDoesntExistException
+     */
     public Transportadora getTransportadoraEspecifico(String nome) throws TransportadoraDoesntExistException {
         Transportadora ret = this.transportadoras.get(nome);
         if(ret == null) throw new TransportadoraDoesntExistException(nome);
         return ret.clone();
     }
 
+    /**
+     * Método que cria um Set com todas as transportadoras Premium ou não Premium.
+     * @param prem
+     * @return Set de transportadoras premium ou nao premium.
+     */
     public Set<Transportadora> getListaTransportadoras(boolean prem){
         Set<Transportadora> novo;
         if(prem == true){
@@ -209,12 +235,21 @@ public class Vintage implements Serializable {
         return novo;
     }
 
+    /**
+     * Método que adiciona uma transportadora à coleção das transportadoras.
+     * @param a
+     */
     public void addTransportadora(Transportadora a){
         this.transportadoras.put(a.getNome(), a.clone());
     }
 
-
-    public void addArigoVenda (String email, Artigo artigo) throws UserDoesntExistException {
+    /**
+     * Método que atualiza as coleções dos artigos e da ligação do artigo ao utilizador.
+     * @param email
+     * @param artigo
+     * @throws UserDoesntExistException
+     */
+    public void addArtigoVenda(String email, Artigo artigo) throws UserDoesntExistException {
         Utilizador utilizador = utilizadores.get(email);
         if(utilizador == null) throw new UserDoesntExistException(email);
 
@@ -223,6 +258,14 @@ public class Vintage implements Serializable {
         artigos.put(artigo.getCodAlfaNum(),artigo);
     }
 
+    /**
+     * Método que adiciona uma encomenda atualizado todas as coleções necessárias dentro dos vários objetos.
+     * @param email
+     * @param encomenda
+     * @throws UserDoesntExistException
+     * @throws ArtigoDoesntExistException
+     * @throws TransportadoraDoesntExistException
+     */
     public void addEncomenda(String email,Encomenda encomenda) throws UserDoesntExistException, ArtigoDoesntExistException, TransportadoraDoesntExistException {
         Utilizador utilizador = utilizadores.get(email);
         if(utilizador == null) throw new UserDoesntExistException(email);
@@ -252,6 +295,11 @@ public class Vintage implements Serializable {
         utilizador.addEncomendaComprada(encomenda2);
     }
 
+    /**
+     * Método que atualiza todas as transportadoras presentes numa encomenda.
+     * @param a
+     * @throws TransportadoraDoesntExistException
+     */
     public void atualizaTransportadoras(Encomenda a) throws TransportadoraDoesntExistException{
         Map<Transportadora, Integer> aux = a.getContador();
         for(Map.Entry<Transportadora, Integer> c : aux.entrySet()){
@@ -263,6 +311,11 @@ public class Vintage implements Serializable {
         }
     }
 
+
+    /**
+     * 
+     * @return
+     */
     public List<String> toLog(){
         List<String> lines = new ArrayList<>();
 
@@ -345,7 +398,8 @@ public class Vintage implements Serializable {
             this.artigos.put(artigo.getCodAlfaNum(), artigo);
 
             this.encomendas.remove(num_encomenda);
-            utilizador.removeEncomenda(encomenda);
+            utilizador.removeEncomendaComprada(encomenda);
+            utilizador1.removeEncomendaVendida(encomenda);
         }
     }
 

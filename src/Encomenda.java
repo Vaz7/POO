@@ -167,6 +167,10 @@ public class Encomenda implements Serializable {
         return new Encomenda(this);
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto Encomenda comprada em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogC(){
         StringBuilder sb = new StringBuilder();
         sb.append("EncomendaComprada:" + this.codigo);
@@ -181,6 +185,10 @@ public class Encomenda implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto Encomenda vendida em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogV(){
         StringBuilder sb = new StringBuilder();
         sb.append("EncomendaVendida:" + this.codigo);
@@ -222,6 +230,9 @@ public class Encomenda implements Serializable {
                 Double.compare(this.preco_transporte, l.getPreco_transporte()) == 0;
     }
 
+    /**
+     * Método que define a dimensão da Caixa da Encomenda consoante o número de artigos.
+     */
     private void defDimensaoCaixa(){
         int n = this.artigos.size();
         Embalagem j;
@@ -231,6 +242,10 @@ public class Encomenda implements Serializable {
         setDim(j);
     }
 
+    /**
+     * Método que adiciona o artigo passado como parâmetro à coleção de artigos.
+     * @param c
+     */
     public void addArtEncomenda(Artigo c){
         double preco = this.preco_artigos;
         this.artigos.add(c);
@@ -254,10 +269,19 @@ public class Encomenda implements Serializable {
         setPreco_transporte(calculaPrecoTransporte());
     }
 
+    /**
+     * Método que verifica se dado artigo já existe dentro da coleção de artigos.
+     * @param artigo
+     * @return true/false.
+     */
     public boolean contem (Artigo artigo){
         return this.artigos.contains(artigo);
     }
 
+    /**
+     * Método que remove o artigo passado como parâmetro à coleção de artigos.
+     * @param c
+     */
     public void removeArtEncomenda(Artigo c){
         double preco = this.preco_artigos;
         preco -= c.getPreco_curr();
@@ -278,10 +302,18 @@ public class Encomenda implements Serializable {
         setPreco_transporte(calculaPrecoTransporte());
     }
 
+    /**
+     * Método que calcula o preço total da encomenda
+     * @return preço de transporte + o preço do conjunto de artigos
+     */
     public double calculaTotalEncomenda(){
         return (calculaPrecoTransporte() +  this.preco_artigos);
     }
 
+    /**
+     * Método que calcula o Preço do transporte de todos os artigos da encomenda.
+     * @return
+     */
     public double calculaPrecoTransporte() {
         double preco_transporte = 0;
         if(this.artigos.size() != 0){
@@ -300,6 +332,10 @@ public class Encomenda implements Serializable {
         return preco_transporte;
     }
 
+    /**
+     * Método que calcula o preço de todos os artigos da encomenda.
+     * @return
+     */
     public double calculaPrecoArtigos(){
         double preco = 0;
         for(Artigo c : this.artigos){
@@ -310,22 +346,38 @@ public class Encomenda implements Serializable {
         return preco;
     }
 
+    /**
+     * Método que verifica se a encomenda ainda é possível de ser devolvida.
+     * @param data
+     * @return true/false
+     */
     public boolean isRefundable(LocalDateTime data){
-        if(data.isAfter(this.data_inicial.plusHours(50))) return false;
+        if(data.isAfter(this.data_inicial.plusHours(48))) return false;
         return true;
     }
 
+    /**
+     * Método que atualiza o estado de uma encomenda quando o utilizador efetua o pagamento.
+     */
     public void atualizaEncomenda(){
         defDimensaoCaixa();
         this.estado = State.Finalizada;
         setData_inicial(LocalDateTime.now());
     }
 
-    public void showPrecoAtual(){ // mudar isto
+    /**
+     * Método que devolve em String o resultado da soma do preço do transporte com o preço dos artigos.
+     * @return Preço atual da encomenda
+     */
+    public String showPrecoAtual(){ // mudar isto
         DecimalFormat df = new DecimalFormat("0.00");
-        System.out.println("Preço atual: "+ df.format(calculaPrecoTransporte() + + this.preco_artigos));
+        return "" + df.format(calculaPrecoTransporte() + + this.preco_artigos);
     }
 
+    /**
+     * Método que calcula o total da taxa de serviço da encomenda
+     * @return valor total em taxas de serviço dos artigos
+     */
     public double calculaPrecoSatisfacao(){
         return this.artigos.stream()
                 .map(enc -> enc.isNovo())

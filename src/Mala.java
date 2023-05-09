@@ -20,6 +20,17 @@ public class Mala extends Artigo {
         this.preco_curr = this.getPreco_base();
     }
 
+    /**
+     * Construtor para Malas que são novas.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param dimensao
+     * @param material
+     * @param colecao
+     */
     public Mala(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao) {
         super(novo, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
@@ -28,6 +39,19 @@ public class Mala extends Artigo {
         this.preco_curr = calculaPrecoDesconto();
     }
 
+    /**
+     * Construtor para Malas que não são novas.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param dimensao
+     * @param material
+     * @param colecao
+     */
     public Mala(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.dimensao = dimensao;
@@ -76,6 +100,10 @@ public class Mala extends Artigo {
         this.preco_curr = preco_curr;
     }
 
+    /**
+     * Método que calcula o preço de venda da Mala tendo como ponto de partida o valor base da Mala.
+     * @return
+     */
     private double calculaPrecoDesconto(){
         double preco = this.getPreco_base();
         long year_interval = ChronoUnit.YEARS.between(this.colecao, LocalDate.now());
@@ -140,15 +168,23 @@ public class Mala extends Artigo {
         return result;
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto Mala à venda em ficheiro de texto.
+     * @return String com todos os campos.
+     */
+    public String toLogVender() {
 
-        public String toLogVender() {
-
-            if (super.isNovo() == true) {
-                return ("Mala_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.getTransp().getNome());
-            } else {
-                return ("Mala_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.getTransp().getNome());
-            }
+        if (super.isNovo() == true) {
+            return ("Mala_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," +  this.getPreco_base()  + "," +  this.getDimensao()  + "," +  this.getMaterial()  + "," +  this.getColecao() + "," +  this.getTransp().getNome());
+        } else {
+            return ("Mala_vender:" + super.isNovo() + "," + this.getN_donos() + "," + this.getEstado() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.getDimensao() + "," + this.getMaterial() + "," + this.getColecao() + "," + this.getTransp().getNome());
         }
+    }
+
+    /**
+     * Método que cria uma String para escrever o objeto Mala vendida em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogVendidos() {
 
         if (super.isNovo() == true) {

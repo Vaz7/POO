@@ -7,11 +7,37 @@ public class SapatilhaPremium extends Sapatilha implements Premium {
         super();
     }
 
+    /**
+     * Construtor para Sapatilha Premium que são novas.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param atacadores
+     * @param cor
+     * @param colecao
+     */
     public SapatilhaPremium(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao){
         super(novo, desc, marca,preco_base,transportadora, tamanho, atacadores,cor,colecao);
         setPreco_curr(calculaPreco());
     }
 
+    /**
+     * Construtor para Sapatilha Premium que não são novas.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param atacadores
+     * @param cor
+     * @param colecao
+     */
     public SapatilhaPremium(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora,tamanho,atacadores,cor,colecao);
         setPreco_curr(calculaPreco());
@@ -45,6 +71,10 @@ public class SapatilhaPremium extends Sapatilha implements Premium {
         return sb.toString();
     }
 
+    /**
+     * Método que calcula o preço de uma Sapatilha Premium.
+     * @return preço atual da Sapatilha Premium.
+     */
     public double calculaPreco() {
         double preco = this.getPreco_base();
         long year_interval = ChronoUnit.YEARS.between(this.getColecao(), LocalDate.now());

@@ -54,7 +54,15 @@ public class Controller {
             int opt = this.view.txtOrObject();
             switch(opt){
                 case 1:
-                    this.vintage = Populator.populateData();
+                    try{
+                        this.vintage = Populator.populateData();
+                    } catch(UserDoesntExistException udee){
+                        udee.getMessage();
+                    } catch(ArtigoDoesntExistException adee){
+                        adee.getMessage();
+                    } catch(TransportadoraDoesntExistException tdee){
+                        tdee.getMessage();
+                    }
                     flag = false;
                     break;
                 case 2:
@@ -242,7 +250,7 @@ public class Controller {
                         return;
                 }
                 try{
-                    this.vintage.addArigoVenda(this.current_user, art1.clone()); //composição no artigo -> agregação artigo entre vintage e encomendas
+                    this.vintage.addArtigoVenda(this.current_user, art1.clone()); //composição no artigo -> agregação artigo entre vintage e encomendas
                     flag2 = false;
                 } catch (UserDoesntExistException udee){
                     udee.getMessage();
@@ -284,7 +292,7 @@ public class Controller {
                     } catch (ArtigoDoesntExistException e){
                         e.getMessage();
                     }
-                    this.encomenda_atual.showPrecoAtual();
+                    this.view.imprimeString(this.encomenda_atual.showPrecoAtual());
                     break;
                 case 2:
                     this.view.imprimeArtigos(this.vintage.setToString(this.encomenda_atual.getArtigos()));

@@ -3,13 +3,14 @@ import UserExceptions.TransportadoraDoesntExistException;
 import UserExceptions.UserDoesntExistException;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Populator {
 
-
-    public static Vintage populateData(){
+    /**
+     * Método que funciona como script para popular a Vintage como ponto de partida do programa.
+     * @return Vintage populada.
+     */
+    public static Vintage populateData() throws UserDoesntExistException, ArtigoDoesntExistException, TransportadoraDoesntExistException {
         Vintage vintage = new Vintage();
         // cria transportadoras
         Transportadora transp1 = new Transportadora(0.05,"gls",0.0);
@@ -86,51 +87,47 @@ public class Populator {
         Artigo art31 = new SapatilhaPremium(false, 5, Artigo.Estado.PESSIMO, "Sapatilha de lançamento", "Under Armour", 179.99, transp4, 41.0, true, "Verde", LocalDate.parse("2017-02-01"));
 
         // insere na vintage artigos
-        try{
-            vintage.addArigoVenda(user1.getEmail(),art1);
-            vintage.addArigoVenda(user1.getEmail(),art11);
-            vintage.addArigoVenda(user1.getEmail(),art21);
+        vintage.addArtigoVenda(user1.getEmail(),art1);
+        vintage.addArtigoVenda(user1.getEmail(),art11);
+        vintage.addArtigoVenda(user1.getEmail(),art21);
 
-            vintage.addArigoVenda(user2.getEmail(),art2);
-            vintage.addArigoVenda(user2.getEmail(),art12);
-            vintage.addArigoVenda(user2.getEmail(),art22);
+        vintage.addArtigoVenda(user2.getEmail(),art2);
+        vintage.addArtigoVenda(user2.getEmail(),art12);
+        vintage.addArtigoVenda(user2.getEmail(),art22);
 
-            vintage.addArigoVenda(user3.getEmail(),art23);
-            vintage.addArigoVenda(user3.getEmail(),art13);
-            vintage.addArigoVenda(user3.getEmail(),art3);
+        vintage.addArtigoVenda(user3.getEmail(),art23);
+        vintage.addArtigoVenda(user3.getEmail(),art13);
+        vintage.addArtigoVenda(user3.getEmail(),art3);
 
-            vintage.addArigoVenda(user4.getEmail(),art4);
-            vintage.addArigoVenda(user4.getEmail(),art14);
-            vintage.addArigoVenda(user4.getEmail(),art24);
+        vintage.addArtigoVenda(user4.getEmail(),art4);
+        vintage.addArtigoVenda(user4.getEmail(),art14);
+        vintage.addArtigoVenda(user4.getEmail(),art24);
 
-            vintage.addArigoVenda(user5.getEmail(),art5);
-            vintage.addArigoVenda(user5.getEmail(),art15);
-            vintage.addArigoVenda(user5.getEmail(),art25);
+        vintage.addArtigoVenda(user5.getEmail(),art5);
+        vintage.addArtigoVenda(user5.getEmail(),art15);
+        vintage.addArtigoVenda(user5.getEmail(),art25);
 
-            vintage.addArigoVenda(user6.getEmail(),art6);
-            vintage.addArigoVenda(user6.getEmail(),art16);
-            vintage.addArigoVenda(user6.getEmail(),art26);
+        vintage.addArtigoVenda(user6.getEmail(),art6);
+        vintage.addArtigoVenda(user6.getEmail(),art16);
+        vintage.addArtigoVenda(user6.getEmail(),art26);
 
-            vintage.addArigoVenda(user7.getEmail(),art7);
-            vintage.addArigoVenda(user7.getEmail(),art17);
-            vintage.addArigoVenda(user7.getEmail(),art27);
+        vintage.addArtigoVenda(user7.getEmail(),art7);
+        vintage.addArtigoVenda(user7.getEmail(),art17);
+        vintage.addArtigoVenda(user7.getEmail(),art27);
 
-            vintage.addArigoVenda(user8.getEmail(),art8);
-            vintage.addArigoVenda(user8.getEmail(),art18);
-            vintage.addArigoVenda(user8.getEmail(),art28);
+        vintage.addArtigoVenda(user8.getEmail(),art8);
+        vintage.addArtigoVenda(user8.getEmail(),art18);
+        vintage.addArtigoVenda(user8.getEmail(),art28);
 
-            vintage.addArigoVenda(user9.getEmail(),art9);
-            vintage.addArigoVenda(user9.getEmail(),art19);
-            vintage.addArigoVenda(user9.getEmail(),art29);
+        vintage.addArtigoVenda(user9.getEmail(),art9);
+        vintage.addArtigoVenda(user9.getEmail(),art19);
+        vintage.addArtigoVenda(user9.getEmail(),art29);
 
-            vintage.addArigoVenda(user10.getEmail(),art10);
-            vintage.addArigoVenda(user10.getEmail(),art20);
-            vintage.addArigoVenda(user10.getEmail(),art30);
-            vintage.addArigoVenda(user10.getEmail(),art31);
-            vintage.addArigoVenda(user10.getEmail(),art32);
-        } catch (UserDoesntExistException e){
-            e.getMessage();
-        }
+        vintage.addArtigoVenda(user10.getEmail(),art10);
+        vintage.addArtigoVenda(user10.getEmail(),art20);
+        vintage.addArtigoVenda(user10.getEmail(),art30);
+        vintage.addArtigoVenda(user10.getEmail(),art31);
+        vintage.addArtigoVenda(user10.getEmail(),art32);
 
         // cria encomenda
         Encomenda encDoUser1 = new Encomenda();
@@ -152,19 +149,11 @@ public class Populator {
         encDoUser5.addArtEncomenda(art12);
 
         // insere na vintage encomendas
-        try{
-            vintage.addEncomenda(user1.getEmail(),encDoUser1);
-            vintage.addEncomenda(user2.getEmail(),encDoUser2);
-            vintage.addEncomenda(user3.getEmail(),encDoUser3);
-            vintage.addEncomenda(user4.getEmail(),encDoUser4);
-            vintage.addEncomenda(user5.getEmail(),encDoUser5);
-        } catch (UserDoesntExistException e){
-            e.getMessage();
-        } catch (ArtigoDoesntExistException adee){
-            adee.getMessage();
-        } catch (TransportadoraDoesntExistException tdee){
-            tdee.getMessage();
-        }
+        vintage.addEncomenda(user1.getEmail(),encDoUser1);
+        vintage.addEncomenda(user2.getEmail(),encDoUser2);
+        vintage.addEncomenda(user3.getEmail(),encDoUser3);
+        vintage.addEncomenda(user4.getEmail(),encDoUser4);
+        vintage.addEncomenda(user5.getEmail(),encDoUser5);
 
         return vintage;
     }

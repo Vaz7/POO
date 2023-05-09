@@ -17,6 +17,18 @@ public class Sapatilha extends Artigo {
         this.preco_curr = getPreco_base();
     }
 
+    /**
+     * Construtor para Sapatilhas que são novas.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param atacadores
+     * @param cor
+     * @param colecao
+     */
     public Sapatilha(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, desc, marca,preco_base,transportadora);
         this.tamanho = tamanho;
@@ -26,6 +38,20 @@ public class Sapatilha extends Artigo {
         this.preco_curr = calculaPrecoDesconto();
     }
 
+    /**
+     * Construtor para Sapatilhas que não são novas.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param atacadores
+     * @param cor
+     * @param colecao
+     */
     public Sapatilha(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, double tamanho, boolean atacadores, String cor, LocalDate colecao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
@@ -84,6 +110,10 @@ public class Sapatilha extends Artigo {
         this.colecao = colecao;
     }
 
+    /**
+     * Método que calcula o preço de venda da Sapatilha tendo como ponto de partida o valor base da Sapatilha.
+     * @return preço base se não entrar nas condições ou preço com desconto caso sim.
+     */
     private double calculaPrecoDesconto() {
         double preco = this.getPreco_base();
         int donos = this.getN_donos();
@@ -164,6 +194,10 @@ public class Sapatilha extends Artigo {
         return result;
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto Sapatilha à venda em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogVender(){
         if(super.isNovo()==true){
             return("Sapatilha_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());
@@ -173,6 +207,10 @@ public class Sapatilha extends Artigo {
         }
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto Sapatilha vendida em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogVendidos(){
         if(super.isNovo()==true){
             return("Sapatilha_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," +this.getTamanho() + "," + this.isAtacadores() + "," + this.getCor() + "," + this.getColecao() + "," + this.getTransp().getNome());

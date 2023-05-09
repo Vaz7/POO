@@ -7,11 +7,35 @@ public class MalaPremium extends Mala implements Premium{
         super();
     }
 
+    /**
+     * Construtor para Mala Premium que são novas.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param dimensao
+     * @param material
+     * @param colecao
+     */
     public MalaPremium(boolean novo, String desc, String marca , double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao){
         super(novo, desc, marca, preco_base,transportadora,dimensao,material,colecao);
         setPreco_curr(calculaPreco());
     }
 
+    /**
+     * Construtor para Mala Premium que não são novas.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param dimensao
+     * @param material
+     * @param colecao
+     */
     public MalaPremium(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Dim dimensao, String material, LocalDate colecao){
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora,dimensao,material,colecao);
         setPreco_curr(calculaPreco());
@@ -44,6 +68,10 @@ public class MalaPremium extends Mala implements Premium{
         return sb.toString();
     }
 
+    /**
+     * Método que calcula o preço de uma Mala Premium.
+     * @return preço atual da Mala Premium.
+     */
     public double calculaPreco() {
         double preco = this.getPreco_base();
         long year_interval = ChronoUnit.YEARS.between(this.getColecao(), LocalDate.now());

@@ -15,12 +15,23 @@ public class Transportadora implements Serializable {
         this.dinheiro_feito = 0;
     }
 
+    /**
+     * Construtor para criar uma Transportadora nova.
+     * @param nome
+     * @param lucro
+     */
     public Transportadora(String nome, double lucro) {
         this.nome = nome;
         this.lucro = lucro;
         this.dinheiro_feito = 0.0;
     }
 
+    /**
+     * Construtor para criar uma Transportadora que já tenha atividade na Vintage.
+     * @param lucro
+     * @param nome
+     * @param dinheiro_feito
+     */
     public Transportadora(double lucro, String nome, double dinheiro_feito) {
         this.nome = nome;
         this.lucro = lucro;
@@ -58,6 +69,11 @@ public class Transportadora implements Serializable {
         this.lucro = lucro;
     }
 
+    /**
+     * Método que calcula o preço de transporte da transportadora para a encomenda.
+     * @param n_transp_apareceu -> número de vezes que dada transportadora apareceu numa encomenda.
+     * @return preço de transporte
+     */
     public double precoTransporte(int n_transp_apareceu) {
         double base = 0;
         if (n_transp_apareceu == 1) base = PEQUENAS;
@@ -107,6 +123,10 @@ public class Transportadora implements Serializable {
         return result;
     }
 
+    /**
+     * Método que atualiza as receitas da transportadora.
+     * @param n -> número de vezes que dada transportadora apareceu numa encomenda.
+     */
     public void addLucro(int n){
         this.dinheiro_feito += precoTransporte(n);
     }

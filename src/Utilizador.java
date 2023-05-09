@@ -253,32 +253,72 @@ public class Utilizador implements Serializable {
                 this.encomendas_compradas.equals(l.getEncomendasCompradas());
     }
 
+    /**
+     * Método que adiciona um Artigo à coleção dos artigos vendidos
+     * @param c
+     */
     public void addArtigoVendido(Artigo c){
         this.vendido.put(c.getCodAlfaNum(), c);
     }
 
+    /**
+     * Método que adiciona um Artigo à coleção dos artigos para vender
+     * @param c
+     */
     public void addArtigoParaVender(String c){
         this.para_vender.add(c);
     }
 
+    /**
+     * Método que remove um Artigo à coleção dos artigos para vender
+     * @param c
+     */
     public void removeArtigoParaVender(String c){
         this.para_vender.remove(c);
     }
 
+    /**
+     * Método que remove um Artigo à coleção dos artigos vendidos
+     * @param c
+     */
     public void removeArtigoVendido(String c){this.vendido.remove(c);}
 
+    /**
+     * Método que adiciona uma Encomenda à coleção das encomendas compradas
+     * @param i
+     */
     public void addEncomendaComprada(Encomenda i){
         this.encomendas_compradas.add(i);
     }
 
+    /**
+     * Método que adiciona uma Encomenda à coleção das encomendas onde o utilizador vendeu algum dos seus artigos.
+     * @param i
+     */
     public void addEncomendaVendida(Encomenda i){
         this.encomendas_vendidas.add(i);
     }
 
-    public void removeEncomenda(Encomenda i){
+    /**
+     * Método que remove uma Encomenda da coleção das encomendas compradas.
+     * @param i
+     */
+    public void removeEncomendaComprada(Encomenda i){
         this.encomendas_compradas.remove(i);
     }
 
+    /**
+     * Método que remove uma Encomenda da coleção das encomendas vendidas.
+     * @param i
+     */
+    public void  removeEncomendaVendida(Encomenda i){
+        this.encomendas_vendidas.remove(i);
+    }
+
+    /**
+     * Método que cria uma String para escrever o objeto Utilizador em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLog(){
         return ("Utilizador:" + this.getEmail() + "," + this.getNome() + "," + this.getMorada() + "," + this.getNif()+ "," + this.getDinheiro_vendas() + "," + this.getDinheiro_compras());
     }

@@ -22,6 +22,16 @@ public class Tshirt extends Artigo{
         this.preco_curr = getPreco_base();
     }
 
+    /**
+     * Construtor para T-Shirts que são novas.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param padrao
+     */
     public Tshirt(boolean novo, String desc, String marca, double preco_base, Transportadora transportadora, Tamanho tamanho, Padrao padrao) {
         super(novo, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
@@ -29,6 +39,19 @@ public class Tshirt extends Artigo{
         this.preco_curr = calculaPrecoDesconto();
     }
 
+
+    /**
+     * Construtor para T-Shirts que não são novas.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     * @param tamanho
+     * @param padrao
+     */
     public Tshirt(boolean novo, int n_donos, Estado estado, String desc, String marca, double preco_base, Transportadora transportadora, Tamanho tamanho, Padrao padrao) {
         super(novo, n_donos, estado, desc, marca, preco_base,transportadora);
         this.tamanho = tamanho;
@@ -67,6 +90,10 @@ public class Tshirt extends Artigo{
         this.preco_curr = preco_curr;
     }
 
+    /**
+     * Método que calcula o preço de venda da T-Shirt tendo como ponto de partida o valor base da T-Shirt.
+     * @return preço base se não entrar nas condições ou preço com desconto caso sim.
+     */
     private double calculaPrecoDesconto(){
         double preco = this.getPreco_base();
         if(this.padrao != Padrao.LISO && !this.isNovo()){
@@ -119,6 +146,10 @@ public class Tshirt extends Artigo{
         return result;
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto T-Shirt à venda em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogVender(){
         if(super.isNovo()==true){
             return("Tshirt_vender:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.tamanho + "," + this.getPadrao() + "," + this.getTransp().getNome());
@@ -128,6 +159,10 @@ public class Tshirt extends Artigo{
         }
     }
 
+    /**
+     * Método que cria uma String para escrever o objeto T-Shirt vendida em ficheiro de texto.
+     * @return String com todos os campos.
+     */
     public String toLogVendidos(){
         if(super.isNovo()==true){
             return("Tshirt_vendida:" + super.isNovo() + "," + this.getDesc() + "," + this.getMarca() + "," + this.getPreco_base() + "," + this.tamanho + "," + this.getPadrao() + "," + this.getTransp().getNome());

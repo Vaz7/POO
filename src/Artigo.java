@@ -32,6 +32,14 @@ public abstract class Artigo implements Serializable {
         this.transp = new Transportadora();
     }
 
+    /**
+     * Construtor para Artigos que são novos.
+     * @param novo
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     */
     public Artigo(boolean novo, String desc, String marca, double preco_base,Transportadora transportadora) {
         this.novo = novo;
         this.desc = desc;
@@ -41,6 +49,16 @@ public abstract class Artigo implements Serializable {
         this.transp = transportadora.clone();
     }
 
+    /**
+     * Construtor para Artigos que não são novos.
+     * @param novo
+     * @param n_donos
+     * @param estado
+     * @param desc
+     * @param marca
+     * @param preco_base
+     * @param transportadora
+     */
     public Artigo(boolean novo, int n_donos, Estado estado, String desc,String marca, double preco_base, Transportadora transportadora) {
         this.novo = novo;
         this.n_donos = n_donos;
@@ -127,14 +145,20 @@ public abstract class Artigo implements Serializable {
         this.preco_base = preco_base;
     }
 
+    /**
+     * Métodos abstratos para serem implementados nas suas subclasses.
+     */
     public abstract Artigo clone();
     public abstract String toLogVendidos();
     public abstract String toLogVender();
-
     public abstract String toString();
-
     public abstract double getPreco_curr();
 
+
+    /**
+     * Método que gera um código alfanumérico aleatório
+     * @return código alfanumérico
+     */
     public String alfanumericalGenerator() {
 
         String ALPHANUMERIC = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

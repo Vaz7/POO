@@ -10,10 +10,21 @@ public class TransportadoraPremium extends Transportadora implements Premium {
         super();
     }
 
+    /**
+     * Construtor para criar uma Transportadora Premium nova.
+     * @param nome
+     * @param lucro
+     */
     public TransportadoraPremium (String nome, double lucro){
         super(nome,lucro);
     }
 
+    /**
+     * Construtor para criar uma Transportadora Premium que já tenha atividade na Vintage.
+     * @param lucro
+     * @param nome
+     * @param dinheiro_feito
+     */
     public TransportadoraPremium (double lucro,String nome, double dinheiro_feito){
         super(lucro,nome,dinheiro_feito);
     }
@@ -33,6 +44,11 @@ public class TransportadoraPremium extends Transportadora implements Premium {
         return sb.toString();
     }
 
+    /**
+     * Método que calcula o preço de transporte da Transportadora Premium para a encomenda.
+     * @param num -> número de vezes que dada transportadora apareceu numa encomenda.
+     * @return preço de transporte
+     */
     @Override
     public double precoTransporte(int num) {
         double base = 0;
@@ -46,6 +62,10 @@ public class TransportadoraPremium extends Transportadora implements Premium {
         return base;
     }
 
+    /**
+     * Método que atualiza as receitas da transportadora.
+     * @param n -> número de vezes que dada transportadora apareceu numa encomenda.
+     */
     public void addLucro(int n){
         double dinheiro = this.getDinheiro_feito();
         dinheiro += precoTransporte(n);
