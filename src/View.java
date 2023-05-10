@@ -477,7 +477,16 @@ public class View {
         String email = sc.nextLine();
         return email;
     }
+    public void imprimeMaioresCompradores(List<String> chavesOrdenadas){
+        System.out.print("Maiores compradores:");
+        System.out.println(chavesOrdenadas.toString());
+    }
 
+    public void imprimeMaioresVendedores(List<String> chavesOrdenadas){
+        System.out.print("Maiores vendedores:");
+
+        System.out.println(chavesOrdenadas.toString());
+    }
     public void imprimeString(String def){
         System.out.println(def);
     }

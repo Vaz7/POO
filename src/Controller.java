@@ -218,19 +218,6 @@ public class Controller {
                 String[] tokens = this.view.artigoCreation(artcode);
                 Artigo art1 = null;
                 switch(artcode){
-                    case 3:
-                        if(!prem){
-                            if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
-                            }
-                            else{
-                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
-                            }
-                        }
-                        else{
-
-                        }
-                        break;
                     case 1:
                         if(tokens[0].toLowerCase().equals("false")){
                             art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
@@ -246,6 +233,16 @@ public class Controller {
                         else{
                             art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
                         }
+                    case 3:
+                        if(!prem){
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                            }
+                            else{
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                            }
+                        }
+                        break;
                     case 0:
                         return;
                 }
@@ -494,8 +491,9 @@ public class Controller {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        System.out.println("Maiores compradores " + chavesOrdenadas.toString());
-        System.out.println("Maiores compradores: " + gastos.toString());
+        this.view.imprimeMaioresCompradores(chavesOrdenadas);
+        //System.out.println("Maiores compradores " + chavesOrdenadas.toString());
+        //System.out.println("Maiores compradores: " + gastos.toString());
     }
 
     public void maioresVendedores(LocalDate start, LocalDate end){
@@ -517,8 +515,9 @@ public class Controller {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        System.out.println("Maiores vendedores: " + chavesOrdenadas.toString());
-        System.out.println("Maiores vendedores: " + ganhos.toString());
+        this.view.imprimeMaioresVendedores(chavesOrdenadas);
+        //System.out.println("Maiores vendedores: " + chavesOrdenadas.toString());
+        //System.out.println("Maiores vendedores: " + ganhos.toString());
     }
 
 

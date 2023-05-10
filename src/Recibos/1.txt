@@ -1,0 +1,7 @@
+Utilizador:asd
+Número da Encomenda:1
+Dimensão da Embalagem: Pequeno
+Data de Compra: 2023-05-10T18:34:46.354544034
+Artigos: 
+5lMwyhNJFnSW--T-shirt Puma, Novo: false, Estado: MUITO_BOM, Nº de donos: 3, Preço Base: 20.0, Descrição: T-shirt azul com listras, Tamanho: XL, Padrão: LISO, Preço Atual: 20.0
+Preço Final (c/IVA): 24.9587255
