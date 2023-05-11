@@ -39,17 +39,12 @@ public class Controller {
         this.encomenda_atual = new Encomenda();
     }
 
-    public LocalDateTime getData() {
-        return data;
-    }
-
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
-
-    public String loadFileMenu() {
+    /**
+     * Método que popula o programa através de um script ou de um ficheiro de objetos.
+     * @return
+     */
+    public void loadFileMenu() {
         boolean flag = true;
-        String nome = "";
         while(flag){
             int opt = this.view.txtOrObject();
             switch(opt){
@@ -79,10 +74,11 @@ public class Controller {
                     break;
             }
         }
-        return nome;
     }
 
-
+    /**
+     * Método responsável pela execução das componentes do menu.
+     */
     public void displayMenu(){
         try{
             int op2 = Integer.parseInt(this.view.menu());
@@ -108,7 +104,7 @@ public class Controller {
                     break;
                 case 5:
                     Set<Encomenda> encs = this.vintage.getEncomendasUser(this.current_user);
-                    this.view.imprimeEncomendasUser(this.vintage.setToString(encs));
+                    this.view.imprimeString(this.vintage.setToString(encs));
                     int quantos = encs.size();
                     if(quantos != 0){
                         int cod = this.view.codEncomenda();
@@ -157,6 +153,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Método responsável pelo Log/in caso exista utilizador, ou criação de conta caso contrário.
+     */
     public void logIn() {
         int op1 = this.view.logInMenu();
         switch (op1) {
@@ -190,6 +189,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Método responsável pela criação de artigos.
+     */
     public void createArtigo(){ //adaptar para premium
         boolean flag = true;
         boolean flag2 = true;
@@ -198,7 +200,7 @@ public class Controller {
         boolean prem = (premium == 1) ? false : true;
         while(flag){
             Set<Transportadora> transpSet = this.vintage.getListaTransportadoras(prem);
-            this.view.imprimeTransportadora(transpSet);
+            this.view.imprimeString(transpSet.toString());
             String transp = this.view.escolheTransportadora();
 
             try{
@@ -219,20 +221,42 @@ public class Controller {
                 Artigo art1 = null;
                 switch(artcode){
                     case 1:
-                        if(tokens[0].toLowerCase().equals("false")){
-                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                        if(!prem){
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                            }
+                            else{
+                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                            }
                         }
                         else{
-                            art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                            }
+                            else{
+                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                            }
                         }
+
                         break;
                     case 2:
-                        if(tokens[0].toLowerCase().equals("false")){
-                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                        if(!prem){
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                            }
+                            else{
+                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                            }
                         }
                         else{
-                            art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                            if(tokens[0].toLowerCase().equals("false")){
+                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                            }
+                            else{
+                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                            }
                         }
+
                     case 3:
                         if(!prem){
                             if(tokens[0].toLowerCase().equals("false")){
@@ -247,7 +271,7 @@ public class Controller {
                         return;
                 }
                 try{
-                    this.vintage.addArtigoVenda(this.current_user, art1.clone()); //composição no artigo -> agregação artigo entre vintage e encomendas
+                    this.vintage.addArtigoVenda(this.current_user, art1); //composição no artigo -> agregação artigo entre vintage e encomendas
                     flag2 = false;
                 } catch (UserDoesntExistException udee){
                     udee.getMessage();
@@ -258,6 +282,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Método responsável pela criação de transportadoras.
+     */
     public void createTransportadora(){ // adaptar para premium tmb
         Transportadora transportadora = null;
         String tokens[] = this.view.transportadoraCreation();
@@ -270,6 +297,9 @@ public class Controller {
         this.vintage.addTransportadora(transportadora);
     }
 
+    /**
+     * Método responsável pela criação de uma encomenda.
+     */
     public void criaEncomenda(){
         boolean flag = true;
         String artigo;
@@ -277,7 +307,7 @@ public class Controller {
             int opt = this.view.OpcaoEncomenda();
             switch(opt){
                 case 1:
-                    this.view.imprimeArtigos(this.vintage.setToString(this.vintage.getListaArtigos(this.current_user)));
+                    this.view.imprimeString(this.vintage.setToString(this.vintage.getListaArtigos(this.current_user)));
                     artigo = this.view.encomendaCreation();
                     try{
                         Artigo art = this.vintage.findArtigo(artigo);
@@ -292,7 +322,7 @@ public class Controller {
                     this.view.imprimeString(this.encomenda_atual.showPrecoAtual());
                     break;
                 case 2:
-                    this.view.imprimeArtigos(this.vintage.setToString(this.encomenda_atual.getArtigos()));
+                    this.view.imprimeString(this.vintage.setToString(this.encomenda_atual.getArtigos()));
                     artigo = this.view.removeArtigo();
                     try{
                         this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
@@ -325,13 +355,18 @@ public class Controller {
         }
     }
 
-
+    /**
+     * Método responsável pela criação de um utilizador.
+     */
     public void criaUtilizador(){
         String tokens[] = this.view.userCreation();
         Utilizador utilizador = new Utilizador(tokens[0], tokens[1], tokens[2], Integer.parseInt(tokens[3]));
         this.vintage.addUser(utilizador);
     }
 
+    /**
+     * Método responsável pelas estatísticas.
+     */
     public void calculaEstatisticas() {
         boolean flag = true;
         LocalDate datas[];
@@ -376,6 +411,11 @@ public class Controller {
             }
         }
     }
+
+    /**
+     * Método responsável por escrever o estado do nosso programa num ficheiro de objetos.
+     * @throws IOException
+     */
     public void writeToObjectFile() throws IOException{
         FileOutputStream fos = new FileOutputStream("state.obj");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -385,6 +425,12 @@ public class Controller {
         oos.close();
     }
 
+    /**
+     * Método responsável por dar load de um estado do nosso programa guardado num ficheiro de objetos.
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void loadFromObjectFile() throws FileNotFoundException, IOException, ClassNotFoundException{
         FileInputStream fis = new FileInputStream("state.obj");
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -393,7 +439,11 @@ public class Controller {
         ois.close();
     }
 
-    //depois vai para o lixo
+    /**
+     * Método responsável por escrever o estado do nosso programa para um ficheiro de texto
+     * de forma a tornar fácil a visualização e debug.
+     * @throws IOException
+     */
     public void writeToLog() throws IOException {
         String name = "./src/log.txt";
 
@@ -413,7 +463,10 @@ public class Controller {
         fos.close();
     }
 
-
+    /**
+     * Método responsável por atualizar a data do nosso programa e devidas alterações associadas.
+     * @throws IOException
+     */
     public void avancaData() throws IOException{
         int nrHoras = this.view.avancaData();
 
@@ -436,6 +489,11 @@ public class Controller {
         System.out.println("Foram avançadas " + nrHoras + " horas");
     }
 
+    /**
+     * Método responsável pela 1ª estatística.
+     * @param start
+     * @param end
+     */
     public void maiorVendedorIntervaloTempo(LocalDate start, LocalDate end){
         Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,true);
 
@@ -445,23 +503,35 @@ public class Controller {
                 .orElse(null);
         try{
             Utilizador melhor = this.vintage.getUserEspecifico(nome);
-            this.view.imprimeUtilizador(melhor.toString());
+            this.view.imprimeString(melhor.toString());
         }
         catch (UserDoesntExistException e){
             e.getMessage();
         }
     }
 
+    /**
+     * Método responsável pela 5ª estatística.
+     */
     public void dinheiroVintage(){
         double total = this.vintage.calculaDinheiroVintage();
         this.view.imprimeDouble(total);
     }
 
+    /**
+     * Método responsável pela 2ª estatística.
+     */
     public void melhorTransportadora(){
         String transportadora = this.vintage.maiorFaturacaoTransportadora().toString();
         this.view.imprimeString(transportadora);
     }
 
+    /**
+     * Método responsável pela 3ª estatistica.
+     * @param email
+     * @throws UserDoesntExistException
+     * @throws EncomendasNonExistentException
+     */
     public void encomendasEmitidasVendedor(String email) throws UserDoesntExistException, EncomendasNonExistentException{
         Utilizador user = this.vintage.getUserEspecifico(email);
         Set<Encomenda> aux = user.getEncomendas_vendidas();
@@ -472,6 +542,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Método integrante da 4ª estatistica.
+     * @param start
+     * @param end
+     */
     public void maioresCompradores(LocalDate start, LocalDate end){
         Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,false);
 
@@ -492,10 +567,13 @@ public class Controller {
                 .collect(Collectors.toList());
 
         this.view.imprimeMaioresCompradores(chavesOrdenadas);
-        //System.out.println("Maiores compradores " + chavesOrdenadas.toString());
-        //System.out.println("Maiores compradores: " + gastos.toString());
     }
 
+    /**
+     * Método integrante da 4ª estatística.
+     * @param start
+     * @param end
+     */
     public void maioresVendedores(LocalDate start, LocalDate end){
         Map<String,List<Encomenda>> encs = this.vintage.getEncomendasPeriodo(start,end,true);
 
@@ -516,8 +594,6 @@ public class Controller {
                 .collect(Collectors.toList());
 
         this.view.imprimeMaioresVendedores(chavesOrdenadas);
-        //System.out.println("Maiores vendedores: " + chavesOrdenadas.toString());
-        //System.out.println("Maiores vendedores: " + ganhos.toString());
     }
 
 

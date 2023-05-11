@@ -313,8 +313,8 @@ public class Vintage implements Serializable {
 
 
     /**
-     * 
-     * @return
+     * Método que cria uma String para escrever o objeto Vintage em ficheiro de texto.
+     * @return String com todos os campos.
      */
     public List<String> toLog(){
         List<String> lines = new ArrayList<>();
@@ -367,12 +367,27 @@ public class Vintage implements Serializable {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Recebe o código da encomenda e devolve o nome do utilizador que efetuou a compra.
+     * @param cod
+     * @return String com o nome do utilizador.
+     * @throws EncomendaDoesntExistException
+     */
     public String getUserFromEncomenda(int cod) throws EncomendaDoesntExistException{
         String nome = this.encomendas_utilizadores_ligacao.get(cod);
         if(nome == null) throw new EncomendaDoesntExistException(Integer.toString(cod));
         return nome;
     }
 
+    /**
+     * Método que atualiza todas as coleções necessárias associadas a uma devolução de um encomenda.
+     * @param num_encomenda
+     * @param email
+     * @param data
+     * @throws UserDoesntExistException
+     * @throws EncomendaDoesntExistException
+     * @throws EncomendaNotRefundableException
+     */
     public void devolveEncomenda(int num_encomenda, String email, LocalDateTime data) throws UserDoesntExistException, EncomendaDoesntExistException, EncomendaNotRefundableException{
 
         Utilizador utilizador = utilizadores.get(email);
@@ -403,6 +418,12 @@ public class Vintage implements Serializable {
         }
     }
 
+    /**
+     * Método que atualiza as encomendas Finalizadas caso estas já tenham sido expedidas ao fim de 2h.
+     * @param data
+     * @param nrHoras
+     * @return Coleção de encomendas que já foram entregues.
+     */
     public Map<Integer,String> atualizaEncomendas(LocalDateTime data,int nrHoras){
         Map<Integer,String> recibos = new HashMap<>();
         for(Encomenda c : this.encomendas.values()){
@@ -417,6 +438,11 @@ public class Vintage implements Serializable {
         return recibos;
     }
 
+    /**
+     * Método que cria uma String com os dados relevantes a um recibo.
+     * @param c
+     * @return String com os campos de um recibo.
+     */
     public String toRecibo(Encomenda c){
         StringBuilder sb = new StringBuilder();
         sb.append("Utilizador:" + this.encomendas_utilizadores_ligacao.get(c.getCodigo()) + "\n");
@@ -433,6 +459,15 @@ public class Vintage implements Serializable {
 
 
     //1ª estatistica
+
+    /**
+     * Método que devolve uma coleção com todas as encomendas vendidas/compradas por cada utilizador
+     * dentro de um certo intervalo de tempo.
+     * @param start
+     * @param end
+     * @param tipo_encomenda
+     * @return coleção com todas as encomendas por utilizador
+     */
     public Map<String, List<Encomenda>> getEncomendasPeriodo(LocalDate start, LocalDate end,boolean tipo_encomenda){
         LocalDateTime inicio = start.atStartOfDay().withHour(0).withMinute(0).withSecond(0);
         LocalDateTime fim = end.atStartOfDay().withHour(23).withMinute(59).withSecond(59);
@@ -459,7 +494,14 @@ public class Vintage implements Serializable {
     }
 
     //1ª estatistica
-    public double calculcaGanhoEncomendaUser(String email, Encomenda enc){
+
+    /**
+     * Método que calcula o preço dos artigos de um utilizador numa certa encomenda.
+     * @param email
+     * @param enc
+     * @return preço relativo aos artigos de um certo utilizador.
+     */
+    public double calculaGanhoEncomendaUser(String email, Encomenda enc){
         double preco = 0;
         Set<Artigo> artigos = enc.getArtigos();
         for(Artigo c : artigos){
@@ -470,14 +512,25 @@ public class Vintage implements Serializable {
     }
 
     //1ª estatistica
+
+    /**
+     * Calcula o preço dos artigos de um utilizador em todas as suas encomendas.
+     * @param email
+     * @param encomendas
+     * @return
+     */
     public double calculaTotalGanhoUser(String email, List<Encomenda> encomendas) {
-        double totalGasto = 0;
+        double totalGanho = 0;
         for (Encomenda enc : encomendas) {
-            totalGasto += calculcaGanhoEncomendaUser(email, enc);
+            totalGanho += calculaGanhoEncomendaUser(email, enc);
         }
-        return totalGasto;
+        return totalGanho;
     }
 
+    /**
+     * Método que calcula a soma de todas as taxas de satisfação que a vintage cobrou.
+     * @return total da taxa.
+     */
     public double calculaDinheiroVintage(){
         return this.encomendas.values()
                 .stream()
@@ -485,6 +538,10 @@ public class Vintage implements Serializable {
                 .reduce(0.0, (subtotal, element) -> subtotal + element);
     }
 
+    /**
+     * Método que calcula a transportadora com a maior receita.
+     * @return transportadora com mais receitas.
+     */
     public Transportadora maiorFaturacaoTransportadora(){
         return this.transportadoras.values()
                 .stream()
@@ -494,11 +551,23 @@ public class Vintage implements Serializable {
     }
 
     //4ª estatistica
+
+    /**
+     * Método que calcula o preço total de uma encomenda.
+     * @param enc
+     * @return
+     */
     public double calculaGastoEncomendaUser(Encomenda enc){
         double preco = enc.calculaTotalEncomenda();
         return preco;
     }
     //4ª estatistica
+
+    /**
+     * Método que calcula o total gasto em todas as encomendas.
+     * @param encomendas
+     * @return
+     */
     public double calculaTotalGastoUsers(List<Encomenda> encomendas){
         double totalGasto = 0;
 
@@ -508,6 +577,11 @@ public class Vintage implements Serializable {
         return totalGasto;
     }
 
+    /**
+     * Método que converte um set em string.
+     * @param a
+     * @return String de um set.
+     */
     public String setToString(Set<?> a){
         StringBuilder sb = new StringBuilder();
         for(Object c : a){
@@ -516,6 +590,11 @@ public class Vintage implements Serializable {
         return sb.toString();
     }
 
+    /**
+     * Método que retorna todas as encomendas associadas a um dado utilizador.
+     * @param email
+     * @return Coleção de encomendas.
+     */
     public Set<Encomenda> getEncomendasUser(String email){
         Set<Encomenda> encs = new HashSet<>();
         for(Encomenda c : this.encomendas.values()){

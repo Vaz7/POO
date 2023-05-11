@@ -6,6 +6,10 @@ import java.util.Set;
 import java.util.spi.LocaleServiceProvider;
 
 public class View {
+    /**
+     * Log in.
+     * @return opção escolhida.
+     */
     public int logInMenu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
@@ -22,6 +26,10 @@ public class View {
         return option;
     }
 
+    /**
+     * Recolhe o email no login
+     * @return email.
+     */
     public String logIn() {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
@@ -31,6 +39,10 @@ public class View {
         return option;
     }
 
+    /**
+     * Recolha de informação dos campos dum utilizador.
+     * @return array de strings com os campos.
+     */
     public String[] accountCreation() {
         Scanner scanner = new Scanner(System.in);
         String[] utilizadorInput = new String[3];
@@ -48,6 +60,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Menu principal.
+     * @return opção escolhida.
+     */
     public String menu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("--------Vintage--------");
@@ -67,6 +83,10 @@ public class View {
         return option;
     }
 
+    /**
+     * Recolhe as horas que o utilizador quer avançar.
+     * @return horas fornecidas.
+     */
     public int avancaData(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique quantas horas pretende avançar:");
@@ -78,6 +98,10 @@ public class View {
         return opt;
     }
 
+    /**
+     * Recolha de informação do modo de loading.
+     * @return opção escolhida.
+     */
     public int txtOrObject() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique como pretende carregar os dados:");
@@ -95,6 +119,11 @@ public class View {
         return opt;
     }
 
+    /**
+     * Recolha de informação sobre o artigo a ser criado.
+     * @param prem
+     * @return opção escolhida.
+     */
     public int tipoArtigoCriacao(boolean prem) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Que tipo de artigo queres criar?");
@@ -117,6 +146,11 @@ public class View {
         return option;
     }
 
+    /**
+     * Recolha de dados relativos à criação dos artigos.
+     * @param option
+     * @return array de string com os campos.
+     */
     public String[] artigoCreation(int option){
         Scanner scanner = new Scanner(System.in);
         String[] utilizadorInput = new String[11];
@@ -168,6 +202,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Recolha de campos relativos à transportadora.
+     * @return array de strings com esses campos.
+     */
     public String[] transportadoraCreation() {
         String[] utilizadorInput = new String[5];
         Scanner sc = new Scanner(System.in);
@@ -184,10 +222,10 @@ public class View {
         return utilizadorInput;
     }
 
-    public void imprimeTransportadora(Set<Transportadora> list){
-        list.stream().forEach(System.out::println);
-    }
-
+    /**
+     * Recolhe informação relativa ao proximo passo que um utilizador que dar numa encomenda.
+     * @return opçao escolhida.
+     */
     public int OpcaoEncomenda() {
         Scanner sc = new Scanner(System.in);
 
@@ -206,6 +244,10 @@ public class View {
         return opt;
     }
 
+    /**
+     * recolhe o código de uma encomenda.
+     * @return código encomenda.
+     */
     public int codEncomenda() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique o código da encomenda que pretende devolver:");
@@ -213,10 +255,17 @@ public class View {
         return enc;
     }
 
+    /**
+     * Dá um print informativo.
+     */
     public void encomendaNaoExistente() {
         System.out.println("Não há nenhuma encomenda atribuida a este utilizador.");
     }
 
+    /**
+     * Recolhe o código alfanumérico de um artigo que pretende remover de uma encomenda.
+     * @return código alfanumérico do artigo.
+     */
     public String removeArtigo() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Indique o código alfanumérico do artigo que pretende remover da sua encomenda:");
@@ -224,10 +273,18 @@ public class View {
         return artigo;
     }
 
+    /**
+     * Dá um print informativo.
+     * @param email
+     */
     public void encomendaNaoAssociada(String email){
         System.out.println("Essa encomenda não está associada a " + email);
     }
 
+    /**
+     * Recolhe o código alfanumerico do artigo que quer adicionar à encomenda.
+     * @return código alfanumérico do artigo.
+     */
     public String encomendaCreation() {
         Scanner sc = new Scanner(System.in);
 
@@ -237,10 +294,17 @@ public class View {
         return artigo;
     }
 
+    /**
+     * Dá um print informativo.
+     */
     public void artigoRepetido(){
         System.out.println("O código do artigo que inseriu já se encontra na encomenda, pelo que não foi adicionado.");
     }
 
+    /**
+     * Recolhe os campos relativos à criação de um utilizador.
+     * @return array de strings com esses campos.
+     */
     public String[] userCreation() {
         String[] utilizadorInput = new String[4];
         Scanner sc = new Scanner(System.in);
@@ -257,6 +321,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Recolhe o nome da transportadora que o utilizador pretende.
+     * @return nome escolhido.
+     */
     public String escolheTransportadora() {
         Scanner sc = new Scanner(System.in);
         System.out.println("De entre as Transportadoras anteriores escreva o nome da que pretende: ");
@@ -265,10 +333,17 @@ public class View {
         return ret;
     }
 
+    /**
+     * Dá um print informativo.
+     */
     public void transpNaoCorresponde(){
         System.out.println("O nome que escreveu não corresponde a nenhum dos que foi exposto.\n");
     }
 
+    /**
+     * Recolhe informação sobre se o utilizador pretende criar um artigo normal ou um artigo premium.
+     * @return opção escolhida.
+     */
     public int artPremium(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Qual das seguintes opções representa o seu artigo?");
@@ -285,6 +360,10 @@ public class View {
         return opt;
     }
 
+    /**
+     * Método que garante apenas a leitura de um Inteiro.
+     * @return int.
+     */
     public int leInteiro(){
         Scanner sc = new Scanner(System.in);
 
@@ -303,6 +382,10 @@ public class View {
         return option;
     }
 
+    /**
+     * Método que garante apenas a leitura de um Double.
+     * @return double.
+     */
     public double leDouble(){
         Scanner sc = new Scanner(System.in);
 
@@ -321,6 +404,10 @@ public class View {
         return option;
     }
 
+    /**
+     * Método que garante apenas a leitura de um Boolean.
+     * @return boolean.
+     */
     public String leBoolean(){
         Scanner sc = new Scanner(System.in);
         boolean loop = false, opt = false;
@@ -336,6 +423,10 @@ public class View {
         return Boolean.toString(opt);
     }
 
+    /**
+     * Método que garante apenas a leitura de um Estado de Artigo.
+     * @return estado em string.
+     */
     public String leEstado(){
         Scanner sc = new Scanner(System.in);
         String ret = null;
@@ -352,6 +443,10 @@ public class View {
         return ret;
     }
 
+    /**
+     * Método que garante apenas a leitura de um Tamanho de uma T-Shirt.
+     * @return string.
+     */
     public String leTamanho(){
         Scanner sc = new Scanner(System.in);
         String ret = null;
@@ -368,6 +463,10 @@ public class View {
         return ret;
     }
 
+    /**
+     * Método que garante apenas a leitura de um Padrão de T-Shirt.
+     * @return padrão em string.
+     */
     public String lePadrao(){
         Scanner sc = new Scanner(System.in);
         String ret = null;
@@ -384,6 +483,10 @@ public class View {
         return ret;
     }
 
+    /**
+     * Método que garante apenas a leitura de uma Dimensão de Mala.
+     * @return dimensão em string.
+     */
     public String leDimensao(){
         Scanner sc = new Scanner(System.in);
         String ret = null;
@@ -400,6 +503,10 @@ public class View {
         return ret;
     }
 
+    /**
+     * Método que garante apenas a leitura de um LocalDate.
+     * @return LocalDate.
+     */
     public String leLocalDate(){
         Scanner sc = new Scanner(System.in);
         String ret = null;
@@ -416,14 +523,10 @@ public class View {
         return ret;
     }
 
-    public void imprimeArtigos(String arts){
-        System.out.println(arts);
-    }
-
-    public void imprimeEncomendasUser(String encs){
-        System.out.println(encs);
-    }
-
+    /**
+     * Menu das estatísticas.
+     * @return opção escolhida.
+     */
     public int menuEstatisticas() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Qual a estatística que pretende calcular?");
@@ -445,6 +548,10 @@ public class View {
         return opt;
     }
 
+    /**
+     * Recolhe um intervalo de tempo positivo.
+     * @return array com os dois LocalDates correspondentes ao intervalo de tempo.
+     */
     public LocalDate[] intervaloTempo(){
         LocalDate datas[] = new LocalDate[2];
 
@@ -463,35 +570,50 @@ public class View {
         return datas;
     }
 
-    public void imprimeUtilizador(String a){
-        System.out.println(a);
-    }
-
+    /**
+     * Imprime um Double.
+     * @param a
+     */
     public void imprimeDouble(double a){
         System.out.println(a);
     }
 
+    /**
+     * Recolhe o email de um utilizador.
+     * @return string desse email.
+     */
     public String leEmail(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Insira o email do utilizador que pretende efetuar a estatística.");
         String email = sc.nextLine();
         return email;
     }
+
+    /**
+     * Imprime de forma ordenada os maiores compradores.
+     * @param chavesOrdenadas
+     */
     public void imprimeMaioresCompradores(List<String> chavesOrdenadas){
         System.out.print("Maiores compradores:");
         System.out.println(chavesOrdenadas.toString());
     }
 
+    /**
+     * Imprime de forma ordenada os maiores vendedores.
+     * @param chavesOrdenadas
+     */
     public void imprimeMaioresVendedores(List<String> chavesOrdenadas){
         System.out.print("Maiores vendedores:");
 
         System.out.println(chavesOrdenadas.toString());
     }
+
+    /**
+     * Imprime uma string.
+     * @param def
+     */
     public void imprimeString(String def){
         System.out.println(def);
     }
-    public void invalidOption() {
-        System.out.println("Opcao invalida.");
-    }
-
+    
 }
