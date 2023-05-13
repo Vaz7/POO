@@ -1,8 +1,7 @@
-Utilizador:henrique@vaz.pt
+Utilizador:asd
 Número da Encomenda:2
-Dimensão da Embalagem: Medio
-Data de Compra: 2023-05-10T18:34:37.365561828
+Dimensão da Embalagem: Pequeno
+Data de Compra: 2023-05-13T17:12:13.199099510
 Artigos: 
-8NejiAGlbCMK--T-shirt Nude project, Novo: true, Preço Base: 150.0, Descrição: Tshirt nova, Tamanho: L, Padrão: PALMEIRAS, Preço Atual: 150.0
-OO0tt5Z58jpJ--T-shirt Puma, Novo: true, Preço Base: 60.0, Descrição: Tshirt nova, Tamanho: XL, Padrão: LISO, Preço Atual: 60.0
-Preço Final (c/IVA): 220.544858
+bzg0IQrc4ymM--Mala Samsonite, Novo: true, Preço Base: 300.0, Descrição: Mala de viagem nova, Dimensão: PEQUENO, Material: Couro sintético, Coleção: 2019-06-30, Preço Atual: 225.0
+Preço Final (c/IVA): 230.1261325

@@ -10,7 +10,6 @@ public class Controller {
     private View view;
     private Vintage vintage;
     private String current_user;
-    private Encomenda encomenda_atual;
     private boolean run;
     private boolean logged;
     private LocalDateTime data;
@@ -36,7 +35,6 @@ public class Controller {
         this.vintage = new Vintage();
         this.run = true;
         this.logged = false;
-        this.encomenda_atual = new Encomenda();
     }
 
     /**
@@ -301,6 +299,7 @@ public class Controller {
      * Método responsável pela criação de uma encomenda.
      */
     public void criaEncomenda(){
+        Encomenda encomenda_atual = new Encomenda(this.data);
         boolean flag = true;
         String artigo;
         while(flag){
@@ -311,44 +310,42 @@ public class Controller {
                     artigo = this.view.encomendaCreation();
                     try{
                         Artigo art = this.vintage.findArtigo(artigo);
-                        if(!this.encomenda_atual.contem(art)){
-                            this.encomenda_atual.addArtEncomenda(art);
+                        if(!encomenda_atual.contem(art)){
+                            encomenda_atual.addArtEncomenda(art);
                         }
                         else
                             this.view.artigoRepetido();
                     } catch (ArtigoDoesntExistException e){
                         e.getMessage();
                     }
-                    this.view.imprimeString(this.encomenda_atual.showPrecoAtual());
+                    this.view.imprimeString(encomenda_atual.showPrecoAtual());
                     break;
                 case 2:
-                    this.view.imprimeString(this.vintage.setToString(this.encomenda_atual.getArtigos()));
+                    this.view.imprimeString(this.vintage.setToString(encomenda_atual.getArtigos()));
                     artigo = this.view.removeArtigo();
                     try{
-                        this.encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
+                        encomenda_atual.removeArtEncomenda(this.vintage.findArtigo(artigo));
                     } catch (ArtigoDoesntExistException e){
                         e.getMessage();
                     }
-                    this.encomenda_atual.showPrecoAtual();
+                    encomenda_atual.showPrecoAtual();
                     break;
                 case 3:
-                    if(this.encomenda_atual.getArtigos().size() != 0){
-                        this.encomenda_atual.atualizaEncomenda();
-                        try{
-                            this.vintage.addEncomenda(this.current_user, this.encomenda_atual);
-                        } catch (UserDoesntExistException udee){
+                    if(encomenda_atual.getArtigos().size() != 0) {
+                        encomenda_atual.atualizaEncomenda(this.data);
+                        try {
+                            this.vintage.addEncomenda(this.current_user, encomenda_atual);
+                        } catch (UserDoesntExistException udee) {
                             udee.getMessage();
-                        } catch (ArtigoDoesntExistException adee){
+                        } catch (ArtigoDoesntExistException adee) {
                             adee.getMessage();
-                        } catch (TransportadoraDoesntExistException tdee){
+                        } catch (TransportadoraDoesntExistException tdee) {
                             tdee.getMessage();
                         }
                     }
-                    this.encomenda_atual = new Encomenda();
                     flag = false;
                     break;
                 case 4:
-                    this.encomenda_atual = new Encomenda();
                     flag = false;
                     break;
             }

@@ -28,26 +28,26 @@ public class Encomenda implements Serializable {
     private LocalDateTime data_inicial;
     private State estado;
 
-    public Encomenda(){
+    public Encomenda(LocalDateTime dataProg){
         this.codigo = this.count++;
         this.artigos = new HashSet<>();
         this.dim = Embalagem.Pequeno;
-        this.data_inicial = LocalDateTime.now();
+        this.data_inicial = dataProg;
         this.estado = State.Pendente;
         this.preco_artigos = 0;
         this.preco_transporte = 0;
         this.contador = new HashMap<>();
     }
 
-    public Encomenda(Set<Artigo> lista, State estado){
+    public Encomenda(Set<Artigo> lista, State estado,LocalDateTime dataProg){
         this.codigo = this.count++;
         setArtigos(lista);
         defDimensaoCaixa();
-        this.data_inicial = LocalDateTime.now();
+        this.data_inicial = dataProg;
         this.estado = estado;
         this.preco_artigos = calculaPrecoArtigos();
         this.preco_transporte = calculaPrecoTransporte();
-        atualizaEncomenda();
+        atualizaEncomenda(dataProg);
     }
 
     public Encomenda(Set<Artigo> lista, Embalagem dim, LocalDateTime data, State estado,Double preco) {
@@ -58,7 +58,7 @@ public class Encomenda implements Serializable {
         this.estado = estado;
         this.preco_artigos = preco;
         this.preco_transporte = calculaPrecoTransporte();
-        atualizaEncomenda();
+        atualizaEncomenda(data);
     }
 
     public Encomenda(Encomenda o){
@@ -159,7 +159,7 @@ public class Encomenda implements Serializable {
         return this.estado;
     }
 
-    public void setEstado(State estado) {
+    public void setEstado(Encomenda.State estado) {
         this.estado = estado;
     }
 
@@ -359,10 +359,10 @@ public class Encomenda implements Serializable {
     /**
      * Método que atualiza o estado de uma encomenda quando o utilizador efetua o pagamento.
      */
-    public void atualizaEncomenda(){
+    public void atualizaEncomenda(LocalDateTime dataProg){
         defDimensaoCaixa();
         this.estado = State.Finalizada;
-        setData_inicial(LocalDateTime.now());
+        setData_inicial(dataProg);
     }
 
     /**
@@ -391,3 +391,4 @@ public class Encomenda implements Serializable {
 
 
 }
+

@@ -3,6 +3,7 @@ import UserExceptions.TransportadoraDoesntExistException;
 import UserExceptions.UserDoesntExistException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Populator {
 
@@ -130,14 +131,15 @@ public class Populator {
         vintage.addArtigoVenda(user10.getEmail(),art32);
 
         // cria encomenda
-        Encomenda encDoUser1 = new Encomenda();
-        Encomenda encDoUser2 = new Encomenda();
-        Encomenda encDoUser3 = new Encomenda();
-        Encomenda encDoUser4 = new Encomenda();
-        Encomenda encDoUser5 = new Encomenda();
-
+        
+        /*Encomenda encDoUser1 = new Encomenda(LocalDateTime.now());
+        Encomenda encDoUser2 = new Encomenda(LocalDateTime.now());
+        Encomenda encDoUser3 = new Encomenda(LocalDateTime.now());
+        Encomenda encDoUser4 = new Encomenda(LocalDateTime.now());
+        Encomenda encDoUser5 = new Encomenda(LocalDateTime.now());
+        */
         // adiciona artigos encomenda
-        encDoUser1.addArtEncomenda(art4);
+        /*encDoUser1.addArtEncomenda(art4);
         encDoUser1.addArtEncomenda(art5);
         encDoUser2.addArtEncomenda(art2);
         encDoUser2.addArtEncomenda(art25);
@@ -146,16 +148,22 @@ public class Populator {
         encDoUser4.addArtEncomenda(art7);
         encDoUser4.addArtEncomenda(art19);
         encDoUser5.addArtEncomenda(art1);
-        encDoUser5.addArtEncomenda(art12);
+        encDoUser5.addArtEncomenda(art12);*/
 
         // insere na vintage encomendas
+        /*encDoUser1.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user1.getEmail(),encDoUser1);
+        encDoUser2.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user2.getEmail(),encDoUser2);
+        encDoUser3.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user3.getEmail(),encDoUser3);
+        encDoUser4.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user4.getEmail(),encDoUser4);
-        vintage.addEncomenda(user5.getEmail(),encDoUser5);
+        encDoUser5.setEstado(Encomenda.State.Finalizada);
+        vintage.addEncomenda(user5.getEmail(),encDoUser5);*/
 
         return vintage;
     }
 
 }
+

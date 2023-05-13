@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import javax.crypto.spec.PSource;
+import java.time.Duration;
+import java.io.File;
 
 public class Vintage implements Serializable {
     private Map<Integer,Encomenda> encomendas;
@@ -271,8 +274,7 @@ public class Vintage implements Serializable {
         if(utilizador == null) throw new UserDoesntExistException(email);
 
         encomendas_utilizadores_ligacao.put(encomenda.getCodigo(),email);
-        Encomenda encomenda2 = encomenda.clone();
-        encomendas.put(encomenda.getCodigo(),encomenda2);
+        encomendas.put(encomenda.getCodigo(),encomenda);
 
         Set<Artigo> artigos = encomenda.getArtigos();
         for(Artigo c : artigos){
@@ -292,7 +294,7 @@ public class Vintage implements Serializable {
             utilizador1.addEncomendaVendida(encomenda);
         }
         atualizaTransportadoras(encomenda);
-        utilizador.addEncomendaComprada(encomenda2);
+        utilizador.addEncomendaComprada(encomenda);
     }
 
     /**
@@ -416,6 +418,8 @@ public class Vintage implements Serializable {
             utilizador.removeEncomendaComprada(encomenda);
             utilizador1.removeEncomendaVendida(encomenda);
         }
+        File file = new File("Recibos/"+num_encomenda);
+        file.delete();
     }
 
     /**
@@ -426,12 +430,16 @@ public class Vintage implements Serializable {
      */
     public Map<Integer,String> atualizaEncomendas(LocalDateTime data,int nrHoras){
         Map<Integer,String> recibos = new HashMap<>();
+
+
         for(Encomenda c : this.encomendas.values()){
             LocalDateTime aux = c.getData_inicial();
-            if(aux.plusHours(nrHoras).isAfter(data.plusHours(2)) && !c.getEstado().equals(Encomenda.State.valueOf("Expedida"))){
+            Duration duracao = Duration.between(aux,data);
+            long horas = duracao.toHours();
+
+            if(horas>=2 && !c.getEstado().equals(Encomenda.State.valueOf("Expedida"))){
+
                 c.setEstado(Encomenda.State.Expedida);
-            }
-            if(data.isBefore(aux.plusHours(48)) || data.equals(aux.plusHours(48))){
                 recibos.put(c.getCodigo(), toRecibo(c));
             }
         }
