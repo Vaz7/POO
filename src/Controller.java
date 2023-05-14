@@ -104,7 +104,7 @@ public class Controller {
                     Set<Encomenda> encs = this.vintage.getEncomendasUser(this.current_user);
                     for(Encomenda e : encs){
                         if(e.isRefundable(this.data)){
-                            System.out.println(e.toDevolver());
+                            this.view.imprimeString(e.toDevolver());
                         }
 
                     }
@@ -152,7 +152,7 @@ public class Controller {
                     calculaEstatisticas();
             }
         } catch(Exception e){
-            System.out.println("Opção Inválida! " + e.getMessage());
+            this.view.imprimeString("Erro no load de ficheiros!");
         }
     }
 
@@ -204,7 +204,7 @@ public class Controller {
         while(flag){
             Set<Transportadora> transpSet = this.vintage.getListaTransportadoras(prem);
             for(Transportadora t :transpSet){
-                System.out.println(t.toString());
+                this.view.imprimeString(t.toString());
             }
             String transp = this.view.escolheTransportadora();
 
@@ -274,6 +274,7 @@ public class Controller {
                                 art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens2[0]), Boolean.parseBoolean(tokens2[1]), tokens2[2], LocalDate.parse(tokens2[3]));
                             }
                         }
+                        break;
 
                     case 3:
                         while(!ciclo1){
@@ -430,11 +431,11 @@ public class Controller {
                         dinheiroVintage();
                         break;
                     default:
-                        System.out.println("Opção Inválida!");
+                        this.view.imprimeString("Opção Inválida!");
                         break;
                 }
             } catch(Exception e) {
-                System.out.println("Opção Inválida! " + e.getMessage());
+                this.view.imprimeString(e.getMessage());
             }
         }
     }
@@ -513,7 +514,7 @@ public class Controller {
             }
             fos.close();
         }
-        System.out.println("Foram avançadas " + nrHoras + " horas");
+        this.view.imprimeString("Foram avançadas " + nrHoras + " horas");
     }
 
     /**
