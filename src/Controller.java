@@ -623,6 +623,11 @@ public class Controller {
         this.view.imprimeMaioresVendedores(chavesOrdenadas);
     }
 
+    /**
+     * Método que verifica se uma string pertence ao enum Estado.
+     * @param c
+     * @return true/false
+     */
     public boolean pertenceEstado(String c){
         for(Artigo.Estado a : Artigo.Estado.values()){
             if(a.name().equalsIgnoreCase(c)) return true;
@@ -630,6 +635,11 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Método que verifica se uma string pertence ao enum Dimensao.
+     * @param c
+     * @return true/false
+     */
     public boolean pertenceDimensao(String c){
         for(Mala.Dim a : Mala.Dim.values()){
             if(a.name().equalsIgnoreCase(c)) return true;
@@ -637,6 +647,11 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Método que verifica se uma string pertence ao enum Padrao.
+     * @param c
+     * @return true/false
+     */
     public boolean pertencePadrao(String c){
         for(Tshirt.Padrao a : Tshirt.Padrao.values()){
             if(a.name().equalsIgnoreCase(c)) return true;
@@ -644,6 +659,11 @@ public class Controller {
         return false;
     }
 
+    /**
+     * Método que verifica se uma string pertence ao enum Tamanho.
+     * @param c
+     * @return true/false
+     */
     public boolean pertenceTamanho(String c){
         for(Tshirt.Tamanho a : Tshirt.Tamanho.values()){
             if(a.name().equalsIgnoreCase(c)) return true;

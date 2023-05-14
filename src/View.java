@@ -178,6 +178,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Recolha de dados relativos à criação de malas.
+     * @return array de string com os campos.
+     */
     public String[] malaCreation(){
         Scanner scanner = new Scanner(System.in);
         String[] utilizadorInput = new String[3];
@@ -193,6 +197,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Recolha de dados relativos à criação de tshirts.
+     * @return array de string com os campos.
+     */
     public String[] tshirtCreation(){
         Scanner scanner = new Scanner(System.in);
         String[] utilizadorInput = new String[2];
@@ -205,6 +213,10 @@ public class View {
         return utilizadorInput;
     }
 
+    /**
+     * Recolha de dados relativos à criação de sapatilhas.
+     * @return array de string com os campos.
+     */
     public String[] sapatilhaCreation(){
         Scanner scanner = new Scanner(System.in);
         String[] utilizadorInput = new String[4];
@@ -556,6 +568,10 @@ public class View {
         System.out.println(def);
     }
 
+    /**
+     * Imprime o parametro que estava errado.
+     * @param a
+     */
     public void parametrosErrados(String a){
         System.out.println("Os parâmetros passados em " + a + " não se encontram corretos!");
     }
