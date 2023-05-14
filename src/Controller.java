@@ -102,7 +102,12 @@ public class Controller {
                     break;
                 case 5:
                     Set<Encomenda> encs = this.vintage.getEncomendasUser(this.current_user);
-                    this.view.imprimeString(this.vintage.setToString(encs));
+                    for(Encomenda e : encs){
+                        if(e.isRefundable(this.data)){
+                            System.out.println(e.toDevolver());
+                        }
+
+                    }
                     int quantos = encs.size();
                     if(quantos != 0){
                         int cod = this.view.codEncomenda();

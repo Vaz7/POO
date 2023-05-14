@@ -132,14 +132,14 @@ public class Populator {
 
         // cria encomenda
         
-        /*Encomenda encDoUser1 = new Encomenda(LocalDateTime.now());
+        Encomenda encDoUser1 = new Encomenda(LocalDateTime.now());
         Encomenda encDoUser2 = new Encomenda(LocalDateTime.now());
         Encomenda encDoUser3 = new Encomenda(LocalDateTime.now());
         Encomenda encDoUser4 = new Encomenda(LocalDateTime.now());
         Encomenda encDoUser5 = new Encomenda(LocalDateTime.now());
-        */
+
         // adiciona artigos encomenda
-        /*encDoUser1.addArtEncomenda(art4);
+        encDoUser1.addArtEncomenda(art4);
         encDoUser1.addArtEncomenda(art5);
         encDoUser2.addArtEncomenda(art2);
         encDoUser2.addArtEncomenda(art25);
@@ -148,10 +148,10 @@ public class Populator {
         encDoUser4.addArtEncomenda(art7);
         encDoUser4.addArtEncomenda(art19);
         encDoUser5.addArtEncomenda(art1);
-        encDoUser5.addArtEncomenda(art12);*/
+        encDoUser5.addArtEncomenda(art12);
 
         // insere na vintage encomendas
-        /*encDoUser1.setEstado(Encomenda.State.Finalizada);
+        encDoUser1.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user1.getEmail(),encDoUser1);
         encDoUser2.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user2.getEmail(),encDoUser2);
@@ -160,7 +160,7 @@ public class Populator {
         encDoUser4.setEstado(Encomenda.State.Finalizada);
         vintage.addEncomenda(user4.getEmail(),encDoUser4);
         encDoUser5.setEstado(Encomenda.State.Finalizada);
-        vintage.addEncomenda(user5.getEmail(),encDoUser5);*/
+        vintage.addEncomenda(user5.getEmail(),encDoUser5);
 
         return vintage;
     }

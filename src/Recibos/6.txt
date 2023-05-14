@@ -1,0 +1,7 @@
+Utilizador:henrique@vaz.pt
+Número da Encomenda:6
+Dimensão da Embalagem: Pequeno
+Data de Compra: 2023-05-14T16:10:19.630930755
+Artigos: 
+rEYecPqP6rNk--Mala Montblanc, Novo: false, Estado: PESSIMO, Nº de donos: 2, Preço Base: 900.0, Descrição: Mala executiva usada, Dimensão: MEDIO, Material: Couro, Coleção: 2020-09-30, Preço Atual: 765.0
+Preço Final (c/IVA): 769.9587255

@@ -28,6 +28,16 @@ public class Encomenda implements Serializable {
     private LocalDateTime data_inicial;
     private State estado;
 
+    public Encomenda(){
+        this.codigo = this.count++;
+        this.artigos = new HashSet<>();
+        this.dim = Embalagem.Pequeno;
+        this.data_inicial = LocalDateTime.now();
+        this.estado = State.Pendente;
+        this.preco_artigos = 0;
+        this.preco_transporte = 0;
+        this.contador = new HashMap<>();
+    }
     public Encomenda(LocalDateTime dataProg){
         this.codigo = this.count++;
         this.artigos = new HashSet<>();
@@ -352,7 +362,7 @@ public class Encomenda implements Serializable {
      * @return true/false
      */
     public boolean isRefundable(LocalDateTime data){
-        if(data.isAfter(this.data_inicial.plusHours(48))) return false;
+        if(data.isAfter(this.data_inicial.plusHours(47))) return false;
         return true;
     }
 
@@ -389,6 +399,19 @@ public class Encomenda implements Serializable {
                 .reduce(0.0,(subtotal, element) -> subtotal + element);
     }
 
+    /**
+     * Metodo para escrever as encomendas de forma pequena no menu de devolver
+     */
+    public String toDevolver(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("Encomenda:" + this.codigo + ",");
+        sb.append(" Data de Criação: " + this.data_inicial + ",");
+        sb.append(" Artigos: ");
+        for(Artigo c : this.artigos){
+            sb.append(c.getCodAlfaNum() + " ");
+        }
+        return sb.toString();
+    }
 
 }
 
