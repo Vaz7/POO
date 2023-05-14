@@ -198,7 +198,9 @@ public class Controller {
         boolean prem = (premium == 1) ? false : true;
         while(flag){
             Set<Transportadora> transpSet = this.vintage.getListaTransportadoras(prem);
-            this.view.imprimeString(transpSet.toString());
+            for(Transportadora t :transpSet){
+                System.out.println(t.toString());
+            }
             String transp = this.view.escolheTransportadora();
 
             try{
@@ -286,7 +288,7 @@ public class Controller {
     public void createTransportadora(){ // adaptar para premium tmb
         Transportadora transportadora = null;
         String tokens[] = this.view.transportadoraCreation();
-        if(tokens[3].equalsIgnoreCase("false")) {
+        if(tokens[2].equalsIgnoreCase("false")) {
             transportadora = new Transportadora(tokens[0], Double.parseDouble(tokens[1]));
         }
         else{
