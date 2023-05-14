@@ -220,55 +220,78 @@ public class Controller {
             }
 
             while(flag2 && !flag){
+                String[] tokens = null;
+                String[] tokens2 = null;
                 int artcode = this.view.tipoArtigoCriacao(prem);
                 if(artcode == 0) return;
-                String[] tokens = this.view.artigoCreation(artcode);
+                boolean ciclo1 = true;
+                while(ciclo1){
+                    tokens = this.view.artigoCreation();
+                    if(pertenceEstado(tokens[1]) || tokens[1].equals("freepass")) ciclo1 = false;
+                    else this.view.parametrosErrados("Estado");
+                }
                 Artigo art1 = null;
                 switch(artcode){
                     case 1:
+                        while(!ciclo1){
+                            tokens2 = this.view.malaCreation();
+                            if(pertenceDimensao(tokens2[0])) ciclo1 = true;
+                            else this.view.parametrosErrados("Dimensao");
+                        }
                         if(!prem){
                             if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens2[0].toUpperCase()), tokens2[1], LocalDate.parse(tokens2[2]));
                             }
                             else{
-                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                                art1 = new Mala(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens2[0].toUpperCase()), tokens2[1], LocalDate.parse(tokens2[2]));
                             }
                         }
                         else{
                             if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens2[0].toUpperCase()), tokens2[1], LocalDate.parse(tokens2[2]));
                             }
                             else{
-                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens[6].toUpperCase()), tokens[7], LocalDate.parse(tokens[8]));
+                                art1 = new MalaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Mala.Dim.valueOf(tokens2[0].toUpperCase()), tokens2[1], LocalDate.parse(tokens2[2]));
                             }
                         }
 
                         break;
                     case 2:
+                        tokens2 = this.view.sapatilhaCreation();
                         if(!prem){
                             if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens2[0]), Boolean.parseBoolean(tokens2[1]), tokens2[2], LocalDate.parse(tokens2[3]));
                             }
                             else{
-                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                                art1 = new Sapatilha(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens2[0]), Boolean.parseBoolean(tokens2[1]), tokens2[2], LocalDate.parse(tokens2[3]));
                             }
                         }
                         else{
                             if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens2[0]), Boolean.parseBoolean(tokens2[1]), tokens2[2], LocalDate.parse(tokens2[3]));
                             }
                             else{
-                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens[6]), Boolean.parseBoolean(tokens[7]), tokens[8], LocalDate.parse(tokens[9]));
+                                art1 = new SapatilhaPremium(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Double.parseDouble(tokens2[0]), Boolean.parseBoolean(tokens2[1]), tokens2[2], LocalDate.parse(tokens2[3]));
                             }
                         }
 
                     case 3:
+                        while(!ciclo1){
+                            boolean tamanho = false;
+                            boolean padrao = false;
+                            tokens2 = this.view.tshirtCreation();
+                            if(!pertenceTamanho(tokens2[0])) this.view.parametrosErrados("Tamanho");
+                            else tamanho = true;
+                            if(!pertencePadrao(tokens2[1])) this.view.parametrosErrados("Padrão");
+                            else padrao = true;
+                            if(padrao && tamanho) ciclo1 = true;
+                        }
                         if(!prem){
                             if(tokens[0].toLowerCase().equals("false")){
-                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), Integer.parseInt(tokens[2]), Artigo.Estado.valueOf(tokens[1].toUpperCase()), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens2[0].toUpperCase()), Tshirt.Padrao.valueOf(tokens2[1].toUpperCase()));
                             }
                             else{
-                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens[6].toUpperCase()), Tshirt.Padrao.valueOf(tokens[7].toUpperCase()));
+                                art1 = new Tshirt(Boolean.parseBoolean(tokens[0]), tokens[3], tokens[4], Double.parseDouble(tokens[5]), c, Tshirt.Tamanho.valueOf(tokens2[0].toUpperCase()), Tshirt.Padrao.valueOf(tokens2[1].toUpperCase()));
                             }
                         }
                         break;
@@ -598,6 +621,34 @@ public class Controller {
                 .collect(Collectors.toList());
 
         this.view.imprimeMaioresVendedores(chavesOrdenadas);
+    }
+
+    public boolean pertenceEstado(String c){
+        for(Artigo.Estado a : Artigo.Estado.values()){
+            if(a.name().equalsIgnoreCase(c)) return true;
+        }
+        return false;
+    }
+
+    public boolean pertenceDimensao(String c){
+        for(Mala.Dim a : Mala.Dim.values()){
+            if(a.name().equalsIgnoreCase(c)) return true;
+        }
+        return false;
+    }
+
+    public boolean pertencePadrao(String c){
+        for(Tshirt.Padrao a : Tshirt.Padrao.values()){
+            if(a.name().equalsIgnoreCase(c)) return true;
+        }
+        return false;
+    }
+
+    public boolean pertenceTamanho(String c){
+        for(Tshirt.Tamanho a : Tshirt.Tamanho.values()){
+            if(a.name().equalsIgnoreCase(c)) return true;
+        }
+        return false;
     }
 
 

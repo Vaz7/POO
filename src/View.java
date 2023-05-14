@@ -148,12 +148,11 @@ public class View {
 
     /**
      * Recolha de dados relativos à criação dos artigos.
-     * @param option
      * @return array de string com os campos.
      */
-    public String[] artigoCreation(int option){
+    public String[] artigoCreation(){
         Scanner scanner = new Scanner(System.in);
-        String[] utilizadorInput = new String[11];
+        String[] utilizadorInput = new String[6];
         System.out.println("Por favor escreva os dados relativos ao seu Artigo!");
 
         System.out.println("Indique se o artigo é novo/usado (true/false): ");
@@ -161,10 +160,13 @@ public class View {
 
         if (utilizadorInput[0].equalsIgnoreCase("false")) {
             System.out.println("Em que estado se encontra o artigo(PESSIMO/MAU/RAZOAVEL/BOM/MUITO_BOM)? ");
-            utilizadorInput[1] = leEstado();
+            utilizadorInput[1] = scanner.nextLine();
 
             System.out.println("Número de donos: ");
             utilizadorInput[2] = Integer.toString(leInteiro());
+        }
+        else{
+            utilizadorInput[1] = "freepass";
         }
         System.out.println("Descrição do Artigo: ");
         utilizadorInput[3] = scanner.nextLine();
@@ -173,31 +175,49 @@ public class View {
         System.out.println("Preco Base: ");
         utilizadorInput[5] = Double.toString(leDouble());
 
-        switch (option) {
-            case 3:
-                System.out.println("Indique o Tamanho da Tshirt (S/M/L/XL): ");
-                utilizadorInput[6] = leTamanho();
-                System.out.println("Indique o Padrao da Tshirt (RISCAS/LISO/PALMEIRAS): ");
-                utilizadorInput[7] = lePadrao();
-                break;
-            case 1:
-                System.out.println("Indique a dimensão da Mala (PEQUENO/MEDIO/GRANDE): ");
-                utilizadorInput[6] = leDimensao();
-                System.out.println("Indique o seu material: ");
-                utilizadorInput[7] = scanner.nextLine();
-                System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
-                utilizadorInput[8] = leLocalDate();
-                break;
-            case 2:
-                System.out.println("Indique o Tamanho da Sapatilha: ");
-                utilizadorInput[6] = Double.toString(leDouble());
-                System.out.println("Indique se tem atacadores (true/false): ");
-                utilizadorInput[7] = leBoolean();
-                System.out.println("Indique a sua cor: ");
-                utilizadorInput[8] = scanner.nextLine();
-                System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
-                utilizadorInput[9] = leLocalDate();
-        }
+        return utilizadorInput;
+    }
+
+    public String[] malaCreation(){
+        Scanner scanner = new Scanner(System.in);
+        String[] utilizadorInput = new String[3];
+        System.out.println("Por favor escreva os dados relativos à sua Mala!");
+
+        System.out.println("Indique a dimensão da Mala (PEQUENO/MEDIO/GRANDE): ");
+        utilizadorInput[0] = scanner.nextLine();
+        System.out.println("Indique o seu material: ");
+        utilizadorInput[1] = scanner.nextLine();
+        System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
+        utilizadorInput[2] = leLocalDate();
+
+        return utilizadorInput;
+    }
+
+    public String[] tshirtCreation(){
+        Scanner scanner = new Scanner(System.in);
+        String[] utilizadorInput = new String[2];
+        System.out.println("Por favor escreva os dados relativos à sua T-Shirt!");
+
+        System.out.println("Indique o Tamanho da Tshirt (S/M/L/XL): ");
+        utilizadorInput[0] = scanner.nextLine();
+        System.out.println("Indique o Padrao da Tshirt (RISCAS/LISO/PALMEIRAS): ");
+        utilizadorInput[1] = scanner.nextLine();
+        return utilizadorInput;
+    }
+
+    public String[] sapatilhaCreation(){
+        Scanner scanner = new Scanner(System.in);
+        String[] utilizadorInput = new String[4];
+        System.out.println("Por favor escreva os dados relativos às suas Sapatilhas!");
+
+        System.out.println("Indique o Tamanho da Sapatilha: ");
+        utilizadorInput[0] = Double.toString(leDouble());
+        System.out.println("Indique se tem atacadores (true/false): ");
+        utilizadorInput[1] = leBoolean();
+        System.out.println("Indique a sua cor: ");
+        utilizadorInput[2] = scanner.nextLine();
+        System.out.println("Indique no formato aaaa-mm-dd a data da sua coleção: ");
+        utilizadorInput[3] = leLocalDate();
 
         return utilizadorInput;
     }
@@ -424,86 +444,6 @@ public class View {
     }
 
     /**
-     * Método que garante apenas a leitura de um Estado de Artigo.
-     * @return estado em string.
-     */
-    public String leEstado(){
-        Scanner sc = new Scanner(System.in);
-        String ret = null;
-        boolean flag = true;
-        do{
-            ret = sc.nextLine();
-            try{
-                Artigo.Estado test = Artigo.Estado.valueOf(ret.toUpperCase());
-                flag = false;
-            } catch (Exception e){
-                System.out.println("Parâmetro introduzido incorreto! Por favor introduza um Estado correspondente a um dos valores expostos.");
-            }
-        } while(flag);
-        return ret;
-    }
-
-    /**
-     * Método que garante apenas a leitura de um Tamanho de uma T-Shirt.
-     * @return string.
-     */
-    public String leTamanho(){
-        Scanner sc = new Scanner(System.in);
-        String ret = null;
-        boolean flag = true;
-        do{
-            ret = sc.nextLine();
-            try{
-                Tshirt.Tamanho test = Tshirt.Tamanho.valueOf(ret.toUpperCase());
-                flag = false;
-            } catch (Exception e){
-                System.out.println("Parâmetro introduzido incorreto! Por favor introduza um Tamanho correspondente a um dos valores expostos.");
-            }
-        } while(flag);
-        return ret;
-    }
-
-    /**
-     * Método que garante apenas a leitura de um Padrão de T-Shirt.
-     * @return padrão em string.
-     */
-    public String lePadrao(){
-        Scanner sc = new Scanner(System.in);
-        String ret = null;
-        boolean flag = true;
-        do{
-            ret = sc.nextLine();
-            try{
-                Tshirt.Padrao test = Tshirt.Padrao.valueOf(ret.toUpperCase());
-                flag = false;
-            } catch (Exception e){
-                System.out.println("Parâmetro introduzido incorreto! Por favor introduza um Padrão correspondente a um dos valores expostos.");
-            }
-        } while(flag);
-        return ret;
-    }
-
-    /**
-     * Método que garante apenas a leitura de uma Dimensão de Mala.
-     * @return dimensão em string.
-     */
-    public String leDimensao(){
-        Scanner sc = new Scanner(System.in);
-        String ret = null;
-        boolean flag = true;
-        do{
-            ret = sc.nextLine();
-            try{
-                Mala.Dim test = Mala.Dim.valueOf(ret.toUpperCase());
-                flag = false;
-            } catch (Exception e){
-                System.out.println("Parâmetro introduzido incorreto! Por favor introduza uma Dimensão correspondente a um dos valores expostos.");
-            }
-        } while(flag);
-        return ret;
-    }
-
-    /**
      * Método que garante apenas a leitura de um LocalDate.
      * @return LocalDate.
      */
@@ -614,6 +554,10 @@ public class View {
      */
     public void imprimeString(String def){
         System.out.println(def);
+    }
+
+    public void parametrosErrados(String a){
+        System.out.println("Os parâmetros passados em " + a + " não se encontram corretos!");
     }
     
 }
