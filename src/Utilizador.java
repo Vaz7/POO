@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Utilizador implements Serializable {
-    private static int contador=1;
     private int code;
     private String email;
     private String nome;
@@ -18,7 +17,6 @@ public class Utilizador implements Serializable {
     private double dinheiro_compras;
 
     public Utilizador(){
-        this.code = this.contador++;
         this.email = "";
         this.morada = "";
         this.nome = "";
@@ -32,7 +30,6 @@ public class Utilizador implements Serializable {
     }
 
     public Utilizador(String email, String nome, String morada, int nif) {
-        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -46,7 +43,6 @@ public class Utilizador implements Serializable {
     }
 
     public Utilizador(String email, String nome, String morada, int nif, double dinheiro_vendas, double dinheiro_compras) {
-        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
@@ -59,7 +55,6 @@ public class Utilizador implements Serializable {
         this.dinheiro_compras = dinheiro_compras;
     }
     public Utilizador(String email, String nome, String morada, int nif, Map<String, Artigo> vendido, Set<String> para_vender, double dinheiro_vendas, double dinheiro_compras) {
-        this.code = this.contador++;
         this.email = email;
         this.nome = nome;
         this.morada = morada;
